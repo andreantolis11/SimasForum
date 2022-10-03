@@ -1,6 +1,8 @@
 --ini dummy aja
 create table "user" (
-  id varchar(255) not null,
+  id int8 primary key,
   name varchar(50) not null,
-  primary key (id)
+  password varchar(20) not null,
+  email varchar(50) not null
+  
 );
