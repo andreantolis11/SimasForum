@@ -13,10 +13,6 @@
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
         <span class="fs-4">SimaForum</span>
     </header>
-    <form action="/list" method="post">
-        <input type="text" id="id_new_item" name="item_text" placeholder="Enter an item"/>
-        <button type="submit" class="btn btn-primary btn-sm">Enter</button>
-    </form>
     <table id="id_list_table" class="table caption-top">
     	<caption class="display-1">Register User</caption>
         <form th:action="@{'/user/add'}" method="post">
@@ -34,7 +30,7 @@
                         Email
                     </label>
                 </td>
-                <td><input type="email" id="user_email" placeholder="Enter your email" />
+                <td><input type="email" name="user_email" placeholder="Enter your email" />
                 </td>
             </tr>
             <tr>
@@ -42,7 +38,7 @@
                         Password
                     </label>
                 </td>
-                <td><input type="password" id="user_password" />
+                <td><input type="password" name="user_password" />
                 </td>
             </tr>
             <tr>
@@ -50,7 +46,7 @@
                         Confirm Password
                     </label>
                 </td>
-                <td><input type="password" id="confirm_password" />
+                <td><input type="password" name="confirm_password" />
                 </td>
             </tr>
             <tr>
