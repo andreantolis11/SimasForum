@@ -23,7 +23,7 @@ public class Thread {
     @Column(nullable = false)
     private Date date_post;
 
-    public Thread(Sort.Direction asc, String post_date) {}
+    public Thread(Sort.Direction desc, String post_date) {}
 
     public Thread(Thread thread) {
         this.title = thread.getTitle();
@@ -33,6 +33,15 @@ public class Thread {
         this.date_post = thread.getDate_post();
     }
 
+    public Thread(String title, String content, int up_vote, int down_vote, Date date_post) {
+        this.title = title;
+        this.content = content;
+        this.up_vote = up_vote;
+        this.down_vote = down_vote;
+        this.date_post = date_post;
+    }
+
     public Thread() {
+        
     }
 }
