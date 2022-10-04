@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -20,7 +21,7 @@ public class Thread {
     private int up_vote;
     private int down_vote;
     @Column(nullable = false)
-    private Date date_post;
+    private LocalDate date_post;
 
     public Thread() {}
 
@@ -32,7 +33,7 @@ public class Thread {
         this.date_post = thread.getDate_post();
     }
 
-    public Thread(String title, String content, int up_vote, int down_vote, Date date_post) {
+    public Thread(String title, String content, int up_vote, int down_vote, LocalDate date_post) {
         this.title = title;
         this.content = content;
         this.up_vote = up_vote;
