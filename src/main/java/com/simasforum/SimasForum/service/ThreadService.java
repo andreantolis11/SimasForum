@@ -18,16 +18,10 @@ public class ThreadService {
         this.threadRepository = threadRepository;
     }
 
-    public Thread getTodoListById(Long id) throws NoSuchElementException {
-        Optional<Thread> result = threadRepository.findById(id);
-
-        return result.get();
-    }
-
     public Thread addThread(Thread thread) {
         Thread list = new Thread(thread);
 
-        return threadRepository.save(thread);
+        return threadRepository.save(list);
     }
 
     public Optional<Thread> getThreadDetail(Long id) {
@@ -35,6 +29,5 @@ public class ThreadService {
 
         return result;
     }
-
 
 }
