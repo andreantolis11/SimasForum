@@ -5,6 +5,7 @@ import com.simasforum.SimasForum.repository.ThreadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -15,6 +16,12 @@ public class ThreadService {
     @Autowired
     public void setThreadRepository(ThreadRepository threadRepository) {
         this.threadRepository = threadRepository;
+    }
+
+    public Thread getTodoListById(Long id) throws NoSuchElementException {
+        Optional<Thread> result = threadRepository.findById(id);
+
+        return result.get();
     }
 
     public Thread addThread(Thread thread) {
