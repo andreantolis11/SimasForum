@@ -1,5 +1,4 @@
 package com.simasforum.SimasForum.controller;
-
 import java.util.NoSuchElementException;
 
 import org.slf4j.Logger;
@@ -16,6 +15,7 @@ import com.simasforum.SimasForum.service.UserService;
 
 @Controller
 public class UserController {
+
 
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
