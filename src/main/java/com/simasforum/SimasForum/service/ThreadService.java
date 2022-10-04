@@ -1,6 +1,7 @@
 package com.simasforum.SimasForum.service;
 
 import com.simasforum.SimasForum.model.Thread;
+import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.repository.ThreadRepository;
 import liquibase.pro.packaged.T;
 import org.slf4j.Logger;
@@ -8,7 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -26,7 +32,7 @@ public class ThreadService {
         this.threadRepository = threadRepository;
     }
 
-    public Thread getTodoListById(Long id) throws NoSuchElementException {
+    public Thread getThreadtById(Long id) throws NoSuchElementException {
         Optional<Thread> result = threadRepository.findById(id);
 
         return result.get();
