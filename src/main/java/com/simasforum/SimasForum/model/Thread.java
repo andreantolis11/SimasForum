@@ -22,13 +22,13 @@ public class Thread {
     @Column(nullable = false)
     private Date date_post;
 
-    public Thread(String title, String content, int up_vote, int down_vote, Date date_post) {
-        this.title = title;
-        this.content = content;
-        this.up_vote = up_vote;
-        this.down_vote = down_vote;
-        this.date_post = date_post;
-    }
-
     public Thread() {}
+
+    public Thread(Thread thread) {
+        this.title = thread.getTitle();
+        this.content = thread.getContent();
+        this.up_vote = thread.getUp_vote();
+        this.down_vote = thread.getDown_vote();
+        this.date_post = thread.getDate_post();
+    }
 }
