@@ -1,0 +1,34 @@
+package com.simasforum.SimasForum.model;
+
+import lombok.Data;
+
+import javax.persistence.*;
+import java.sql.Date;
+
+@Data
+@Entity
+@Table(name = "thread")
+public class Thread {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(nullable = false)
+    private String title;
+    @Column(nullable = false)
+    private String content;
+    private int up_vote;
+    private int down_vote;
+    @Column(nullable = false)
+    private Date date_post;
+
+    public Thread(String title, String content, int up_vote, int down_vote, Date date_post) {
+        this.title = title;
+        this.content = content;
+        this.up_vote = up_vote;
+        this.down_vote = down_vote;
+        this.date_post = date_post;
+    }
+
+    public Thread() {}
+}
