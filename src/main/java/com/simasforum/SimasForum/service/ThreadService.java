@@ -5,6 +5,7 @@ import com.simasforum.SimasForum.repository.ThreadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -20,7 +21,7 @@ public class ThreadService {
     public Thread addThread(Thread thread) {
         Thread list = new Thread(thread);
 
-        return threadRepository.save(thread);
+        return threadRepository.save(list);
     }
 
     public Optional<Thread> getThreadDetail(Long id) {
@@ -28,6 +29,5 @@ public class ThreadService {
 
         return result;
     }
-
 
 }
