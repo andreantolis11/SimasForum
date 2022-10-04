@@ -1,6 +1,7 @@
 package com.simasforum.SimasForum.model;
 
 import lombok.Data;
+import org.springframework.data.domain.Sort;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -23,7 +24,7 @@ public class Thread {
     @Column(nullable = false)
     private LocalDate date_post;
 
-    public Thread() {}
+    public Thread(Sort.Direction desc, String post_date) {}
 
     public Thread(Thread thread) {
         this.title = thread.getTitle();
@@ -39,5 +40,9 @@ public class Thread {
         this.up_vote = up_vote;
         this.down_vote = down_vote;
         this.date_post = date_post;
+    }
+
+    public Thread() {
+        
     }
 }
