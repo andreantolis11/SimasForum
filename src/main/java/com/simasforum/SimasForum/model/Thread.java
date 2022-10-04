@@ -13,7 +13,7 @@ public class Thread {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)

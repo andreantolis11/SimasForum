@@ -27,7 +27,7 @@ public class ThreadController {
     public String threadAll(Thread thread, Model model) {
         model.addAttribute("thread", thread);
 
-        return "/thread";
+        return "thread";
     }
 
     @GetMapping("/thread/add")
@@ -46,7 +46,8 @@ public class ThreadController {
     public String getThreadDetails(@PathVariable("id") Long id, Model model) {
         Optional<Thread> threadDetail = threadService.getThreadDetail(id);
 
-        return threadDetail.toString();
+        model.addAttribute("threadDetail", threadDetail.get());
+        return "thread";
     }
 
     @PostMapping("/thread")
