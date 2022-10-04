@@ -28,14 +28,14 @@ public class ThreadController {
         return "/thread";
     }
 
-    @GetMapping("/thread/id")
+    @GetMapping("/thread/{id}")
     public String getThreadDetails(@PathVariable("id") Long id, Model model) {
         Optional<Thread> threadDetail = threadService.getThreadDetail(id);
 
         return  threadDetail.toString();
     }
 
-    @PostMapping("/list")
+    @PostMapping("/thread")
     public String newThread(@RequestParam("thread_item") Thread thread) {
         Thread saved = threadService.addThread(thread);
 
