@@ -22,7 +22,7 @@ public class ThreadControllerTest {
 
     @Test
     void addThread_withSampleData_ok() throws Exception {
-        Thread mockThread = new Thread("Thread about this", "The content of the thread is", 15, 6, null);
+        Thread mockThread = new Thread(1l, "Thread about this", "The content of the thread is", 15, 6, null);
         when(threadService.addThread(mockThread)).thenReturn(mockThread);
 
         mockMvc.perform(post("/thread").param("item_text", "text")).andExpectAll(

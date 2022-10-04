@@ -39,13 +39,13 @@ public class ThreadController {
     @GetMapping("/thread/add")
     public String newThread(Model model, User user) {
         model.addAttribute("user_id", 1L);
-        return "/add_thread";
+        return "add_thread";
     }
 
     @PostMapping("/thread/add")
     public String newThread(@RequestParam("title") String title, @RequestParam("content") String content){
-        threadService.addThread(new Thread(title, content, 0, 0, LocalDate.now()));
-        return "/my_thread";
+        threadService.addThread(new Thread(1L, title, content, 0, 0, LocalDate.now()));
+        return "my_thread";
     }
     @GetMapping("/threadbydate")
     public String threadbyDate( Model model){
