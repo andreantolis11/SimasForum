@@ -15,8 +15,6 @@ import com.simasforum.SimasForum.service.UserService;
 
 @Controller
 public class UserController {
-
-
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
     private UserService userService;
