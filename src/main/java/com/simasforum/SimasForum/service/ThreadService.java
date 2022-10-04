@@ -26,16 +26,12 @@ public class ThreadService {
     private static final String TODO_LIST_DOES_NOT_EXIST_FMT = "Thread(id=%d) does not exist";
 
     private ThreadRepository threadRepository;
-    private ThreadService threadService;
 
     @Autowired
     public void setThreadRepository(ThreadRepository threadRepository) {
         this.threadRepository = threadRepository;
     }
 
-    public void setThreadService(ThreadService threadService) {
-        this.threadService = threadService;
-    }
     public Thread getThreadtById(Long id) throws NoSuchElementException {
         Optional<Thread> result = threadRepository.findById(id);
 
@@ -52,18 +48,6 @@ public class ThreadService {
         Optional<Thread> result = threadRepository.findById(id);
 
         return result;
-    }
-
-    @GetMapping("/thread/add")
-    public String newThread(Model model, User user) {
-        model.addAttribute("user_id", 1L);
-        return "/add_thread";
-    }
-
-    @PostMapping("/thread/add")
-    public String newThread(@RequestParam("title") String title, @RequestParam("content") String content){
-        threadService.addThread(new Thread(title, content, 0, 0, LocalDate.now()));
-        return "/my_thread";
     }
 
     public List<Thread> sortByDate(){
