@@ -24,14 +24,16 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public User addUser(User user) {
+        return userRepository.save(user);
+    }
     public User getUserById(Long id) throws NoSuchElementException {
         Optional<User> result = userRepository.findById(id);
         return result.get();
     }
-
-    public User addUser(User user) {
-        return userRepository.save(user);
+    public User getUserByEmail(String email) throws NoSuchElementException {
+        Optional<User> result = userRepository.findByEmail(email);
+        return result.get();
     }
-
     
 }
