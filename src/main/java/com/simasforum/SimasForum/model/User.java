@@ -9,7 +9,7 @@ import lombok.Data;
 @Table(name = "user")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
     @Column(nullable = false)
@@ -18,4 +18,11 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
+	public User(String name, String email, String password) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.password = password;
+	}
+    
 }
