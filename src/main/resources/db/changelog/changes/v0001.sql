@@ -7,7 +7,7 @@ create table "simas_user" (
 );
 
 create table "thread" (
-    id int8 primary key,
+    id BIGSERIAL primary key,
     user_id int8,
     title varchar(255),
     content text,
