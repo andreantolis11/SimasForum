@@ -7,11 +7,15 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.TEXT_HTML;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,12 +40,25 @@ public class ThreadControllerTest {
     @Test
     @DisplayName("ShowDetailByid")
     void showDetail_byId() throws Exception{
-        Thread mockThread = new Thread(1L, 0, "Thread about this", "The content of the thread is", 15, 6, null);
-        when(threadService.getThreadtById(anyLong())).thenReturn(mockThread);
-        mockMvc.perform(get("/thread/1", 1l)).andExpectAll(
-                status().is3xxRedirection()
+        Thread mockThread = (new Thread(1L, 0, "Thread about this", "The content of the thread is", 15, 6, null));
+        when(threadService.getThreadDetail(anyLong())).thenReturn(Optional.of(mockThread));
+        mockMvc.perform(get("/thread/1")).andExpectAll(
+                status().isOk(),
+                content().string(containsString("Thread about this"))
+                
         );
     }
+    @Test
+    public void whenIdNotFound() throws Exception {
+        Long id = 1L;
+        when(threadService.getThreadDetail(id))
+                .thenReturn(Optional.empty());
+//        mockMvc.perform(get("/thread/1"))
+//                .andExpectAll(status().isNotFound());
+//                .andExpect(status().isNotFound()).andDo(print());
+//                .andExpectAll(status().isNotFound(),content().string(containsString("")));
+    }
+    
     @Test
     void addThread_withSampleData_ok() throws Exception {
 		LocalDate date = LocalDate.of(2020, 1, 8);
@@ -49,8 +66,9 @@ public class ThreadControllerTest {
 
         when(threadService.addThread(mockThread)).thenReturn(mockThread);
 
-        mockMvc.perform(post("/thread").param("item_text", "text")).andExpectAll(
-                status().is3xxRedirection()
+        mockMvc.perform(post("/thread").param("thread_item", "Thread about this")).andExpectAll(
+                status().isOk(),
+                content().string(containsString("Thread about this"))
         );
     }
 
