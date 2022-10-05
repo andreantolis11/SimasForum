@@ -47,19 +47,19 @@ public class ThreadController {
         threadService.addThread(new Thread(1L, title, content, 0, 0, LocalDate.now()));
         return "my_thread";
     }
-    @GetMapping("/threadbydate")
+    @GetMapping("/dashboard")
     public String threadbyDate( Model model){
         List<Thread> threads = new ArrayList<>(threadService.sortByDate());
 //        thread  = threadService.sortByDate();
         model.addAttribute("threadbydate", threads);
-        return "thread";
+        return "dashboard";
     }
 
     @GetMapping("/thread/{id}")
     public String getThreadDetails(@PathVariable("id") Long id, Model model) {
         Optional<Thread> threadDetail = threadService.getThreadDetail(id);
-
-        return  threadDetail.toString();
+        model.addAttribute("threadDetail", threadDetail.get());
+        return "thread";
     }
 
     @PostMapping("/thread")
