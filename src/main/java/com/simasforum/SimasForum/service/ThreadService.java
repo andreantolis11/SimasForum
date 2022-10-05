@@ -34,7 +34,7 @@ public class ThreadService {
     public Thread addThread(Thread thread) {
         Thread list = new Thread(thread);
 
-        return threadRepository.save(thread);
+        return threadRepository.save(list);
     }
 
     public Optional<Thread> getThreadDetail(Long id) {

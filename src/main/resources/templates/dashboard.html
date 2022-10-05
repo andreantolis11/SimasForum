@@ -9,25 +9,8 @@
     <title>Dashboard</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg" style="background-color: #FF5045;">
-<!--        <div class="container-fluid">-->
-		<div class="container">
-		    <div>
-	            <a class="navbar-brand ml-10 text-white" href="#">SIMAFORUM</a>
-	        </div>
-	        <form style="width:500px; margin-top: 20px;" th:action="@{'/thread/search/' (title=${title})}" method="get">
-                <div class="mb-3">
-                    <input name="title"  style="background-color: #FFFFFF; border-radius: 20px;"  type="text" class="form-control" id="title" placeholder="Search...">
-                </div>
-	        </form>
-	        <div class="text-white">
-	        	AKUN
-	        </div>
-	        <div class="text-white">
-	        	Log Out
-	        </div>
-		</div>
-    </nav>
+    <!--- Nav In Here--->
+	<div th:replace="fragments/nav :: navbar"></div>
     <div class="container" style="justify-content:space-evenly; display:flex;">
     	<div style="width: 40vw; background-color: #FF5045; margin-top: 50px; padding: 15px; border-radius: 20px">
             <div style="justify-content: space-between; display:flex; margin-bottom: 15px;">

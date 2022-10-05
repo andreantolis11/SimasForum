@@ -10,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -29,8 +31,23 @@ public class ThreadControllerTest {
     private ThreadService threadService;
 
     @Test
+<<<<<<< HEAD
+    @DisplayName("ShowDetailByid")
+    void showDetail_byId() throws Exception{
+        Thread mockThread = new Thread(1l, "Thread about this", "The content of the thread is", 15, 6, null);
+        when(threadService.getThreadtById(mockThread.getId())).thenReturn(mockThread);
+        mockMvc.perform(get("/thread/1")).andExpectAll(
+                status().is3xxRedirection()
+        );
+    }
+    @Test
+    void addThread_withSampleData_ok() throws Exception {
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        Thread mockThread = new Thread(1L,1L, "Thread about this", "The content of the thread is", 15, 6, date);
+=======
     void addThread_withSampleData_ok() throws Exception {
         Thread mockThread = new Thread(1L, "Thread about this", "The content of the thread is", 15, 6, null);
+>>>>>>> staging
         when(threadService.addThread(mockThread)).thenReturn(mockThread);
 
         mockMvc.perform(post("/thread").param("item_text", "text")).andExpectAll(
