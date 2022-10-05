@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.TEXT_HTML;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -29,7 +30,7 @@ public class ThreadControllerTest {
 
     @Test
     void addThread_withSampleData_ok() throws Exception {
-        Thread mockThread = new Thread(1l, "Thread about this", "The content of the thread is", 15, 6, null);
+        Thread mockThread = new Thread(1L, "Thread about this", "The content of the thread is", 15, 6, null);
         when(threadService.addThread(mockThread)).thenReturn(mockThread);
 
         mockMvc.perform(post("/thread").param("item_text", "text")).andExpectAll(
