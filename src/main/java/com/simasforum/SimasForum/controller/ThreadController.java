@@ -44,7 +44,7 @@ public class ThreadController {
 
     @PostMapping("/thread/add")
     public String newThread(@RequestParam("title") String title, @RequestParam("content") String content){
-        threadService.addThread(new Thread(1L, title, content, 0, 0, LocalDate.now()));
+        threadService.addThread(new Thread(1L, 1L, title, content, 0, 0, LocalDate.now()));
         return "my_thread";
     }
     @GetMapping("/dashboard")

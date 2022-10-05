@@ -35,7 +35,8 @@ public class Thread {
         this.datepost = thread.getDatepost();
     }
 
-    public Thread(long user_id, String title, String content, int up_vote, int down_vote, LocalDate date_post) {
+    public Thread(long id, long user_id, String title, String content, int up_vote, int down_vote, LocalDate date_post) {
+        this.id = id;
         this.user_id = user_id;
         this.title = title;
         this.content = content;

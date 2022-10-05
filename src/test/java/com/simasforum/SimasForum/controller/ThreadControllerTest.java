@@ -9,6 +9,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.TEXT_HTML;
@@ -26,7 +28,8 @@ public class ThreadControllerTest {
 
     @Test
     void addThread_withSampleData_ok() throws Exception {
-        Thread mockThread = new Thread(1l, "Thread about this", "The content of the thread is", 15, 6, null);
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        Thread mockThread = new Thread(1L,1L, "Thread about this", "The content of the thread is", 15, 6, date);
         when(threadService.addThread(mockThread)).thenReturn(mockThread);
 
         mockMvc.perform(post("/thread").param("item_text", "text")).andExpectAll(
