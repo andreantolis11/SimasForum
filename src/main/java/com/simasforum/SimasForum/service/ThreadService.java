@@ -1,24 +1,17 @@
 package com.simasforum.SimasForum.service;
 
-import com.simasforum.SimasForum.model.Thread;
-import com.simasforum.SimasForum.model.User;
-import com.simasforum.SimasForum.repository.ThreadRepository;
-import liquibase.pro.packaged.T;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import com.simasforum.SimasForum.model.Thread;
+import com.simasforum.SimasForum.repository.ThreadRepository;
 
 @Service
 public class ThreadService {
@@ -51,16 +44,18 @@ public class ThreadService {
     }
 
     public List<Thread> sortByDate(){
-        List<Thread> threadList = new ArrayList<Thread>();
+//        List<Thread> threadList = new ArrayList<Thread>();
+//        System.out.println(threadList);
+//        Thread thread = new Thread(Sort.Direction.DESC,"post_date");
+//        threadList.add(thread);
 
-        Thread thread = new Thread(Sort.Direction.DESC,"post_date");
-        threadList.add(thread);
-
-        return threadList;
+        return (List<Thread>) threadRepository.findByOrderByDatepostDesc();
     }
 
     public List<Thread> getThreadBySearch(String title){
         return threadRepository.findByTitle(title);
     }
-
+    public List<Thread> sortByUpVote(){
+        return  (List<Thread>) threadRepository.findByOrderByUpvoteDesc();
+    }
 }
