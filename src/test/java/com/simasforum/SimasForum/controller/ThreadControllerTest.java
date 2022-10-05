@@ -2,6 +2,7 @@ package com.simasforum.SimasForum.controller;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.TEXT_HTML;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,8 +37,8 @@ public class ThreadControllerTest {
     @DisplayName("ShowDetailByid")
     void showDetail_byId() throws Exception{
         Thread mockThread = new Thread(1L, 0, "Thread about this", "The content of the thread is", 15, 6, null);
-        when(threadService.getThreadtById(mockThread.getId())).thenReturn(mockThread);
-        mockMvc.perform(get("/thread/1")).andExpectAll(
+        when(threadService.getThreadtById(anyLong())).thenReturn(mockThread);
+        mockMvc.perform(get("/thread/1", 1l)).andExpectAll(
                 status().is3xxRedirection()
         );
     }
