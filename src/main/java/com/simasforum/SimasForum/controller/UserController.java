@@ -1,5 +1,4 @@
 package com.simasforum.SimasForum.controller;
-
 import java.util.NoSuchElementException;
 
 import org.slf4j.Logger;
@@ -16,7 +15,6 @@ import com.simasforum.SimasForum.service.UserService;
 
 @Controller
 public class UserController {
-
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
     private UserService userService;
@@ -31,13 +29,31 @@ public class UserController {
     	return "register";
     }
     
-    @PostMapping("/user/add")
-    public String submitUser(@RequestParam("user_name") String name,
-    					  @RequestParam("user_email") String email,
-    					  @RequestParam("user_password") String password) {
+    @PostMapping("/user/register")
+    public String submitUser(@RequestParam("name") String name,
+    					  @RequestParam("email") String email,
+    					  @RequestParam("password") String password,
+    					  @RequestParam("conf_password") String conf_password) {
         User loginUser = userService.addUser(new User(name, email, password));
         System.out.println(loginUser.getName()+" is registered");
-        return "redirect:/user/register";
+        return "redirect:/user/login";
+    }
+    
+    @GetMapping("/user/login")
+    public String loginForm(){
+    	return "login";
+    }
+    
+    @PostMapping("/user/login")
+    public String loginUser(@RequestParam("email") String email,
+    					  @RequestParam("password") String password) {
+        User loginUser = userService.getUserByEmail(email);
+        if(!loginUser.getPassword().equals(password)) {
+        	//TODO: wrong password handler
+        	return null;
+        }
+        //TODO: login entah ini gmna caranya
+        return "redirect:/user/login";
     }
 
     @ExceptionHandler

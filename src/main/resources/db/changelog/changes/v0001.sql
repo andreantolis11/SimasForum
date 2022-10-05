@@ -8,10 +8,10 @@ create table "simas_user" (
 
 create table "thread" (
     id BIGSERIAL primary key,
-    user_id int8,
+    user_id BIGSERIAL,
     title varchar(255),
     content text,
-    up_vote int,
-    down_vote int,
-    date_post date
+    upVote int,
+    downVote int,
+    datePost date
 )
