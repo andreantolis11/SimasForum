@@ -59,4 +59,14 @@ public class ThreadService {
         return threadList;
     }
 
+    public List<Thread> sortByVote(){
+//        int sum = 0;
+//        Thread thread = new Thread();
+        List<Thread> threadList = new ArrayList<Thread>();
+
+        Thread thread = new Thread(Sort.Direction.DESC,"up_vote");
+        threadList.add(thread);
+
+        return threadList;
+    }
 }
