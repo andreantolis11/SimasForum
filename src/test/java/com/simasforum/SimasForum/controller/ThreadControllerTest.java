@@ -34,6 +34,7 @@ public class ThreadControllerTest {
         );
     }
 
+    /*test*/
     @Test
     @DisplayName("HTTP GET '/thread/add' show add_thread.html")
     void showList_resolvesToIndex() throws Exception {
