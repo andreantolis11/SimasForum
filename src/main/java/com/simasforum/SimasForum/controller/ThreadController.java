@@ -49,9 +49,10 @@ public class ThreadController {
     }
     @GetMapping("/dashboard")
     public String threadbyDate( Model model){
-        List<Thread> threads = new ArrayList<>(threadService.sortByDate());
-//        thread  = threadService.sortByDate();
-        model.addAttribute("threadbydate", threads);
+        List<Thread> threadByDate = new ArrayList<>(threadService.sortByDate());
+        model.addAttribute("threadbydate", threadByDate);
+        List<Thread> threadByVote = new ArrayList<>(threadService.sortByUpVote());
+        model.addAttribute("threadbyvote", threadByVote);
         return "dashboard";
     }
 
