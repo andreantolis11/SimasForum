@@ -51,12 +51,12 @@ public class ThreadService {
     }
 
     public List<Thread> sortByDate(){
-        List<Thread> threadList = new ArrayList<Thread>();
-
-        Thread thread = new Thread(Sort.Direction.DESC,"post_date");
-        threadList.add(thread);
-
-        return threadList;
+//        List<Thread> threadList = new ArrayList<Thread>();
+//        System.out.println(threadList);
+//        Thread thread = new Thread(Sort.Direction.DESC,"post_date");
+//        threadList.add(thread);
+    	
+        return (List<Thread>) threadRepository.findAll();
     }
 
     public List<Thread> sortByVote(){
