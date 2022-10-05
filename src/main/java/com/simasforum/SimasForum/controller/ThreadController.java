@@ -29,12 +29,12 @@ public class ThreadController {
         this.threadService = threadService;
     }
 
-    @GetMapping("/thread")
-    public String threadAll(Thread thread, Model model) {
-        model.addAttribute("thread", thread);
-
-        return "thread";
-    }
+//    @GetMapping("/thread")
+//    public String threadAll(Thread thread, Model model) {
+//        model.addAttribute("thread", thread);
+//
+//        return "thread";
+//    }
 
     @GetMapping("/thread/add")
     public String newThread(Model model, User user) {
@@ -63,12 +63,12 @@ public class ThreadController {
         return "thread";
     }
 
-    @PostMapping("/thread")
-    public String newThread(@RequestParam("thread_item") Thread thread) {
-        Thread saved = threadService.addThread(thread);
-
-        return redirectToList(saved.getId());
-    }
+//    @PostMapping("/thread")
+//    public String newThread(@RequestParam("thread_item") Thread thread) {
+//        Thread saved = threadService.addThread(thread);
+//
+//        return redirectToList(saved.getId());
+//    }
 
     @PostMapping("/thread/search")
     public String getThreadByTitle(@RequestParam("title") String title, Model model){
