@@ -78,8 +78,8 @@ public class ThreadController {
         return "search_thread_result";
     }
     
-    @GetMapping("/thread/search/{title}")
-    public String getThreadByTitleThreads(@PathVariable("title") String title, Model model){
+    @GetMapping("/thread/search")
+    public String getThreadByTitleThreads(@RequestParam("title") String title, Model model){
         List<Thread> threads= threadService.getThreadBySearch(title);
         model.addAttribute("listSearchThreads", threads);
         return "search_thread_result";

@@ -26,7 +26,7 @@ public class ThreadServiceTest {
     @Test
     void getThreadBySearch(){
         List<Thread> thread = List.of(new Thread(1L, "Title 1", "Content 1", 0, 0, null));
-        when(threadRepository.findByTitle(anyString())).thenReturn(Optional.of(thread).get());
+        when(threadRepository.findByTitleContains(anyString())).thenReturn(Optional.of(thread).get());
 
         Thread thread1 = threadService.getThreadBySearch("Title 1").get(0);
         assertFalse(thread1.getTitle().isEmpty());
