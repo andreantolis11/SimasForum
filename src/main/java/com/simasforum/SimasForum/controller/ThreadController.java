@@ -69,6 +69,13 @@ public class ThreadController {
         return redirectToList(saved.getId());
     }
 
+    @PostMapping("/thread/search")
+    public String getThreadByTitle(@RequestParam("title") String title){
+        List<Thread> threads= threadService.getThreadBySearch(title);
+        System.out.println(threadService.getThreadBySearch(title));
+        return "search_thread_result";
+    }
+
     private String redirectToList(Long id) {
         return String.format("redirect:/list/%d", id);
     }

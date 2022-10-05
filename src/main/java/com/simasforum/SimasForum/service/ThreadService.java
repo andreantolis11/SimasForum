@@ -59,4 +59,8 @@ public class ThreadService {
         return threadList;
     }
 
+    public List<Thread> getThreadBySearch(String title){
+        return threadRepository.findByTitle(title);
+    }
+
 }
