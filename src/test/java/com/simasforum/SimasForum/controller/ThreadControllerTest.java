@@ -61,14 +61,12 @@ public class ThreadControllerTest {
     
     @Test
     void addThread_withSampleData_ok() throws Exception {
-		LocalDate date = LocalDate.of(2020, 1, 8);
-        Thread mockThread = new Thread(1L, 0, "Thread about this", "The content of the thread is", 15, 6, date);
+        Thread mockThread = new Thread(1L, 0, "Thread about this", "The content of the thread is", 15, 6, LocalDate.now());
 
         when(threadService.addThread(mockThread)).thenReturn(mockThread);
 
-        mockMvc.perform(post("/thread").param("thread_item", "Thread about this")).andExpectAll(
-                status().isOk(),
-                content().string(containsString("Thread about this"))
+        mockMvc.perform(post("/thread/add").param("title", "Thread about this").param("content", "The content of the thread is")).andExpectAll(
+                status().isOk()
         );
     }
 
