@@ -70,6 +70,21 @@ public class ThreadController {
         return redirectToList(saved.getId());
     }
 
+    @PostMapping("/thread/search")
+    public String getThreadByTitle(@RequestParam("title") String title, Model model){
+        List<Thread> threads= threadService.getThreadBySearch(title);
+        System.out.println(threads);
+        model.addAttribute("listSearchThreads", threads);
+        return "search_thread_result";
+    }
+    
+    @GetMapping("/thread/search")
+    public String getThreadByTitleThreads(@RequestParam("title") String title, Model model){
+        List<Thread> threads= threadService.getThreadBySearch(title);
+        model.addAttribute("listSearchThreads", threads);
+        return "search_thread_result";
+    }
+
     private String redirectToList(Long id) {
         return String.format("redirect:/list/%d", id);
     }
