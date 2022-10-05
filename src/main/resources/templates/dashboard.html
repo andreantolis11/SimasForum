@@ -9,25 +9,8 @@
     <title>Dashboard</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg" style="background-color: #FF5045;">
-<!--        <div class="container-fluid">-->
-		<div class="container">
-		    <div>
-	            <a class="navbar-brand ml-10 text-white" href="#">SIMAFORUM</a>
-	        </div>
-	        <form style="width:500px; margin-top: 20px;">
-                <div class="mb-3">
-                    <input style="background-color: #FFFFFF; border-radius: 20px;"  type="text" class="form-control" id="search" placeholder="Search...">
-                </div>
-	        </form>
-	        <div class="text-white">
-	        	AKUN
-	        </div>
-	        <div class="text-white">
-	        	Log Out
-	        </div>
-		</div>
-    </nav>
+    <!--- Nav In Here--->
+	<div th:replace="nav :: navbar_guest"></div>
 
     <div class="container" style="justify-content:space-evenly; display:flex;">
     	<div style="width: 40vw; background-color: #FF5045; margin-top: 50px; padding: 15px; border-radius: 20px">
@@ -72,8 +55,8 @@
 							<div th:text="${thread.title}" style="width: 32vw;font-weight: bold; background-color: #FFFFFF; padding: 10px; text-align: center; border-radius: 10px;">
 <!--								Ada yang tahu terkait investasi ?-->
 							</div>
-							<div style="color: white; font-weight: bold;">
-								420
+							<div th:text="${thread.upvote}" style="color: white; font-weight: bold;">
+								
 							</div>
 						</div>
 					</div>
