@@ -9,6 +9,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.TEXT_HTML;
@@ -24,6 +26,15 @@ public class ThreadControllerTest {
     @MockBean
     private ThreadService threadService;
 
+    @Test
+    @DisplayName("ShowDetailByid")
+    void showDetail_byId() throws Exception{
+        Thread mockThread = new Thread(1l, "Thread about this", "The content of the thread is", 15, 6, null);
+        when(threadService.getThreadtById(mockThread.getId())).thenReturn(mockThread);
+        mockMvc.perform(get("/thread/1")).andExpectAll(
+                status().is3xxRedirection()
+        );
+    }
     @Test
     void addThread_withSampleData_ok() throws Exception {
         Thread mockThread = new Thread(1l, "Thread about this", "The content of the thread is", 15, 6, null);
