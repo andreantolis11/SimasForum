@@ -51,4 +51,8 @@ public class ThreadService {
 
         return (List<Thread>) threadRepository.findByOrderByDatepostDesc();
     }
+
+    public List<Thread> sortByUpVote(){
+        return  (List<Thread>) threadRepository.findByOrderByUpvoteDesc();
+    }
 }

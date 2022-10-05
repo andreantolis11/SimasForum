@@ -64,16 +64,16 @@
 			</div>
             <div style="width: 38vw; height: 70vh;  background-color: #FFFFFF; border-radius: 10px;">
 	            <div style="padding: 10px;height: 65vh; overflow-y : auto;">
-					<div style="background-color: #F97E7E; padding: 10px; border-radius: 10px; margin-bottom: 20px;">
+					<div th:each="thread : ${threadbyvote}" style="background-color: #F97E7E; padding: 10px; border-radius: 10px; margin-bottom: 20px;">
 						<div style="color: white; font-weight: bold; margin-bottom: 10px;">
 							Calvin
 						</div>
 						<div style="display:flex; justify-content: space-between;">
-							<div style="width: 32vw;font-weight: bold; background-color: #FFFFFF; padding: 10px; text-align: center; border-radius: 10px;">
-								Ada yang tahu terkait investasi ?
+							<div th:text="${thread.title}" style="width: 32vw;font-weight: bold; background-color: #FFFFFF; padding: 10px; text-align: center; border-radius: 10px;">
+<!--								Ada yang tahu terkait investasi ?-->
 							</div>
-							<div style="color: white; font-weight: bold;">
-								420
+							<div th:text="${thread.upvote}" style="color: white; font-weight: bold;">
+								
 							</div>
 						</div>
 					</div>
