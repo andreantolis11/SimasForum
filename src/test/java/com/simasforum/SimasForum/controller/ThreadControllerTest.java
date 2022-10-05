@@ -2,6 +2,7 @@ package com.simasforum.SimasForum.controller;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.TEXT_HTML;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -11,6 +12,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,12 +38,15 @@ public class ThreadControllerTest {
     @Test
     @DisplayName("ShowDetailByid")
     void showDetail_byId() throws Exception{
-        Thread mockThread = new Thread(1L, 0, "Thread about this", "The content of the thread is", 15, 6, null);
-        when(threadService.getThreadtById(mockThread.getId())).thenReturn(mockThread);
+        Thread mockThread = (new Thread(1L, 0, "Thread about this", "The content of the thread is", 15, 6, null));
+        when(threadService.getThreadDetail(anyLong())).thenReturn(Optional.of(mockThread));
         mockMvc.perform(get("/thread/1")).andExpectAll(
-                status().is3xxRedirection()
+                status().isOk(),
+                content().string(containsString("Thread about this"))
+                
         );
     }
+    
     @Test
     void addThread_withSampleData_ok() throws Exception {
 		LocalDate date = LocalDate.of(2020, 1, 8);
@@ -48,8 +54,9 @@ public class ThreadControllerTest {
 
         when(threadService.addThread(mockThread)).thenReturn(mockThread);
 
-        mockMvc.perform(post("/thread").param("item_text", "text")).andExpectAll(
-                status().is3xxRedirection()
+        mockMvc.perform(post("/thread").param("thread_item", "Thread about this")).andExpectAll(
+                status().isOk(),
+                content().string(containsString("Thread about this"))
         );
     }
 

@@ -25,12 +25,6 @@ public class ThreadService {
         this.threadRepository = threadRepository;
     }
 
-    public Thread getThreadtById(Long id) throws NoSuchElementException {
-        Optional<Thread> result = threadRepository.findById(id);
-
-        return result.get();
-    }
-
     public Thread addThread(Thread thread) {
         Thread list = new Thread(thread);
 

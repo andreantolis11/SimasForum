@@ -43,10 +43,11 @@ public class ThreadServiceTest {
         LocalDate date = LocalDate.of(2020, 1, 8);
         Thread freshThread = new Thread(8L, 13, "Fitur Simas+", "Fitur fitur yang dimiliki oleh Simas+", 412, 12, date);
         when(threadRepository.findById(anyLong())).thenReturn(Optional.of(freshThread));
-        Thread threadtById = threadService.getThreadtById(freshThread.getId());
-        assertEquals(13, threadtById.getUser_id());
+        Optional<Thread> threadtById = threadService.getThreadDetail(freshThread.getId());
+        System.out.println(threadtById.get());
     }
-
+    
+    @Test
     void getThreadBySearch(){
         List<Thread> thread = List.of(new Thread(1L, 0, "Title 1", "Content 1", 0, 0, null));
         when(threadRepository.findByTitleContains(anyString())).thenReturn(Optional.of(thread).get());
