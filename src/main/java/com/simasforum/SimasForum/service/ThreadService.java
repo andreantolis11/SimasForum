@@ -52,6 +52,9 @@ public class ThreadService {
         return (List<Thread>) threadRepository.findByOrderByDatepostDesc();
     }
 
+    public List<Thread> getThreadBySearch(String title){
+        return threadRepository.findByTitleContains(title);
+    }
     public List<Thread> sortByUpVote(){
         return  (List<Thread>) threadRepository.findByOrderByUpvoteDesc();
     }
