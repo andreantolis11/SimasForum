@@ -126,4 +126,32 @@ public class ThreadControllerTest {
                 content().string(containsString("<button"))
         );
     }
+    
+    @Test
+    void inputSearchThreadPage_html() throws Exception {
+        mockMvc.perform(post("/thread/search").param("title", "ss")).andExpectAll(
+                status().isOk(),
+                content().contentTypeCompatibleWith(TEXT_HTML),
+                content().encoding(UTF_8),
+                content().string(containsString("</html>"))
+        );
+    }
+    
+    @Test
+    void showSearchThreadPage_html() throws Exception {
+        mockMvc.perform(get("/thread/search").param("title", "ss")).andExpectAll(
+                status().isOk(),
+                content().contentTypeCompatibleWith(TEXT_HTML),
+                content().encoding(UTF_8),
+                content().string(containsString("</html>"))
+        );
+    }
+    
+    @Test
+    void defaultRedirect() throws Exception {
+    	mockMvc.perform(get("/")).andExpectAll(
+    			status().is3xxRedirection()
+    	);
+    }
+   
 }

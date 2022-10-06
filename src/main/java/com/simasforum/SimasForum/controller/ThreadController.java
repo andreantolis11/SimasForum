@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.lang.ProcessBuilder.Redirect;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -91,8 +92,9 @@ public class ThreadController {
         model.addAttribute("listSearchThreads", threads);
         return "search_thread_result";
     }
-
-    private String redirectToList(Long id) {
-        return String.format("redirect:/list/%d", id);
+    
+    @GetMapping("/")
+    public String defaultRedirect() {
+    	return "redirect:/dashboard";
     }
 }
