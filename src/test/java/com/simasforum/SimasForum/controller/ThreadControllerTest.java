@@ -146,5 +146,12 @@ public class ThreadControllerTest {
                 content().string(containsString("</html>"))
         );
     }
+    
+    @Test
+    void defaultRedirect() throws Exception {
+    	mockMvc.perform(get("/")).andExpectAll(
+    			status().is3xxRedirection()
+    	);
+    }
    
 }
