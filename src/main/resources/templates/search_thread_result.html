@@ -24,21 +24,22 @@
             <div style="height: 70vh;  background-color: #FFFFFF; border-radius: 10px;">
 	            <div style="padding: 10px;height: 69vh; overflow-y : auto;">
 					<div th:each="thread : ${listSearchThreads}" style="background-color: #F97E7E; padding: 10px; border-radius: 10px; margin-bottom: 20px;">
-						<div style="color: white; font-weight: bold; margin-bottom: 10px;">
-							Calvin
-						</div>
-						<div style="display:flex; justify-content: space-between;">
-							<div>
-								<div th:text="${thread.title}" style="width: 65vw; font-weight: bold; background-color: #FFFFFF; padding: 10px; text-align: center; border-radius: 10px; margin-bottom: 10px;">
+						<a th:href="@{'/thread/{id}/' (id=${thread.id})}">
+							<div style="color: white; font-weight: bold; margin-bottom: 10px;">
+								Calvin
+							</div>
+							<div style="display:flex; justify-content: space-between;">
+								<div>
+									<div th:text="${thread.title}" style="color: black;width: 65vw; font-weight: bold; background-color: #FFFFFF; padding: 10px; text-align: center; border-radius: 10px; margin-bottom: 10px;">
+									</div>
+									<div th:text="${thread.content}" style="color: black;width: 65vw; font-weight: bold; background-color: #FFFFFF; padding: 10px; text-align: center; border-radius: 10px;">
+									</div>
 								</div>
-								<div th:text="${thread.content}" style="width: 65vw; font-weight: bold; background-color: #FFFFFF; padding: 10px; text-align: center; border-radius: 10px;">
+								<div th:text="${thread.upvote}" class="mx-auto" style="color:black;width: 5vw; font-weight: bold; background-color: #FFFFFF; padding: 10px; text-align: center; border-radius: 10px; display: flex; justify-content: center; align-items: center;">
+									
 								</div>
 							</div>
-							<div th:text="${thread.upvote}" class="mx-auto" style="width: 5vw; font-weight: bold; background-color: #FFFFFF; padding: 10px; text-align: center; border-radius: 10px; display: flex; justify-content: center; align-items: center;">
-								
-							</div>
-						</div>
-						
+						</a>
 					</div>
 	            </div>
 	        </div>
@@ -53,6 +54,9 @@
 ::-webkit-scrollbar {
   width: 10px;
 
+}
+a {
+	text-decoration: none;
 }
 
 /* Track */
