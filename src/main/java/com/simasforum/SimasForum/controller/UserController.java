@@ -2,11 +2,13 @@ package com.simasforum.SimasForum.controller;
 import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.service.UserService;
+
 
 @Controller
 public class UserController {
@@ -42,7 +45,8 @@ public class UserController {
     }
     
     @GetMapping("/user/login")
-    public String loginForm(){
+    public String loginForm(HttpSession session, Model model){
+    	model.addAttribute("LOGIN_ERROR", session.getAttribute("LOGIN_ERROR"));
     	return "login";
     }
     
@@ -53,9 +57,10 @@ public class UserController {
         User loginUser = userService.getUserByEmail(email);
         if(!loginUser.getPassword().equals(password)) {
         	//TODO: wrong password handler
-        	return null;
+        	request.getSession().setAttribute("LOGIN_ERROR", true);
+        	return "redirect:/user/login";
         }
-        //TODO: login entah ini gmna caranya
+        request.getSession().setAttribute("LOGIN_ERROR", false);
         request.getSession().setAttribute("USER_LOGIN_ID", loginUser.getId());
         request.getSession().setAttribute("USER_LOGIN_NAME", loginUser.getName());
         return "redirect:/dashboard";
