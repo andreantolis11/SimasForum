@@ -26,4 +26,10 @@ public class User {
 		this.email = email;
 		this.password = password;
 	}
+
+    public User(User user){
+        this.email = user.getEmail();
+        this.name = user.getName();
+        this.password = user.getPassword();
+    }
 }

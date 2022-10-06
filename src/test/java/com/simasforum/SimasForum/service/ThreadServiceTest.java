@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -43,15 +43,21 @@ public class ThreadServiceTest {
         LocalDate date = LocalDate.of(2020, 1, 8);
         Thread freshThread = new Thread(8L, 13, "Fitur Simas+", "Fitur fitur yang dimiliki oleh Simas+", 412, 12, date);
         when(threadRepository.findById(anyLong())).thenReturn(Optional.of(freshThread));
-        Thread threadtById = threadService.getThreadtById(freshThread.getId());
-        assertEquals(13, threadtById.getUser_id());
+        Optional<Thread> threadtById = threadService.getThreadDetail(freshThread.getId());
+        System.out.println(threadtById.get());
     }
-
+    
+    @Test
     void getThreadBySearch(){
-        List<Thread> thread = List.of(new Thread(1L, 0, "Title 1", "Content 1", 0, 0, null));
+        //[SETUP]
+        List<Thread> thread = List.of(new Thread(1L, 0, "Apa itu investasi", "Content 1", 0, 0, null));
         when(threadRepository.findByTitleContains(anyString())).thenReturn(Optional.of(thread).get());
 
-        Thread thread1 = threadService.getThreadBySearch("Title 1").get(0);
+        //[EXERCISE]
+        Thread thread1 = threadService.getThreadBySearch("investasi").get(0);
+
+        //[VERIFY]
+        verify(threadRepository, times(1)).findByTitleContains(anyString());
         assertFalse(thread1.getTitle().isEmpty());
     }
     
