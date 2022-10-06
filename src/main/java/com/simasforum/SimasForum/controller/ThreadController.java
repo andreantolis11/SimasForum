@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,22 +40,26 @@ public class ThreadController {
 //    }
 
     @GetMapping("/thread/add")
-    public String newThread(Model model, User user) {
+    public String newThread(Model model, User user, HttpSession session) {
         model.addAttribute("user_id", 1L);
+        model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
         return "add_thread";
     }
 
     @PostMapping("/thread/add")
-    public String newThread(@RequestParam("title") String title, @RequestParam("content") String content){
-        threadService.addThread(new Thread(1L, 1L, title, content, 0, 0, LocalDate.now()));
+    public String newThread(@RequestParam("title") String title, @RequestParam("content") String content, HttpServletRequest request){
+        Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
+    	threadService.addThread(new Thread(1L, userId, title, content, 0, 0, LocalDate.now()));
+        
         return "my_thread";
     }
     @GetMapping("/dashboard")
-    public String threadbyDate( Model model){
+    public String threadbyDate( Model model, HttpSession session){
         List<Thread> threadByDate = new ArrayList<>(threadService.sortByDate());
         model.addAttribute("threadbydate", threadByDate);
         List<Thread> threadByVote = new ArrayList<>(threadService.sortByUpVote());
         model.addAttribute("threadbyvote", threadByVote);
+        model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
         return "dashboard";
     }
 

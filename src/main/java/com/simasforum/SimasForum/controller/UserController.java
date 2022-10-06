@@ -1,6 +1,8 @@
 package com.simasforum.SimasForum.controller;
 import java.util.NoSuchElementException;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +48,23 @@ public class UserController {
     
     @PostMapping("/user/login")
     public String loginUser(@RequestParam("email") String email,
-    					  @RequestParam("password") String password) {
+    					  @RequestParam("password") String password,
+    					  HttpServletRequest request) {
         User loginUser = userService.getUserByEmail(email);
         if(!loginUser.getPassword().equals(password)) {
         	//TODO: wrong password handler
         	return null;
         }
         //TODO: login entah ini gmna caranya
-        return "redirect:/user/login";
+        request.getSession().setAttribute("USER_LOGIN_ID", loginUser.getId());
+        request.getSession().setAttribute("USER_LOGIN_NAME", loginUser.getName());
+        return "redirect:/dashboard";
+    }
+    
+    @GetMapping("/user/logout")
+    public String logoutUser(HttpServletRequest request) {
+    	request.getSession().invalidate();
+        return "redirect:/dashboard";
     }
 
     @ExceptionHandler
