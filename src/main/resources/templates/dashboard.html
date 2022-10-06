@@ -17,20 +17,21 @@
 				<h5 class="text-white">
 					Pembicaraan terbaru
 				</h5>
-				<button style="border-radius: 15px; border-color: white;" class="button-white"><div style="color: #FF5045">Create Thread</div></button>
+				<a href="/thread/add"><button style="border-radius: 15px; border-color: white;" class="button-white"><div style="color: #FF5045">Create Thread</div></button></a>
+				
 			</div>
 			<div style="opacity: 70%; color: white; letter-spacing: 1px; margin-bottom: 15px;" >
 				Menampilkan semua list pertanyaan atau informasi dari setiap nasabah secara up to date
 			</div>
             <div style="width: 38vw; height: 70vh;  background-color: #FFFFFF; border-radius: 10px;">
 	            <div style="padding: 10px;height: 69vh; overflow-y : auto;">
-					<div th:each="thread : ${threadbydate}" style="background-color: #F97E7E; padding: 10px; border-radius: 10px; margin-bottom: 20px;">
-						<div style="color: white; font-weight: bold; margin-bottom: 10px;">
-							Calvin
-						</div>
-						<div th:text="${thread.title}" style="font-weight: bold; background-color: #FFFFFF; padding: 10px; text-align: center; border-radius: 10px;">
-							
-						</div>
+					<div th:each="thread : ${threadbydate}"  style="background-color: #F97E7E; padding: 10px; border-radius: 10px; margin-bottom: 20px;">
+						<a th:href="@{'/thread/{id}/' (id=${thread.id})}">
+							<div style="color: white; font-weight: bold; margin-bottom: 10px;">
+								Calvin
+							</div>
+							<div th:text="${thread.title}" style="color: black; font-weight: bold; background-color: #FFFFFF; padding: 10px; text-align: center; border-radius: 10px;"></div>
+						</a>
 					</div>
 	            </div>
 	        </div>
@@ -47,17 +48,20 @@
             <div style="width: 38vw; height: 70vh;  background-color: #FFFFFF; border-radius: 10px;">
 	            <div style="padding: 10px;height: 65vh; overflow-y : auto;">
 					<div th:each="thread : ${threadbyvote}" style="background-color: #F97E7E; padding: 10px; border-radius: 10px; margin-bottom: 20px;">
-						<div style="color: white; font-weight: bold; margin-bottom: 10px;">
-							Calvin
-						</div>
-						<div style="display:flex; justify-content: space-between;">
-							<div th:text="${thread.title}" style="width: 32vw;font-weight: bold; background-color: #FFFFFF; padding: 10px; text-align: center; border-radius: 10px;">
-<!--								Ada yang tahu terkait investasi ?-->
+						<a th:href="@{'/thread/{id}/' (id=${thread.id})}">
+							<div style="color: white; font-weight: bold; margin-bottom: 10px;">
+								Calvin
 							</div>
-							<div th:text="${thread.upvote}" style="color: white; font-weight: bold;">
-								
+							<div style="display:flex; justify-content: space-between;">
+								<div th:text="${thread.title}" style="color: black;width: 32vw;font-weight: bold; background-color: #FFFFFF; padding: 10px; text-align: center; border-radius: 10px;">
+	<!--								Ada yang tahu terkait investasi ?-->
+								</div>
+								<div th:text="${thread.upvote}" style="color: white; font-weight: bold;">
+									
+								</div>							
 							</div>
-						</div>
+						</a>
+						
 					</div>
 	            </div>
 	        </div>
@@ -74,6 +78,10 @@
 ::-webkit-scrollbar {
   width: 10px;
 
+}
+
+a {
+	text-decoration: none;
 }
 
 /* Track */
