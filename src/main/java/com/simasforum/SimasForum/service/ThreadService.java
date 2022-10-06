@@ -26,9 +26,7 @@ public class ThreadService {
     }
 
     public Thread addThread(Thread thread) {
-        Thread list = new Thread(thread);
-
-        return threadRepository.save(list);
+        return threadRepository.save(thread);
     }
 
     public Optional<Thread> getThreadDetail(Long id) {
