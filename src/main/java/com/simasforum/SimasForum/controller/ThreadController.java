@@ -3,6 +3,8 @@ package com.simasforum.SimasForum.controller;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.service.ThreadService;
+import com.simasforum.SimasForum.service.UserService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +29,15 @@ import java.util.List;
 public class ThreadController {
     private static final Logger LOG = LoggerFactory.getLogger(ThreadController.class);
     private ThreadService threadService;
+    private UserService userService;
 
     @Autowired
     public void setThreadService(ThreadService threadService) {
         this.threadService = threadService;
+    }
+    @Autowired
+    public void setUserService(UserService userService) {
+    	this.userService = userService;
     }
 
 //    @GetMapping("/thread")
@@ -42,7 +49,6 @@ public class ThreadController {
 
     @GetMapping("/thread/add")
     public String newThread(Model model, User user, HttpSession session) {
-        model.addAttribute("user_id", 1L);
         model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
         return "add_thread";
     }
@@ -50,10 +56,10 @@ public class ThreadController {
     @PostMapping("/thread/add")
     public String newThread(@RequestParam("title") String title, @RequestParam("content") String content, HttpServletRequest request){
         Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
-    	threadService.addThread(new Thread(1L, userId, title, content, 0, 0, LocalDate.now()));
-        
+    	threadService.addThread(new Thread(userId, title, content, 0, 0, LocalDate.now()));
         return "my_thread";
     }
+    
     @GetMapping("/dashboard")
     public String threadbyDate( Model model, HttpSession session){
         List<Thread> threadByDate = new ArrayList<>(threadService.sortByDate());
@@ -67,7 +73,10 @@ public class ThreadController {
     @GetMapping("/thread/{id}")
     public String getThreadDetails(@PathVariable("id") Long id, Model model) {
         Optional<Thread> threadDetail = threadService.getThreadDetail(id);
+        User owner = userService.getUserById(threadDetail.get().getUserid());
+        
         model.addAttribute("threadDetail", threadDetail.get());
+        model.addAttribute("userName", owner.getName());
         return "thread";
     }
 

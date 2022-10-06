@@ -15,7 +15,7 @@ public class Thread {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private long user_id;
+    private long userid;
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
@@ -28,16 +28,16 @@ public class Thread {
     public Thread(Sort.Direction desc, String post_date) {}
 
     public Thread(Thread thread) {
-        this.title = thread.getTitle();
+    	this.userid = thread.getUserid();
+    	this.title = thread.getTitle();
         this.content = thread.getContent();
         this.upvote = thread.getDownvote();
         this.downvote = thread.getDownvote();
         this.datepost = thread.getDatepost();
     }
 
-    public Thread(long id, long user_id, String title, String content, int up_vote, int down_vote, LocalDate date_post) {
-        this.id = id;
-        this.user_id = user_id;
+    public Thread(long userid, String title, String content, int up_vote, int down_vote, LocalDate date_post) {
+        this.userid = userid;
         this.title = title;
         this.content = content;
         this.upvote = up_vote;

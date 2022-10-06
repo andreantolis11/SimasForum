@@ -44,7 +44,7 @@ public class ThreadControllerTest {
     @Test
     @DisplayName("ShowDetailByid")
     void showDetail_byId() throws Exception{
-        Thread mockThread = (new Thread(1L, 0, "Thread about this", "The content of the thread is", 15, 6, null));
+        Thread mockThread = (new Thread(0, "Thread about this", "The content of the thread is", 15, 6, null));
         when(threadService.getThreadDetail(anyLong())).thenReturn(Optional.of(mockThread));
         mockMvc.perform(get("/thread/1")).andExpectAll(
                 status().isOk(),
@@ -66,7 +66,7 @@ public class ThreadControllerTest {
     @Test
     @Disabled
     void addThread_withSampleData_ok() throws Exception {
-    	Thread mockThread = new Thread(1L, 1, "ss", "sss", 15, 6, LocalDate.now());
+    	Thread mockThread = new Thread(1, "ss", "sss", 15, 6, LocalDate.now());
         when(threadService.addThread(any(Thread.class))).thenReturn(mockThread);
         
         mockMvc.perform(post("/thread/add").param("title", "ss").param("content", "sss")).andExpectAll(
@@ -76,7 +76,7 @@ public class ThreadControllerTest {
     }
     @Test
     void showDashboardByDate() throws Exception {
-    	List<Thread> mockThread = List.of(new Thread(1L, 1, "Thread about this", "The content of the thread is", 15, 6, LocalDate.now()));
+    	List<Thread> mockThread = List.of(new Thread(1, "Thread about this", "The content of the thread is", 15, 6, LocalDate.now()));
 
     	when(threadService.sortByDate()).thenReturn(mockThread);
         mockMvc.perform(get("/dashboard")).andExpectAll(
@@ -89,7 +89,7 @@ public class ThreadControllerTest {
     
     @Test
     void showDashboardByUpvote() throws Exception {
-    	List<Thread> mockThread = List.of(new Thread(1L, 1, "Thread about this", "The content of the thread is", 15, 6, LocalDate.now()));
+    	List<Thread> mockThread = List.of(new Thread(1, "Thread about this", "The content of the thread is", 15, 6, LocalDate.now()));
 
     	when(threadService.sortByUpVote()).thenReturn(mockThread);
         mockMvc.perform(get("/dashboard")).andExpectAll(
