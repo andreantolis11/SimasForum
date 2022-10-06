@@ -91,8 +91,4 @@ public class ThreadController {
         model.addAttribute("listSearchThreads", threads);
         return "search_thread_result";
     }
-
-    private String redirectToList(Long id) {
-        return String.format("redirect:/list/%d", id);
-    }
 }
