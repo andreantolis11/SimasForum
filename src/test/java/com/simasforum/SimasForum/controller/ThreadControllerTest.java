@@ -2,7 +2,9 @@ package com.simasforum.SimasForum.controller;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.TEXT_HTML;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +34,8 @@ import com.simasforum.SimasForum.service.ThreadService;
 @WebMvcTest(ThreadController.class)
 @AutoConfigureMockMvc(addFilters = false)
 public class ThreadControllerTest {
-    @Autowired
+
+	@Autowired
     private MockMvc mockMvc;
 
     @MockBean
@@ -60,13 +64,39 @@ public class ThreadControllerTest {
     }
     
     @Test
+    @Disabled
     void addThread_withSampleData_ok() throws Exception {
-        Thread mockThread = new Thread(1L, 0, "Thread about this", "The content of the thread is", 15, 6, LocalDate.now());
-
-        when(threadService.addThread(mockThread)).thenReturn(mockThread);
-
-        mockMvc.perform(post("/thread/add").param("title", "Thread about this").param("content", "The content of the thread is")).andExpectAll(
+    	Thread mockThread = new Thread(1L, 1, "ss", "sss", 15, 6, LocalDate.now());
+        when(threadService.addThread(any(Thread.class))).thenReturn(mockThread);
+        
+        mockMvc.perform(post("/thread/add").param("title", "ss").param("content", "sss")).andExpectAll(
                 status().isOk()
+//                content().string(containsString("Thread about this"))
+        );
+    }
+    @Test
+    void showDashboardByDate() throws Exception {
+    	List<Thread> mockThread = List.of(new Thread(1L, 1, "Thread about this", "The content of the thread is", 15, 6, LocalDate.now()));
+
+    	when(threadService.sortByDate()).thenReturn(mockThread);
+        mockMvc.perform(get("/dashboard")).andExpectAll(
+                status().isOk(),
+                content().contentTypeCompatibleWith(TEXT_HTML),
+                content().encoding(UTF_8),
+                view().name("dashboard")
+        );
+    }
+    
+    @Test
+    void showDashboardByUpvote() throws Exception {
+    	List<Thread> mockThread = List.of(new Thread(1L, 1, "Thread about this", "The content of the thread is", 15, 6, LocalDate.now()));
+
+    	when(threadService.sortByUpVote()).thenReturn(mockThread);
+        mockMvc.perform(get("/dashboard")).andExpectAll(
+                status().isOk(),
+                content().contentTypeCompatibleWith(TEXT_HTML),
+                content().encoding(UTF_8),
+                view().name("dashboard")
         );
     }
 
