@@ -10,12 +10,20 @@
                     <input name="title"  style="background-color: #FFFFFF; border-radius: 20px;"  type="text" class="form-control" id="title" placeholder="Search...">
                 </div>
 	        </form>
-	        <div class="text-white">
-	        	AKUN
+<!-- 	        <div class="text-white"> -->
+<!-- 	        	AKUN -->
+<!-- 	        </div> -->
+	        <div th:if="${USER_LOGIN_NAME} != null" class="text-white">
+	        	<a style="color: white;" href="/user/logout">Log Out</a>
 	        </div>
-	        <div class="text-white">
-	        	<a href="/user/logout">Log Out</a>
+	       	<div th:unless="${USER_LOGIN_NAME} != null" class="text-white">
+	        	<a style="color: white;" href="/user/login">Log In</a>
 	        </div>
 		</div>
     </nav>
 </div>
+<style>
+a {
+	text-decoration: none;
+}
+</style>
