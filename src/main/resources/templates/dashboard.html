@@ -26,7 +26,7 @@
 	            <div style="padding: 10px;height: 69vh; overflow-y : auto;">
 					<div th:each="thread : ${threadbydate}" style="background-color: #F97E7E; padding: 10px; border-radius: 10px; margin-bottom: 20px;">
 						<div style="color: white; font-weight: bold; margin-bottom: 10px;">
-							Calvin
+							<div th:text="${USER_LOGIN_NAME}"></div>
 						</div>
 						<div th:text="${thread.title}" style="font-weight: bold; background-color: #FFFFFF; padding: 10px; text-align: center; border-radius: 10px;">
 							
