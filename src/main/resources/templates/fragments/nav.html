@@ -1,0 +1,29 @@
+<div th:fragment="navbar">
+    <nav class="navbar navbar-expand-lg" style="background-color: #FF5045;">
+<!--        <div class="container-fluid">-->
+		<div class="container">
+		    <div>
+	            <a class="navbar-brand ml-10 text-white" href="/dashboard">SIMAFORUM</a>
+	        </div>
+	        <form style="width:500px; margin-top: 20px;" th:action="@{'/thread/search/' (title=${title})}" method="get">
+                <div class="mb-3">
+                    <input name="title"  style="background-color: #FFFFFF; border-radius: 20px;"  type="text" class="form-control" id="title" placeholder="Search...">
+                </div>
+	        </form>
+<!-- 	        <div class="text-white"> -->
+<!-- 	        	AKUN -->
+<!-- 	        </div> -->
+	        <div th:if="${USER_LOGIN_NAME} != null" class="text-white">
+	        	<a style="color: white;" href="/user/logout">Log Out</a>
+	        </div>
+	       	<div th:unless="${USER_LOGIN_NAME} != null" class="text-white">
+	        	<a style="color: white;" href="/user/login">Log In</a>
+	        </div>
+		</div>
+    </nav>
+</div>
+<style>
+a {
+	text-decoration: none;
+}
+</style>
