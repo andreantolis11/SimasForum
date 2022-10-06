@@ -57,7 +57,7 @@ public class ThreadController {
     public String newThread(@RequestParam("title") String title, @RequestParam("content") String content, HttpServletRequest request){
         Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
     	threadService.addThread(new Thread(userId, title, content, 0, 0, LocalDate.now()));
-        return "my_thread";
+        return "redirect:/dashboard";
     }
     
     @GetMapping("/dashboard")
@@ -71,12 +71,13 @@ public class ThreadController {
     }
 
     @GetMapping("/thread/{id}")
-    public String getThreadDetails(@PathVariable("id") Long id, Model model) {
+    public String getThreadDetails(@PathVariable("id") Long id, Model model, HttpSession session) {
         Optional<Thread> threadDetail = threadService.getThreadDetail(id);
         User owner = userService.getUserById(threadDetail.get().getUserid());
         
         model.addAttribute("threadDetail", threadDetail.get());
         model.addAttribute("userName", owner.getName());
+        model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
         return "thread";
     }
 
@@ -96,9 +97,10 @@ public class ThreadController {
     }
     
     @GetMapping("/thread/search")
-    public String getThreadByTitleThreads(@RequestParam("title") String title, Model model){
+    public String getThreadByTitleThreads(@RequestParam("title") String title, Model model, HttpSession session){
         List<Thread> threads= threadService.getThreadBySearch(title);
         model.addAttribute("listSearchThreads", threads);
+        model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
         return "search_thread_result";
     }
     
