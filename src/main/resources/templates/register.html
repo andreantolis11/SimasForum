@@ -12,26 +12,26 @@
     <nav class="navbar navbar-expand-lg" style="background-color: #FF5045;">
 <!--        <div class="container-fluid">-->
         <div class="container">
-            <a class="navbar-brand ml-10 text-white" href="#">SIMAFORUM</a>
+            <a class="navbar-brand ml-10 text-white" href="/dashboard">SIMAFORUM</a>
         </div>
     </nav>
 
-    <div class="container" style="background-color: #FF5045; margin-top: 50px; padding: 15px; border-radius: 20px">
+    <div class="container" style="background-color: #FF5045; margin-top: 50px; padding: 15px; border-radius: 20px; width: 30vw;">
         <div style="background-color: #FFFFFF; border-radius: 20px;">
             <div><h1 style="text-align: center;">Register</h1></h1></div>
-            <form class="container" style="width:400px;" th:action="@{'/user/register'}" method="post">
+            <form class="container" style="width:25vw;" th:action="@{'/user/register'}" method="post">
                 <div class="mb-3">
-                    <input style="background-color: #BDBDBD; height: 60px; border-radius: 20px;" type="text" class="form-control" name="name" placeholder="Name" required>
+                    <input style="background-color: #BDBDBD; height: 50px; border-radius: 20px;" type="text" class="form-control" name="name" placeholder="Name" required>
                 </div>
                 <div class="mb-3">
 <!--                    <label for="exampleInputPassword1" class="form-label">Password</label>-->
-                    <input style="background-color: #BDBDBD; height: 60px; border-radius: 20px;"  type="email" class="form-control" name="email"  placeholder="Email" required>
+                    <input style="background-color: #BDBDBD; height: 50px; border-radius: 20px;"  type="email" class="form-control" name="email"  placeholder="Email" required>
                 </div>
                 <div class="mb-3">
-                    <input style="background-color: #BDBDBD; height: 60px; border-radius: 20px;"  type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+                    <input style="background-color: #BDBDBD; height: 50px; border-radius: 20px;"  type="password" class="form-control" name="password" id="password" placeholder="Password" required>
                 </div>
                 <div class="mb-3">
-                    <input style="background-color: #BDBDBD; height: 60px; border-radius: 20px;"  type="password" class="form-control" name="conf_password" id="conf_password" placeholder="Confirm Password" required>
+                    <input style="background-color: #BDBDBD; height: 50px; border-radius: 20px;"  type="password" class="form-control" name="conf_password" id="conf_password" placeholder="Confirm Password" required>
                     <!--                    <label class="form-check-label" for="exampleCheck1">Check me out</label>-->
                 </div>
                 <div style="justify-content: space-between; display:flex;">
