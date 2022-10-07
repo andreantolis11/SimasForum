@@ -53,9 +53,9 @@ class UserServiceTest {
     void getUserEmail_ok() {
     	String email = "email@email.com";
     	Optional<User> mockUser= Optional.of(new User("name",email,"password"));
-    	when(userRepository.findByEmail(anyString())).thenReturn(mockUser);
+    	when(userRepository.findByEmailIgnoreCase(anyString())).thenReturn(mockUser);
     	User registeredUser = userService.getUserByEmail(email);
-    	verify(userRepository, times(1)).findByEmail(any(String.class));
+    	verify(userRepository, times(1)).findByEmailIgnoreCase(any(String.class));
     	assertTrue(registeredUser.getEmail().equals(email));
     }
     
