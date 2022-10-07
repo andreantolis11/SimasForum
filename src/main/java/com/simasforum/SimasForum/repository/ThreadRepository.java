@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 public interface ThreadRepository extends CrudRepository<Thread, Long> {
-    List<Thread> findByTitleContains(String title);
+    List<Thread> findByTitleContainsIgnoreCase(String title);
 	List<Thread> findByOrderByDatepostDesc();
 	List<Thread> findByOrderByUpvoteDesc();
 }

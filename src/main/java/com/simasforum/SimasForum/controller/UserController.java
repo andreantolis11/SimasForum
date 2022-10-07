@@ -38,10 +38,22 @@ public class UserController {
     public String submitUser(@RequestParam("name") String name,
     					  @RequestParam("email") String email,
     					  @RequestParam("password") String password,
-    					  @RequestParam("conf_password") String conf_password) {
-        User loginUser = userService.addUser(new User(name, email, password));
-        System.out.println(loginUser.getName()+" is registered");
-        return "redirect:/user/login";
+    					  @RequestParam("conf_password") String conf_password, Model model,
+                             HttpSession session) {
+
+        User userEmail = userService.getUserByEmail(email);
+
+        System.out.println(userEmail);
+        if(userEmail.getEmail().isBlank()){
+            model.addAttribute("EMAIL_EXISTS", false);
+            User loginUser = userService.addUser(new User(name, email, password));
+            System.out.println(loginUser.getName()+" is registered");
+            return "redirect:/user/login";
+        }else {
+//            session.setAttribute("EMAIL_EXISTS", true);
+            model.addAttribute("EMAIL_EXISTS", true);
+            return "register";
+        }
     }
     
     @GetMapping("/user/login")
@@ -54,12 +66,17 @@ public class UserController {
     public String loginUser(@RequestParam("email") String email,
     					  @RequestParam("password") String password,
     					  HttpServletRequest request) {
-        User loginUser = userService.getUserByEmail(email);
-        if(!loginUser.getPassword().equals(password)) {
-        	//TODO: wrong password handler
-        	request.getSession().setAttribute("LOGIN_ERROR", true);
+    	User loginUser = null;
+        try {
+        	loginUser = userService.getUserByEmail(email);
+        	if(!loginUser.getPassword().equals(password)) {
+        		throw new Exception();
+        	}
+		} catch (Exception e) {
+			request.getSession().setAttribute("LOGIN_ERROR", true);
         	return "redirect:/user/login";
-        }
+		}
+        
         request.getSession().setAttribute("LOGIN_ERROR", false);
         request.getSession().setAttribute("USER_LOGIN_ID", loginUser.getId());
         request.getSession().setAttribute("USER_LOGIN_NAME", loginUser.getName());
