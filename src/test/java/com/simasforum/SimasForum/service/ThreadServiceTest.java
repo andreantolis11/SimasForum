@@ -51,13 +51,13 @@ public class ThreadServiceTest {
     void getThreadBySearch(){
         //[SETUP]
         List<Thread> thread = List.of(new Thread( 0, "Apa itu investasi", "Content 1", 0, 0, null));
-        when(threadRepository.findByTitleContains(anyString())).thenReturn(Optional.of(thread).get());
+        when(threadRepository.findByTitleContainsIgnoreCase(anyString())).thenReturn(Optional.of(thread).get());
 
         //[EXERCISE]
         Thread thread1 = threadService.getThreadBySearch("investasi").get(0);
 
         //[VERIFY]
-        verify(threadRepository, times(1)).findByTitleContains(anyString());
+        verify(threadRepository, times(1)).findByTitleContainsIgnoreCase(anyString());
         assertFalse(thread1.getTitle().isEmpty());
     }
     
