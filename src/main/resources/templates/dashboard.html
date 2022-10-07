@@ -11,13 +11,11 @@
 <body>
     <!--- Nav In Here--->
 	<div th:replace="fragments/nav :: navbar"></div>
+	<div th:if="${session.successMessage} != null" style="justify-content:space-evenly; display:flex;">
+		<div class="alert alert-primary" role="alert" th:text="${session.successMessage}" style="color: #0C090A; font-weight: bold; margin: 10px 13px 0 0;"></div>
+	</div>
     <div class="container" style="justify-content:space-evenly; display:flex;">
     	<div style="width: 40vw; background-color: #FF5045; margin-top: 50px; padding: 15px; border-radius: 20px">
-			<div th:if="${session.successMessage} != null">
-				<div th:text="${session.successMessage}" style="color: white; font-weight: bold; margin: 10px 13px 0 0;"></div>
-			</div>
-
-			</th:if>
             <div style="justify-content: space-between; display:flex; margin-bottom: 15px;">
 				<h5 class="text-white">
 					Pembicaraan terbaru
