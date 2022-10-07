@@ -23,10 +23,13 @@
                 <div class="mb-3">
                     <input style="background-color: #BDBDBD; height: 50px; border-radius: 20px;" type="text" class="form-control" name="name" placeholder="Name" required>
                 </div>
+
                 <div class="mb-3">
 <!--                    <label for="exampleInputPassword1" class="form-label">Password</label>-->
                     <input style="background-color: #BDBDBD; height: 50px; border-radius: 20px;"  type="email" class="form-control" name="email"  placeholder="Email" required>
+                    <div class="text-danger" th:if="${EMAIL_EXISTS}">email already exists</div>
                 </div>
+
                 <div class="mb-3">
                     <input style="background-color: #BDBDBD; height: 50px; border-radius: 20px;"  type="password" class="form-control" name="password" id="password" placeholder="Password" required>
                 </div>
