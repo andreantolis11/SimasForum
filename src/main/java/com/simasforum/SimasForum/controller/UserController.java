@@ -66,12 +66,17 @@ public class UserController {
     public String loginUser(@RequestParam("email") String email,
     					  @RequestParam("password") String password,
     					  HttpServletRequest request) {
-        User loginUser = userService.getUserByEmail(email);
-        if(!loginUser.getPassword().equals(password)) {
-        	//TODO: wrong password handler
-        	request.getSession().setAttribute("LOGIN_ERROR", true);
+    	User loginUser = null;
+        try {
+        	loginUser = userService.getUserByEmail(email);
+        	if(!loginUser.getPassword().equals(password)) {
+        		throw new Exception();
+        	}
+		} catch (Exception e) {
+			request.getSession().setAttribute("LOGIN_ERROR", true);
         	return "redirect:/user/login";
-        }
+		}
+        
         request.getSession().setAttribute("LOGIN_ERROR", false);
         request.getSession().setAttribute("USER_LOGIN_ID", loginUser.getId());
         request.getSession().setAttribute("USER_LOGIN_NAME", loginUser.getName());

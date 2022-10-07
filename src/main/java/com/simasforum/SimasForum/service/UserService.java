@@ -32,7 +32,9 @@ public class UserService {
         return result.get();
     }
     public User getUserByEmail(String email) throws NoSuchElementException {
-        Optional<User> result = Optional.of(userRepository.findByEmail(email).orElse(new User("", "", "")));
+
+        Optional<User> result = Optional.of(userRepository.findByEmailIgnoreCase(email).orElse(new User("", "", "")));
+
         return result.get();
     }
     
