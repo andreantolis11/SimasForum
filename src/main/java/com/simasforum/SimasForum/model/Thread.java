@@ -25,11 +25,12 @@ public class Thread {
     @Column(nullable = false)
     private LocalDate datepost;
 
-    public Thread(Sort.Direction desc, String post_date) {}
+    public Thread(Sort.Direction desc, String post_date) {
+    }
 
     public Thread(Thread thread) {
-    	this.userid = thread.getUserid();
-    	this.title = thread.getTitle();
+        this.userid = thread.getUserid();
+        this.title = thread.getTitle();
         this.content = thread.getContent();
         this.upvote = thread.getDownvote();
         this.downvote = thread.getDownvote();
@@ -46,6 +47,6 @@ public class Thread {
     }
 
     public Thread() {
-        
+
     }
 }
