@@ -29,7 +29,7 @@
 				Menampilkan semua list pertanyaan atau informasi dari setiap nasabah secara up to date
 			</div>
             <div style="width: 38vw; height: 70vh;  background-color: #FFFFFF; border-radius: 10px;">
-	            <div style="padding: 10px;height: 69vh; overflow-y : auto;">
+	            <div style="padding: 10px;height: 70vh; overflow-y : auto;">
 					<div th:each="thread : ${threadbydate}"  style="background-color: #F97E7E; padding: 10px; border-radius: 10px; margin-bottom: 20px;">
 						<a th:href="@{'/thread/{id}/' (id=${thread.id})}">
 							<div th:text="${thread.title}" style="color: black; font-weight: bold; background-color: #FFFFFF; padding: 10px; text-align: center; border-radius: 10px;"></div>
@@ -48,14 +48,14 @@
 				List forum yang paling banyak dibicarakan dan hanya memunculkan 10 teratas
 			</div>
             <div style="width: 38vw; height: 70vh;  background-color: #FFFFFF; border-radius: 10px;">
-	            <div style="padding: 10px;height: 65vh; overflow-y : auto;">
+	            <div style="padding: 10px;height: 70vh; overflow-y : auto;">
 					<div th:each="thread : ${threadbyvote}" style="background-color: #F97E7E; padding: 10px; border-radius: 10px; margin-bottom: 20px;">
 						<a th:href="@{'/thread/{id}/' (id=${thread.id})}">
-							<div style="display:flex; justify-content: space-between;">
+							<div style="display:flex; justify-content: space-evenly;">
 								<div th:text="${thread.title}" style="color: black;width: 32vw;font-weight: bold; background-color: #FFFFFF; padding: 10px; text-align: center; border-radius: 10px;">
 	<!--								Ada yang tahu terkait investasi ?-->
 								</div>
-								<div th:text="${thread.upvote}" style="color: white; font-weight: bold; margin: 10px 13px 0 0;">
+								<div th:text="${thread.upvote}" style="color: white; font-weight: bold; margin: 10px 0 0 0;">
 									
 								</div>							
 							</div>
