@@ -1,6 +1,7 @@
 package com.simasforum.SimasForum.model;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
@@ -25,8 +26,7 @@ public class Reply {
     private int upvote;
     private int downvote;
 
-    public Reply(long id, long threadid, long replyid, long userid, int level, String replyname, String content, int upvote, int downvote) {
-        this.id = id;
+    public Reply( long threadid, long replyid, long userid, int level, String replyname, String content, int upvote, int downvote) {
         this.threadid = threadid;
         this.replyid = replyid;
         this.userid = userid;
@@ -48,7 +48,6 @@ public class Reply {
         this.downvote = reply.getDownvote();
     }
 
-    public Reply(){
-
+    public Reply() {
     }
 }
