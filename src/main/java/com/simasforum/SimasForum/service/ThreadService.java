@@ -1,13 +1,11 @@
 package com.simasforum.SimasForum.service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.simasforum.SimasForum.model.Thread;
@@ -22,6 +20,7 @@ public class ThreadService {
 
     @Autowired
     public void setThreadRepository(ThreadRepository threadRepository) {
+
         this.threadRepository = threadRepository;
     }
 
@@ -49,5 +48,9 @@ public class ThreadService {
     }
     public List<Thread> sortByUpVote(){
         return  (List<Thread>) threadRepository.findByOrderByUpvoteDesc();
+    }
+
+    public List<Thread> getAllMyThread() {
+        return (List<Thread>) threadRepository.findAll();
     }
 }

@@ -146,6 +146,15 @@ public class ThreadControllerTest {
                 content().string(containsString("</html>"))
         );
     }
+
+    @Test
+    void showAllMyThreads() throws Exception {
+        mockMvc.perform(get("/my-thread")).andExpectAll(
+                status().isOk(),
+                content().contentTypeCompatibleWith(TEXT_HTML),
+                content().encoding(UTF_8)
+        );
+    }
     
     @Test
     void defaultRedirect() throws Exception {
