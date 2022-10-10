@@ -1,24 +1,42 @@
 .box-container{
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.thread-container{
     padding: 20px;
     justify-content: space-between;
     background-color: green;
     align-items: center;
     display: flex;
 }
-.content{
-    word-wrap: break-word;
-}
-.sub-box-container1{
+
+.thread-content-container{
     width: 90%;
     background-color: white;
 }
 
-.sub-box-container2{
+.content{
+    word-wrap: break-word;
+}
+
+.thread-vote-container{
     width: 10%;
     background-color: blue;
     text-align: center;
     align-items: center;
 }
 
+.btn-upvote{
+    border: none;
+    background:none;
+    padding: 0;
+}
+
+.btn-downvote{
+    border: none;
+    background:none;
+    padding: 0;
+}
 form{
 }

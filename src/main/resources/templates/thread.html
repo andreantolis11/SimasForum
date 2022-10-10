@@ -16,26 +16,25 @@
 	<div style="text-decoration: none;" th:replace="fragments/nav :: navbar"></div>
 
     <div class="container" style="background-color: #FF5045; margin-top: 50px; padding: 15px; border-radius: 20px">
-        <div style="background-color: #FFFFFF; border-radius: 10px; margin-bottom: 20px;">
-            <div class="box-container">
-                <div class="sub-box-container1">
+        <div class="box-container">
+            <div class="thread-container">
+                <div class="thread-content-container">
                     <div>
                         <div th:text="${userName} + ', ' + ${threadDetail.datepost}"></div>
                     </div>
                     <h3 th:text="${threadDetail.title}"></h3>
                     <div class="content" th:text="${threadDetail.content}"></div>
                 </div>
-            	<div class="sub-box-container2">
+            	<div class="thread-vote-container">
                     <form method="post" th:action="@{'/thread/{id}/{isUpVote}' (isUpVote=true, id=${threadDetail.id})}">
-                        <button style="border: none; background:none; padding: 0;">
+                        <button class="btn-upvote">
 <!--                            <img alt="up_vote.png" src="../assets/up_vote.png" style="max-width: 50%">-->
                             <span class="glyphicon glyphicon-menu-up up-vote"></span>
                         </button>
                     </form>
-<!--                    <p th:text="${threadDetail.upvote}">0</p>-->
                     <h4 th:text="${threadDetail.upvote}">0</h4>
                     <form method="post" th:action="@{'/thread/{id}/{isUpVote}' (isUpVote=false, id=${threadDetail.id})}">
-                        <button style="border: none; background:none; padding: 0;">
+                        <button class="btn-downvote">
 <!--                            <img alt="down_vote.png" src="../assets/up_vote.png" style="transform: scaleY(-1); max-width: 50%">-->
                             <span class="glyphicon glyphicon-menu-down"></span>
                         </button>
@@ -46,10 +45,4 @@
     </div>
 <script th:src="@{/webjars/bootstrap/5.1.3/dist/js/bootstrap.bundle.js}"></script>
 </body>
-<style>
-
-    .up-vote:focus{
-        color: #002ead;
-    }
-</style>
 </html>
