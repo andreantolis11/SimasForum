@@ -54,10 +54,13 @@ public class ThreadController {
     }
 
     @PostMapping("/thread/add")
-    public String newThread(@RequestParam("title") String title, @RequestParam("content") String content, HttpServletRequest request){
-        Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
-    	threadService.addThread(new Thread(userId, title, content, 0, 0, LocalDate.now()));
-        return "redirect:/dashboard";
+    public String newThread(@RequestParam("title") String title, @RequestParam("content") String content, HttpServletRequest request,Model model){
+
+            Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
+
+            threadService.addThread(new Thread(userId, title, content, 0, 0, LocalDate.now()));
+            request.getSession().setAttribute("successMessage", "Inserted Successfully !");
+            return "redirect:/dashboard";
     }
     
     @GetMapping("/dashboard")
