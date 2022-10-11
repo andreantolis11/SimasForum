@@ -8,7 +8,7 @@ create table "simas_user" (
 
 create table "thread" (
     id BIGSERIAL primary key,
-    userid int8,
+    userid int8 not null references "simas_user" (id),
     title varchar(255),
     content text,
     upVote int,
