@@ -59,6 +59,19 @@ public class ThreadService {
     public List<Thread> getThreadBySearch(String title){
         return threadRepository.findByTitleContainsIgnoreCase(title);
     }
+
+    public void upVoteReply(Long id) {
+        Optional<Thread> thread = threadRepository.findById(id);
+        int upvote = thread.get().getUpvote();
+        thread.get().setUpvote(upvote + 1);
+    }
+
+    public void downVoteReply(Long id) {
+        Optional<Thread> thread = threadRepository.findById(id);
+        int downvote = thread.get().getDownvote();
+        thread.get().setDownvote(downvote - 1);
+    }
+
     public List<Thread> sortByUpVote(){
         return  (List<Thread>) threadRepository.findByOrderByUpvoteDesc();
     }

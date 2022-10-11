@@ -9,10 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -58,6 +55,15 @@ public class ThreadController {
         return "redirect:/dashboard";
     }
 
+    @GetMapping("/thread/{id}/vote")
+    public String updateVote(@PathVariable("id") Long id, String method){
+        if(method.equals("upVote")) {
+            threadService.upVoteReply(id);
+        } else {
+            threadService.downVoteReply(id);
+        }
+        return "thread";
+    }
 
     @GetMapping("/dashboard")
     public String threadbyDate(Model model, HttpSession session) {

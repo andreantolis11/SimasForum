@@ -86,4 +86,20 @@ public class ThreadServiceTest {
 //    	System.out.println(threadById);
     	assertFalse(threadById.isEmpty());
     }
+
+    @Test
+    void upVoteReply() {
+        Optional<Thread> thread = Optional.of(new Thread(0, "Title 1", "Content 1", 1, 0, LocalDate.now()));
+        when(threadRepository.findById(anyLong())).thenReturn((Optional.of(thread)).get());
+        threadService.upVoteReply(thread.get().getId());
+        assertEquals(2, thread.get().getUpvote());
+    }
+
+    @Test
+    void downVoteReply() {
+        Optional<Thread> thread = Optional.of(new Thread(0, "Title 2", "Content 2", 31, 31, LocalDate.now()));
+        when(threadRepository.findById(anyLong())).thenReturn((Optional.of(thread)).get());
+        threadService.downVoteReply(thread.get().getId());
+        assertEquals(30, thread.get().getDownvote());
+    }
 }
