@@ -134,6 +134,12 @@ public class ThreadController {
         return "my_thread";
     }
 
+    @PostMapping("/mythread/{id}")
+    public String deleteMyThread(@PathVariable("id") Long id) {
+        threadService.deleteMyThreadById(id);
+        return "redirect:/mythread";
+    }
+
     private User getUserFromSession(HttpSession session) {
         return userService.getUserById(Long.parseLong(session.getAttribute("USER_LOGIN_ID").toString()));
     }

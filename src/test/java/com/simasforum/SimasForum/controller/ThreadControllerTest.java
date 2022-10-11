@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import com.simasforum.SimasForum.model.User;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,12 +45,15 @@ public class ThreadControllerTest {
     @Test
     @DisplayName("ShowDetailByid")
     void showDetail_byId() throws Exception{
-        Thread mockThread = (new Thread(0, "Thread about this", "The content of the thread is", 15, 6, null));
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+        Thread mockThread = (new Thread(andre, "Thread about this", "The content of the thread is", 15, 6, null));
         when(threadService.getThreadDetail(anyLong())).thenReturn(Optional.of(mockThread));
         mockMvc.perform(get("/thread/1")).andExpectAll(
                 status().isOk(),
                 content().string(containsString("Thread about this"))
-                
+
         );
     }
     @Test
@@ -62,13 +66,16 @@ public class ThreadControllerTest {
 //                .andExpect(status().isNotFound()).andDo(print());
 //                .andExpectAll(status().isNotFound(),content().string(containsString("")));
     }
-    
+
     @Test
     @Disabled
     void addThread_withSampleData_ok() throws Exception {
-    	Thread mockThread = new Thread(1, "ss", "sss", 15, 6, LocalDate.now());
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+    	Thread mockThread = new Thread(andre, "ss", "sss", 15, 6, LocalDate.now());
         when(threadService.addThread(any(Thread.class))).thenReturn(mockThread);
-        
+
         mockMvc.perform(post("/thread/add").param("title", "ss").param("content", "sss")).andExpectAll(
                 status().isOk()
 //                content().string(containsString("Thread about this"))
@@ -76,7 +83,10 @@ public class ThreadControllerTest {
     }
     @Test
     void showDashboardByDate() throws Exception {
-    	List<Thread> mockThread = List.of(new Thread(1, "Thread about this", "The content of the thread is", 15, 6, LocalDate.now()));
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+    	List<Thread> mockThread = List.of(new Thread(andre, "Thread about this", "The content of the thread is", 15, 6, LocalDate.now()));
 
     	when(threadService.sortByDate()).thenReturn(mockThread);
         mockMvc.perform(get("/dashboard")).andExpectAll(
@@ -86,10 +96,13 @@ public class ThreadControllerTest {
                 view().name("dashboard")
         );
     }
-    
+
     @Test
     void showDashboardByUpvote() throws Exception {
-    	List<Thread> mockThread = List.of(new Thread(1, "Thread about this", "The content of the thread is", 15, 6, LocalDate.now()));
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+    	List<Thread> mockThread = List.of(new Thread(andre, "Thread about this", "The content of the thread is", 15, 6, LocalDate.now()));
 
     	when(threadService.sortByUpVote()).thenReturn(mockThread);
         mockMvc.perform(get("/dashboard")).andExpectAll(
@@ -126,7 +139,7 @@ public class ThreadControllerTest {
                 content().string(containsString("<button"))
         );
     }
-    
+
     @Test
     void inputSearchThreadPage_html() throws Exception {
         mockMvc.perform(post("/thread/search").param("title", "ss")).andExpectAll(
@@ -136,7 +149,7 @@ public class ThreadControllerTest {
                 content().string(containsString("</html>"))
         );
     }
-    
+
     @Test
     void showSearchThreadPage_html() throws Exception {
         mockMvc.perform(get("/thread/search").param("title", "ss")).andExpectAll(
@@ -155,12 +168,12 @@ public class ThreadControllerTest {
                 content().encoding(UTF_8)
         );
     }
-    
+
     @Test
     void defaultRedirect() throws Exception {
     	mockMvc.perform(get("/")).andExpectAll(
     			status().is3xxRedirection()
     	);
     }
-   
+
 }
