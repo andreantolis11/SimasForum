@@ -16,4 +16,5 @@ public interface ThreadRepository extends CrudRepository<Thread, Long> {
     List<Thread> findByTitleContainsIgnoreCase(String title);
 	List<Thread> findByOrderByDatepostDesc();
 	List<Thread> findByOrderByUpvoteDesc();
+	void deleteById(Long id);
 }
