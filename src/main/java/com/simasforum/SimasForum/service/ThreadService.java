@@ -1,17 +1,19 @@
 package com.simasforum.SimasForum.service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import com.simasforum.SimasForum.controller.ThreadController;
+import com.simasforum.SimasForum.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.repository.ThreadRepository;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 public class ThreadService {
@@ -19,9 +21,10 @@ public class ThreadService {
     private static final String TODO_LIST_DOES_NOT_EXIST_FMT = "Thread(id=%d) does not exist";
 
     private ThreadRepository threadRepository;
-
+    private UserService userService;
     @Autowired
     public void setThreadRepository(ThreadRepository threadRepository) {
+
         this.threadRepository = threadRepository;
     }
 
@@ -31,8 +34,17 @@ public class ThreadService {
 
     public Optional<Thread> getThreadDetail(Long id) {
         Optional<Thread> result = threadRepository.findById(id);
-
         return result;
+    }
+
+    public void addUpVote(Long id, boolean isUpVote) {
+        Optional<Thread> result = threadRepository.findById(id);
+        if(isUpVote){
+            result.get().setUpvote(result.get().getUpvote() + 1);
+        }else{
+            result.get().setUpvote(result.get().getUpvote() - 1);
+            result.get().setDownvote(result.get().getDownvote() + 1);
+        }
     }
 
     public List<Thread> sortByDate(){
@@ -63,4 +75,10 @@ public class ThreadService {
     public List<Thread> sortByUpVote(){
         return  (List<Thread>) threadRepository.findByOrderByUpvoteDesc();
     }
+
+    public List<Thread> getAllMyThread(User user) {
+        List<Thread> myThreads = user.getThread();
+        return myThreads;
+    }
+
 }
