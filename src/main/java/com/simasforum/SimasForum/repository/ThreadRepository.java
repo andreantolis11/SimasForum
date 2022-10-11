@@ -15,5 +15,5 @@ import java.util.List;
 public interface ThreadRepository extends CrudRepository<Thread, Long> {
     List<Thread> findByTitleContainsIgnoreCase(String title);
 	List<Thread> findByOrderByDatepostDesc();
-	List<Thread> findByOrderByUpvoteDesc();
+	List<Thread> findByOrderByVoteDesc();
 }

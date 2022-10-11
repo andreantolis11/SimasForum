@@ -53,7 +53,7 @@ public class ThreadController {
     @PostMapping("/thread/add")
     public String newThread(@RequestParam("title") String title, @RequestParam("content") String content, HttpServletRequest request) {
         Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
-        threadService.addThread(new Thread(userId, title, content, 0, 0, LocalDate.now()));
+        threadService.addThread(new Thread(userId, title, content, 0, LocalDate.now()));
         return "redirect:/dashboard";
     }
 
@@ -82,8 +82,8 @@ public class ThreadController {
     @PostMapping("/thread/{id}/{isUpVote}")
     public String addUpVote(@PathVariable("id") Long id, @PathVariable("isUpVote") boolean isUpVote, HttpServletRequest request) {
         try {
-            Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
-            threadService.addUpVote(id, isUpVote);
+            Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
+            threadService.addUpVote(id, isUpVote, userId);
             return "redirect:/thread/{id}";
         }catch (Exception e){
             return "login";

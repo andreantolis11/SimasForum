@@ -20,8 +20,7 @@ public class Thread {
     private String title;
     @Column(nullable = false)
     private String content;
-    private int upvote;
-    private int downvote;
+    private int vote;
     @Column(nullable = false)
     private LocalDate datepost;
 
@@ -32,17 +31,15 @@ public class Thread {
         this.userid = thread.getUserid();
         this.title = thread.getTitle();
         this.content = thread.getContent();
-        this.upvote = thread.getDownvote();
-        this.downvote = thread.getDownvote();
+        this.vote = thread.getVote();
         this.datepost = thread.getDatepost();
     }
 
-    public Thread(long userid, String title, String content, int up_vote, int down_vote, LocalDate date_post) {
+    public Thread(long userid, String title, String content, int vote, LocalDate date_post) {
         this.userid = userid;
         this.title = title;
         this.content = content;
-        this.upvote = up_vote;
-        this.downvote = down_vote;
+        this.vote = vote;
         this.datepost = date_post;
     }
 

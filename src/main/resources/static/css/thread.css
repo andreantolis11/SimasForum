@@ -3,6 +3,7 @@
     border-radius: 10px;
     margin-bottom: 20px;
 }
+
 .thread-container{
     padding: 20px;
     justify-content: space-between;
@@ -35,5 +36,6 @@
     background:none;
     padding: 0;
 }
+
 form{
 }

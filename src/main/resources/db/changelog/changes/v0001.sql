@@ -11,7 +11,6 @@ create table "thread" (
     userid int8,
     title varchar(255),
     content text,
-    upVote int,
-    downVote int,
+    vote int,
     datePost date
 )

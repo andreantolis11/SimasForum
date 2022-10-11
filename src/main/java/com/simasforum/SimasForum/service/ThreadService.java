@@ -1,13 +1,11 @@
 package com.simasforum.SimasForum.service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.simasforum.SimasForum.model.Vote;
+import com.simasforum.SimasForum.repository.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.simasforum.SimasForum.model.Thread;
@@ -15,10 +13,11 @@ import com.simasforum.SimasForum.repository.ThreadRepository;
 
 @Service
 public class ThreadService {
-    private static final Logger LOG = LoggerFactory.getLogger(ThreadService.class);
-    private static final String TODO_LIST_DOES_NOT_EXIST_FMT = "Thread(id=%d) does not exist";
 
     private ThreadRepository threadRepository;
+
+    @Autowired
+    private VoteRepository voteRepository;
 
     @Autowired
     public void setThreadRepository(ThreadRepository threadRepository) {
@@ -34,13 +33,27 @@ public class ThreadService {
         return result;
     }
 
-    public void addUpVote(Long id, boolean isUpVote) {
-        Optional<Thread> result = threadRepository.findById(id);
-        if(isUpVote){
-            result.get().setUpvote(result.get().getUpvote() + 1);
-        }else{
-            result.get().setUpvote(result.get().getUpvote() - 1);
-            result.get().setDownvote(result.get().getDownvote() + 1);
+    public void addUpVote(Long threadId, boolean isUpVote, Long userId) {
+        Optional<Thread> result = threadRepository.findById(threadId);
+        Vote foundVote = voteRepository.findByThreadIdAndUserId(threadId, userId);
+        if (result.isPresent()){
+           if (isUpVote){
+                try {
+                    voteRepository.deleteById(foundVote.getId());
+                    result.get().setVote(result.get().getVote() - 1);
+                }catch (Exception e){
+                    voteRepository.save(new Vote(threadId, 0L, userId, true));
+                    result.get().setVote(result.get().getVote() + 1);
+                }
+           }else {
+               try {
+                   voteRepository.deleteById(foundVote.getId());
+                   result.get().setVote(result.get().getVote() + 1);
+               }catch (Exception e){
+                   voteRepository.save(new Vote(threadId, 0L, userId, true));
+                   result.get().setVote(result.get().getVote() - 1);
+               }
+           }
         }
     }
 
@@ -57,6 +70,6 @@ public class ThreadService {
         return threadRepository.findByTitleContainsIgnoreCase(title);
     }
     public List<Thread> sortByUpVote(){
-        return  (List<Thread>) threadRepository.findByOrderByUpvoteDesc();
+        return  (List<Thread>) threadRepository.findByOrderByVoteDesc();
     }
 }
