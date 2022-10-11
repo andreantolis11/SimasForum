@@ -39,18 +39,31 @@ public class ThreadService {
         if (result.isPresent()){
            if (isUpVote){
                 try {
-                    voteRepository.deleteById(foundVote.getId());
-                    result.get().setVote(result.get().getVote() - 1);
+                    if (foundVote.isUpVote()){
+                        voteRepository.deleteById(foundVote.getId());
+                        result.get().setVote(result.get().getVote() - 1);
+                    }else {
+                        voteRepository.deleteById(foundVote.getId());
+                        result.get().setVote(result.get().getVote() + 1);
+                        voteRepository.save(new Vote(threadId, 0L, userId, true));
+                    }
                 }catch (Exception e){
                     voteRepository.save(new Vote(threadId, 0L, userId, true));
                     result.get().setVote(result.get().getVote() + 1);
                 }
            }else {
                try {
-                   voteRepository.deleteById(foundVote.getId());
-                   result.get().setVote(result.get().getVote() + 1);
+                   if (!foundVote.isUpVote()){
+                       voteRepository.deleteById(foundVote.getId());
+                       result.get().setVote(result.get().getVote() + 1);
+                   }else {
+                       voteRepository.deleteById(foundVote.getId());
+                       result.get().setVote(result.get().getVote() - 1);
+                       voteRepository.save(new Vote(threadId, 0L, userId, false));
+                   }
+
                }catch (Exception e){
-                   voteRepository.save(new Vote(threadId, 0L, userId, true));
+                   voteRepository.save(new Vote(threadId, 0L, userId, false));
                    result.get().setVote(result.get().getVote() - 1);
                }
            }
