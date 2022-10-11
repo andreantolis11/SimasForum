@@ -1,23 +1,21 @@
 package com.simasforum.SimasForum.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-
+import com.simasforum.SimasForum.model.Thread;
+import com.simasforum.SimasForum.model.User;
+import com.simasforum.SimasForum.repository.ThreadRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import com.simasforum.SimasForum.model.Thread;
-import com.simasforum.SimasForum.repository.ThreadRepository;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class ThreadServiceTest {
@@ -31,26 +29,32 @@ public class ThreadServiceTest {
     @Test
     void addThreadItem_ok() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        Thread freshThread = new Thread(2, "Fitur Simas+", "Fitur fitur yang dimiliki oleh Simas+", 412, 12, date);
+        User user = new User();
+        user.setId(2L);
+        Thread freshThread = new Thread(user, "Fitur Simas+", "Fitur fitur yang dimiliki oleh Simas+", 412, date);
         when(threadRepository.save(any(Thread.class))).thenReturn(freshThread);
 
         Thread savedThread = threadService.addThread(freshThread);
-        assertEquals(2, savedThread.getUserid());
+        assertEquals(2L, savedThread.getUser().getId());
     }
 
     @Test
     void getThreadItemById_existingThread_ok() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        Thread freshThread = new Thread(13, "Fitur Simas+", "Fitur fitur yang dimiliki oleh Simas+", 412, 12, date);
+        User user = new User();
+        user.setId(13L);
+        Thread freshThread = new Thread(user, "Fitur Simas+", "Fitur fitur yang dimiliki oleh Simas+", 412, date);
         when(threadRepository.findById(anyLong())).thenReturn(Optional.of(freshThread));
         Optional<Thread> threadtById = threadService.getThreadDetail(freshThread.getId());
         System.out.println(threadtById.get());
     }
-    
+
     @Test
-    void getThreadBySearch(){
+    void getThreadBySearch() {
         //[SETUP]
-        List<Thread> thread = List.of(new Thread( 0, "Apa itu investasi", "Content 1", 0, 0, null));
+        User user = new User();
+        user.setId(0L);
+        List<Thread> thread = List.of(new Thread(user, "Apa itu investasi", "Content 1", 0, null));
         when(threadRepository.findByTitleContainsIgnoreCase(anyString())).thenReturn(Optional.of(thread).get());
 
         //[EXERCISE]
@@ -60,46 +64,56 @@ public class ThreadServiceTest {
         verify(threadRepository, times(1)).findByTitleContainsIgnoreCase(anyString());
         assertFalse(thread1.getTitle().isEmpty());
     }
-    
+
     @Test
     void sortByUpVote() {
-    	List<Thread> thread = List.of(new Thread(0, "Title 1", "Content 1", 2, 0, null),new Thread(0, "Title 1", "Content 1", 3, 0, null),new Thread( 0, "Title 1", "Content 1", 6, 0, null));
-        when(threadRepository.findByOrderByUpvoteDesc()).thenReturn(Optional.of(thread).get());
-        Thread threadByVote = threadService.sortByUpVote().get(2);
-        assertEquals(threadByVote.getUpvote(), 6);
+        User user = new User();
+        user.setId(0L);
+        List<Thread> thread = List.of(new Thread(user, "Title 1", "Content 1", 2, null), new Thread(user, "Title 1", "Content 1", 3, null), new Thread(user, "Title 1", "Content 1", 6, null));
+        when(threadRepository.findByOrderByVoteScoreDesc()).thenReturn(Optional.of(thread).get());
+        Thread threadByVote = threadService.sortByVoteScore().get(2);
+        assertEquals(threadByVote.getVoteScore(), 6);
     }
-    
+
     @Test
     void sortByDate() {
-    	List<Thread> thread = List.of(new Thread( 0, "Title 1", "Content 1", 1, 0, LocalDate.now()),new Thread(0, "Title 1", "Content 1", 2, 0, LocalDate.now()),new Thread( 0, "Title 1", "Content 1", 5, 0, LocalDate.now()));
-    	when(threadRepository.findByOrderByDatepostDesc()).thenReturn(Optional.of(thread).get());
-    	Thread threadDate = threadService.sortByDate().get(1);
+        User user = new User();
+        user.setId(0L);
+        List<Thread> thread = List.of(new Thread(user, "Title 1", "Content 1", 1, LocalDate.now()), new Thread(user, "Title 1", "Content 1", 2, LocalDate.now()), new Thread(user, "Title 1", "Content 1", 5, LocalDate.now()));
+        when(threadRepository.findByOrderByDatePostDesc()).thenReturn(Optional.of(thread).get());
+        Thread threadDate = threadService.sortByDate().get(1);
 //    	System.out.println(threadVote);
-    	assertEquals(threadDate.getDatepost(), LocalDate.now());
+        assertEquals(threadDate.getDatePost(), LocalDate.now());
     }
-    
+
     @Test
     void getThreadDetail() {
-    	Optional<Thread> thread = Optional.of(new Thread(0, "Title 1", "Content 1", 1, 0, LocalDate.now()));
-    	when(threadRepository.findById(anyLong())).thenReturn(Optional.of(thread).get());
-    	Optional<Thread> threadById = threadService.getThreadDetail(1L);
+        User user = new User();
+        user.setId(0L);
+        Optional<Thread> thread = Optional.of(new Thread(user, "Title 1", "Content 1", 1, LocalDate.now()));
+        when(threadRepository.findById(anyLong())).thenReturn(Optional.of(thread).get());
+        Optional<Thread> threadById = threadService.getThreadDetail(1L);
 //    	System.out.println(threadById);
-    	assertFalse(threadById.isEmpty());
+        assertFalse(threadById.isEmpty());
     }
 
     @Test
     void upVoteReply() {
-        Optional<Thread> thread = Optional.of(new Thread(0, "Title 1", "Content 1", 1, 0, LocalDate.now()));
+        User user = new User();
+        user.setId(0L);
+        Optional<Thread> thread = Optional.of(new Thread(user, "Title 1", "Content 1", 1, LocalDate.now()));
         when(threadRepository.findById(anyLong())).thenReturn((Optional.of(thread)).get());
         threadService.upVoteReply(thread.get().getId());
-        assertEquals(2, thread.get().getUpvote());
+        assertEquals(2, thread.get().getVoteScore());
     }
 
     @Test
     void downVoteReply() {
-        Optional<Thread> thread = Optional.of(new Thread(0, "Title 2", "Content 2", 31, 31, LocalDate.now()));
+        User user = new User();
+        user.setId(0L);
+        Optional<Thread> thread = Optional.of(new Thread(user, "Title 2", "Content 2", 31, LocalDate.now()));
         when(threadRepository.findById(anyLong())).thenReturn((Optional.of(thread)).get());
         threadService.downVoteReply(thread.get().getId());
-        assertEquals(30, thread.get().getDownvote());
+        assertEquals(30, thread.get().getVoteScore());
     }
 }
