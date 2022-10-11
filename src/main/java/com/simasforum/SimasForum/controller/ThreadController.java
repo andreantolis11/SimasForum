@@ -59,7 +59,7 @@ public class ThreadController {
 
     @GetMapping("/thread/{id}")
     public String updateVote(@PathVariable("id") Long id, String method){
-        if(method == "upVote") {
+        if(method.equals("upVote")) {
             threadService.upVoteReply(id);
         } else {
             threadService.downVoteReply(id);
