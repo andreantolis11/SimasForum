@@ -45,15 +45,16 @@ public class ThreadController {
 //    }
 
     @GetMapping("/thread/add")
-    public String newThread(Model model, User user, HttpSession session) {
+    public String newThread(Model model, HttpSession session) {
         model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
         return "add_thread";
     }
 
     @PostMapping("/thread/add")
-    public String newThread(@RequestParam("title") String title, @RequestParam("content") String content, HttpServletRequest request) {
-        Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
-        threadService.addThread(new Thread(userId, title, content, 0, 0, LocalDate.now()));
+    public String newThread(@RequestParam("title") String title, @RequestParam("content") String content, HttpServletRequest request, Model model) {
+        User user = getUserFromSession(request.getSession());
+        threadService.addThread(new Thread(user, title, content, 0, 0, LocalDate.now()));
+        request.getSession().setAttribute("successMessage", "Inserted Successfully !");
         return "redirect:/dashboard";
     }
 
@@ -71,8 +72,7 @@ public class ThreadController {
     @GetMapping("/thread/{id}")
     public String getThreadDetails(@PathVariable("id") Long id, Model model, HttpSession session) {
         Optional<Thread> threadDetail = threadService.getThreadDetail(id);
-        User owner = userService.getUserById(threadDetail.get().getUserid());
-
+        User owner = threadDetail.get().getUser();
         model.addAttribute("threadDetail", threadDetail.get());
         model.addAttribute("userName", owner.getName());
         model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
@@ -117,5 +117,18 @@ public class ThreadController {
     @GetMapping("/")
     public String defaultRedirect() {
         return "redirect:/dashboard";
+    }
+
+    @GetMapping("/mythread")
+    public String getMyThread(Model model, HttpSession session) {
+        User owner = getUserFromSession(session);
+        List<Thread> myThreads = threadService.getAllMyThread(owner);
+        model.addAttribute("result", myThreads);
+        model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
+        return "my_thread";
+    }
+
+    private User getUserFromSession(HttpSession session) {
+        return userService.getUserById(Long.parseLong(session.getAttribute("USER_LOGIN_ID").toString()));
     }
 }
