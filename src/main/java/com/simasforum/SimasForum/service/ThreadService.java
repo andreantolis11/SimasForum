@@ -34,8 +34,17 @@ public class ThreadService {
 
     public Optional<Thread> getThreadDetail(Long id) {
         Optional<Thread> result = threadRepository.findById(id);
-
         return result;
+    }
+
+    public void addUpVote(Long id, boolean isUpVote) {
+        Optional<Thread> result = threadRepository.findById(id);
+        if(isUpVote){
+            result.get().setUpvote(result.get().getUpvote() + 1);
+        }else{
+            result.get().setUpvote(result.get().getUpvote() - 1);
+            result.get().setDownvote(result.get().getDownvote() + 1);
+        }
     }
 
     public List<Thread> sortByDate(){

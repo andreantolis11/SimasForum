@@ -68,33 +68,28 @@ public class ThreadController {
         model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
         return "dashboard";
     }
-//    @GetMapping("/my-thread")
-//    public String getAllMyThreads(Model model, HttpServletRequest request, HttpSession session) {
-//        Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
-//        List<Thread> temp = new ArrayList<>(threadService.getAllMyThread());
-//        List<Thread> result = new ArrayList<>();
-//        for(int i = 0; i < temp.size(); i++) {
-//            if(temp.get(i).getUserid() == userId) {
-//                result.add((temp.get(i)));
-//            }
-//        }
-//        model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
-//        model.addAttribute("result", result);
-//        return "my_thread";
-//    }
-
-
 
     @GetMapping("/thread/{id}")
     public String getThreadDetails(@PathVariable("id") Long id, Model model, HttpSession session) {
         Optional<Thread> threadDetail = threadService.getThreadDetail(id);
         User owner = threadDetail.get().getUser();
-
         model.addAttribute("threadDetail", threadDetail.get());
         model.addAttribute("userName", owner.getName());
         model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
         return "thread";
     }
+
+    @PostMapping("/thread/{id}/{isUpVote}")
+    public String addUpVote(@PathVariable("id") Long id, @PathVariable("isUpVote") boolean isUpVote, HttpServletRequest request) {
+        try {
+            Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
+            threadService.addUpVote(id, isUpVote);
+            return "redirect:/thread/{id}";
+        }catch (Exception e){
+            return "login";
+        }
+    }
+
 
 //    @PostMapping("/thread")
 //    public String newThread(@RequestParam("thread_item") Thread thread) {
