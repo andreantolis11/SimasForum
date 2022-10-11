@@ -82,7 +82,7 @@ public class ThreadController {
     @PostMapping("/thread/{id}/{isUpVote}")
     public String addUpVote(@PathVariable("id") Long id, @PathVariable("isUpVote") boolean isUpVote, HttpServletRequest request) {
         try {
-            Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
+            Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
             threadService.addUpVote(id, isUpVote);
             return "redirect:/thread/{id}";
         }catch (Exception e){

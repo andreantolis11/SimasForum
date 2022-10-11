@@ -6,14 +6,12 @@
 .thread-container{
     padding: 20px;
     justify-content: space-between;
-    background-color: green;
     align-items: center;
     display: flex;
 }
 
 .thread-content-container{
     width: 90%;
-    background-color: white;
 }
 
 .content{
@@ -22,7 +20,6 @@
 
 .thread-vote-container{
     width: 10%;
-    background-color: blue;
     text-align: center;
     align-items: center;
 }
