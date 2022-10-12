@@ -94,7 +94,7 @@ public class ThreadController {
 
         User owner = threadDetail.get().getUser();
         List<Reply> threadReplies = threadDetail.get().getReply();
-        int upVotes = threadService.getVoteByUserAndThreadId(id, owner.getId());
+        int upVotes = threadService.getVoteByUserAndThreadId(id, (Long) session.getAttribute("USER_LOGIN_ID"));
 
         model.addAttribute("threadDetail", threadDetail.get());
         model.addAttribute("threadReplies", threadReplies);
