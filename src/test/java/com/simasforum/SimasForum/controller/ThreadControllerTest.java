@@ -14,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,8 +73,9 @@ public class ThreadControllerTest {
         User andre = new User("andre", "andre@gmail.com", "123");
         andre.setId(1L);
         Thread mockThread = new Thread(andre, "ss", "sss", 15, LocalDate.now());
-
-        mockMvc.perform(post("/thread/add").param("title", "ss").param("content", "sss")).andExpectAll(
+        HashMap<String, Object> sessionAttr = new HashMap<String, Object>();
+        sessionAttr.put("USER_LOGIN_ID", 1L);
+        mockMvc.perform(post("/thread/add").param("title", "ss").param("content", "sss").sessionAttrs(sessionAttr)).andExpectAll(
                 status().is3xxRedirection()
         );
         verify(threadService, times(1)).addThread(any(Thread.class));
@@ -172,7 +174,10 @@ public class ThreadControllerTest {
 
     @Test
     void showAllMyThreads() throws Exception {
-        mockMvc.perform(get("/my-thread")).andExpectAll(
+        HashMap<String, Object> sessionAttr = new HashMap<String, Object>();
+        sessionAttr.put("USER_LOGIN_ID", 1L);
+
+        mockMvc.perform(get("/mythread").sessionAttrs(sessionAttr)).andExpectAll(
                 status().isOk(),
                 content().contentTypeCompatibleWith(TEXT_HTML),
                 content().encoding(UTF_8)
