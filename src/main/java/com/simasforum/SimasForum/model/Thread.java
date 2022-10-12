@@ -5,6 +5,7 @@ import org.springframework.data.domain.Sort;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -15,36 +16,36 @@ public class Thread {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="userid")
     private User user;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "threadId")
+    private List<Reply> reply;
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
     private String content;
-    private int upvote;
-    private int downvote;
+    private int voteScore;
     @Column(nullable = false)
-    private LocalDate datepost;
+    private LocalDate datePost;
 
     public Thread(Sort.Direction desc, String post_date) {
     }
 
     public Thread(Thread thread) {
-    	  this.user = thread.getUser();
-    	  this.title = thread.getTitle();
+        this.user = thread.getUser();
+        this.title = thread.getTitle();
         this.content = thread.getContent();
-        this.upvote = thread.getDownvote();
-        this.downvote = thread.getDownvote();
-        this.datepost = thread.getDatepost();
+        this.voteScore = thread.getVoteScore();
+        this.datePost = thread.getDatePost();
     }
 
-    public Thread(User user, String title, String content, int up_vote, int down_vote, LocalDate date_post) {
+    public Thread(User user, String title, String content, int voteScore, LocalDate date_post) {
         this.user = user;
         this.title = title;
         this.content = content;
-        this.upvote = up_vote;
-        this.downvote = down_vote;
-        this.datepost = date_post;
+        this.voteScore = voteScore;
+        this.datePost = date_post;
     }
 
     public Thread() {

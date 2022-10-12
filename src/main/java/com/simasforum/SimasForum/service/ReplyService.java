@@ -24,7 +24,7 @@ public class ReplyService {
         return replyRepository.save(reply);
     }
 
-    public Optional<Reply> getReplyById(Long id){
+    public Optional<Reply> getReplyByThreadId(Long id){
         Optional<Reply> reply = replyRepository.findById(id);
         return reply;
     }

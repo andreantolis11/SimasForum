@@ -54,7 +54,7 @@
                     <a th:href="@{'/thread/{id}/' (id=${thread.id})}">
                         <div class="container-dashboard-border-populer-board-vote-list-flex">
                             <div class="container-dashboard-border-populer-board-vote-list-flex-title" th:text="${thread.title}"></div>
-                            <div class="container-dashboard-border-populer-board-vote-list-flex-vote" th:text="${thread.upvote}"></div>
+                            <div class="container-dashboard-border-populer-board-vote-list-flex-vote" th:text="${thread.voteScore}"></div>
                         </div>
                     </a>
                 </div>
