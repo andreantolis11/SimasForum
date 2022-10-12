@@ -29,6 +29,9 @@
                     <form method="post" th:action="@{'/thread/{id}/{isUpVote}' (isUpVote=true, id=${threadDetail.id})}">
                         <button class="btn-upvote">
 <!--                            <img alt="up_vote.png" src="../assets/up_vote.png" style="max-width: 50%">-->
+<!--                            <p th:text="${upVotes}"></p>-->
+<!--                            <span  th:if="${upVotes == 1}" class="glyphicon glyphicon-menu-up up-vote" style="color: green;"></span>-->
+<!--                            <span  th:if="${upVotes == 0}" class="glyphicon glyphicon-menu-up up-vote" style="color: red;"></span>-->
                             <span class="glyphicon glyphicon-menu-up up-vote"></span>
                         </button>
                     </form>

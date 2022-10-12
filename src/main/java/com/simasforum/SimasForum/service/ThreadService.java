@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.simasforum.SimasForum.model.Vote;
 import com.simasforum.SimasForum.repository.VoteRepository;
+import liquibase.pro.packaged.P;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,19 @@ public class ThreadService {
     public Optional<Thread> getThreadDetail(Long id) {
         Optional<Thread> result = threadRepository.findById(id);
         return result;
+    }
+
+    public int getVoteByUserAndThreadId(Long threadId, Long userId){
+        try {
+           Optional<Vote> vote = Optional.ofNullable(voteRepository.findByThreadIdAndUserId(threadId, userId));
+           if (vote.get().isUpVote()){
+               return 1;
+           }
+           return 0;
+        }catch (Exception e){
+            return -1;
+        }
+//        return Optional.ofNullable(voteRepository.findByThreadIdAndUserId(threadId, userId));
     }
 
     public void addUpVote(Long threadId, boolean isUpVote, Long userId) {

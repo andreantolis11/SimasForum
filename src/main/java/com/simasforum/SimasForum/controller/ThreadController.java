@@ -2,6 +2,7 @@ package com.simasforum.SimasForum.controller;
 
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
+import com.simasforum.SimasForum.model.Vote;
 import com.simasforum.SimasForum.service.ThreadService;
 import com.simasforum.SimasForum.service.UserService;
 import org.slf4j.Logger;
@@ -24,6 +25,7 @@ import java.util.Optional;
 @Controller
 public class ThreadController {
     private static final Logger LOG = LoggerFactory.getLogger(ThreadController.class);
+
     private ThreadService threadService;
     private UserService userService;
 
@@ -72,10 +74,13 @@ public class ThreadController {
     public String getThreadDetails(@PathVariable("id") Long id, Model model, HttpSession session) {
         Optional<Thread> threadDetail = threadService.getThreadDetail(id);
         User owner = userService.getUserById(threadDetail.get().getUserid());
+        int upVotes = threadService.getVoteByUserAndThreadId(id, owner.getId());
 
         model.addAttribute("threadDetail", threadDetail.get());
         model.addAttribute("userName", owner.getName());
         model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
+        model.addAttribute("upVotes", upVotes);
+
         return "thread";
     }
 
