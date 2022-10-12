@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -29,6 +30,14 @@ public class ReplyServiceTest {
         Reply mockReply = new Reply("reply 1","content 11",user,thread);
         replyService.addReply(mockReply);
         verify(replyRepository, times(1)).save(ArgumentMatchers.any(Reply.class));
+    }
+
+    @Test
+    void getReplyByThreadId_ok() {
+        Thread thread = new Thread();
+        thread.setId(1L);
+        replyService.getReplyByThreadId(thread.getId());
+        verify(replyRepository, times(1)).findByThreadId(anyLong());
     }
 
 
