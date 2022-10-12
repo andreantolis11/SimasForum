@@ -35,11 +35,7 @@
                             <span class="glyphicon glyphicon-menu-up up-vote"></span>
                         </button>
                     </form>
-<<<<<<< HEAD
-                    <h4 th:text="${threadDetail.vote}">0</h4>
-=======
                     <h4 th:text="${threadDetail.voteScore}">0</h4>
->>>>>>> origin
                     <form method="post" th:action="@{'/thread/{id}/{isUpVote}' (isUpVote=false, id=${threadDetail.id})}">
                         <button class="btn-downvote">
 <!--                            <img alt="down_vote.png" src="../assets/up_vote.png" style="transform: scaleY(-1); max-width: 50%">-->
