@@ -34,8 +34,6 @@ public class ThreadControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private MockHttpSession mockSession;
     @MockBean
     private ThreadService threadService;
     @MockBean
@@ -148,6 +146,18 @@ public class ThreadControllerTest {
                 content().contentTypeCompatibleWith(TEXT_HTML),
                 content().encoding(UTF_8),
                 content().string(containsString("</html>"))
+        );
+    }
+
+    @Test
+    void addUpVote_ifNotLogin_html() throws Exception {
+        User user = new User("fadhlul", "fadhlul@gmail.com", "123");
+        Thread thread = new Thread(user, "title", "content", 0, null);
+        mockMvc.perform(post("/thread/1/true")).andExpectAll(
+                status().isOk(),
+                content().contentTypeCompatibleWith(TEXT_HTML),
+                content().encoding(UTF_8),
+                view().name("login")
         );
     }
 

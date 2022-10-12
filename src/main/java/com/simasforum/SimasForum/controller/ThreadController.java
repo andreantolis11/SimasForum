@@ -25,7 +25,6 @@ import java.util.Optional;
 
 @Controller
 public class ThreadController {
-    private static final Logger LOG = LoggerFactory.getLogger(ThreadController.class);
 
     private ThreadService threadService;
     private UserService userService;
