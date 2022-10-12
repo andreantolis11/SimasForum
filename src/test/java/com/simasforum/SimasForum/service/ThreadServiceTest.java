@@ -32,6 +32,7 @@ public class ThreadServiceTest {
         User andre = new User("andre", "andre@gmail.com", "123");
         andre.setId(1L);
         Thread freshThread = new Thread(andre, "Fitur Simas+", "Fitur fitur yang dimiliki oleh Simas+", 412, date);
+
         when(threadRepository.save(any(Thread.class))).thenReturn(freshThread);
 
         Thread savedThread = threadService.addThread(freshThread);
@@ -44,6 +45,7 @@ public class ThreadServiceTest {
         User andre = new User("andre", "andre@gmail.com", "123");
         andre.setId(1L);
         Thread freshThread = new Thread(andre, "Fitur Simas+", "Fitur fitur yang dimiliki oleh Simas+", 412, date);
+
         when(threadRepository.findById(anyLong())).thenReturn(Optional.of(freshThread));
         Optional<Thread> threadtById = threadService.getThreadDetail(freshThread.getId());
         System.out.println(threadtById.get());
@@ -71,7 +73,7 @@ public class ThreadServiceTest {
         LocalDate date = LocalDate.of(2020, 1, 8);
         User andre = new User("andre", "andre@gmail.com", "123");
         andre.setId(1L);
-    	List<Thread> thread = List.of(new Thread(andre, "Title 1", "Content 1", 2, null),new Thread(andre, "Title 1", "Content 1", 3, null),new Thread( andre, "Title 1", "Content 1", 6, null));
+    	  List<Thread> thread = List.of(new Thread(andre, "Title 1", "Content 1", 2, null),new Thread(andre, "Title 1", "Content 1", 3, null),new Thread( andre, "Title 1", "Content 1", 6, null));
         when(threadRepository.findByOrderByVoteScoreDesc()).thenReturn(Optional.of(thread).get());
         Thread threadByVote = threadService.sortByVoteScore().get(2);
         assertEquals(threadByVote.getVoteScore(), 6);

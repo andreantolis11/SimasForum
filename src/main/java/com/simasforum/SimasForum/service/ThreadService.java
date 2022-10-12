@@ -1,23 +1,24 @@
 package com.simasforum.SimasForum.service;
 
-import com.simasforum.SimasForum.model.Thread;
-import com.simasforum.SimasForum.model.User;
-import com.simasforum.SimasForum.repository.ThreadRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
+import com.simasforum.SimasForum.model.Vote;
+import com.simasforum.SimasForum.repository.VoteRepository;
+import com.simasforum.SimasForum.model.Thread;
+import com.simasforum.SimasForum.model.User;
+import com.simasforum.SimasForum.repository.ThreadRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 @Service
 public class ThreadService {
-    private static final Logger LOG = LoggerFactory.getLogger(ThreadService.class);
-    private static final String TODO_LIST_DOES_NOT_EXIST_FMT = "Thread(id=%d) does not exist";
 
     private ThreadRepository threadRepository;
     private UserService userService;
+    @Autowired
+    private VoteRepository voteRepository;
+
     @Autowired
     public void setThreadRepository(ThreadRepository threadRepository) {
 
@@ -33,12 +34,53 @@ public class ThreadService {
         return result;
     }
 
-    public void addUpVote(Long id, boolean isUpVote) {
-        Optional<Thread> result = threadRepository.findById(id);
-        if(isUpVote){
-            result.get().setVoteScore(result.get().getVoteScore() + 1);
-        }else{
-            result.get().setVoteScore(result.get().getVoteScore() - 1);
+    public int getVoteByUserAndThreadId(Long threadId, Long userId){
+        try {
+           Optional<Vote> vote = Optional.ofNullable(voteRepository.findByThreadIdAndUserId(threadId, userId));
+           if (vote.get().isUpVote()){
+               return 1;
+           }
+           return 0;
+        }catch (Exception e){
+            return -1;
+        }
+//        return Optional.ofNullable(voteRepository.findByThreadIdAndUserId(threadId, userId));
+    }
+
+    public void addUpVote(Long threadId, boolean isUpVote, Long userId) {
+        Optional<Thread> result = threadRepository.findById(threadId);
+        Vote foundVote = voteRepository.findByThreadIdAndUserId(threadId, userId);
+        if (result.isPresent()){
+           if (isUpVote){
+                try {
+                    if (foundVote.isUpVote()){
+                        voteRepository.deleteById(foundVote.getId());
+                        result.get().setVoteScore(result.get().getVoteScore() - 1);
+                    }else {
+                        voteRepository.deleteById(foundVote.getId());
+                        result.get().setVoteScore(result.get().getVoteScore() + 2);
+                        voteRepository.save(new Vote(threadId, 0L, userId, true));
+                    }
+                }catch (Exception e){
+                    voteRepository.save(new Vote(threadId, 0L, userId, true));
+                    result.get().setVoteScore(result.get().getVoteScore() + 1);
+                }
+           }else {
+               try {
+                   if (!foundVote.isUpVote()){
+                       voteRepository.deleteById(foundVote.getId());
+                       result.get().setVoteScore(result.get().getVoteScore() + 1);
+                   }else {
+                       voteRepository.deleteById(foundVote.getId());
+                       result.get().setVoteScore(result.get().getVoteScore() - 2);
+                       voteRepository.save(new Vote(threadId, 0L, userId, false));
+                   }
+
+               }catch (Exception e){
+                   voteRepository.save(new Vote(threadId, 0L, userId, false));
+                   result.get().setVoteScore(result.get().getVoteScore() - 1);
+               }
+           }
         }
     }
 
@@ -54,6 +96,7 @@ public class ThreadService {
     public List<Thread> getThreadBySearch(String title){
         return threadRepository.findByTitleContainsIgnoreCase(title);
     }
+
 
     public void upVoteReply(Long id) {
         Optional<Thread> thread = threadRepository.findById(id);
