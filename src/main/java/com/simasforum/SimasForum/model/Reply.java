@@ -1,53 +1,49 @@
 package com.simasforum.SimasForum.model;
 
 import lombok.Data;
-import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
-@Table(name="reply")
+@Table(name = "reply")
 public class Reply {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private long threadid;
-    private long replyid;
-    private long userid;
-    @Column(nullable = false)
-    private int level;
-    private String replyname;
+    private String replyName;
+
     @Column(nullable = false)
     private String content;
-    private int upvote;
-    private int downvote;
 
-    public Reply( long threadid, long replyid, long userid, int level, String replyname, String content, int upvote, int downvote) {
-        this.threadid = threadid;
-        this.replyid = replyid;
-        this.userid = userid;
-        this.level = level;
-        this.replyname = replyname;
-        this.content = content;
-        this.upvote = upvote;
-        this.downvote = downvote;
-    }
+    private int voteScore;
+    private Long threadId;
 
-    public Reply(Reply reply){
-        this.threadid = reply.getThreadid();
-        this.replyid = reply.getReplyid();
-        this.userid = reply.getUserid();
-        this.level = reply.getLevel();
-        this.replyname = reply.getReplyname();
-        this.content = reply.getContent();
-        this.upvote = reply.getDownvote();
-        this.downvote = reply.getDownvote();
-    }
+    private Long replyId;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "replyId")
+    private List<Reply> replies;
+
+    @ManyToOne
+    private User user;
 
     public Reply() {
+    }
+
+    public Reply(String replyName, String content, User user, Thread parent) {
+        this.replyName = replyName;
+        this.content = content;
+        this.user = user;
+        this.threadId = parent.getId();
+    }
+
+    public Reply(String replyName, String content, User user, Reply parent) {
+        this.replyName = replyName;
+        this.content = content;
+        this.user = user;
+        this.replyId = parent.getId();
     }
 }
