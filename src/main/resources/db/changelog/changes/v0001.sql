@@ -13,4 +13,4 @@ create table "thread" (
     content text,
     vote_score int,
     date_post date
-)
+);

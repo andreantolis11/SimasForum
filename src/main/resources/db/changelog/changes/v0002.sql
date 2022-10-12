@@ -1,3 +1,10 @@
+create table "vote"(
+    id BIGSERIAL primary key,
+    threadid BIGSERIAL,
+    replyid BIGSERIAL,
+    userid BIGSERIAL not null,
+    isupvote boolean not null
+);
 
 create table "reply" (
     id BIGSERIAL primary key,
@@ -7,4 +14,4 @@ create table "reply" (
     content text,
     user_id int8 references "simas_user" (id),
     vote_score int
-)
+);
