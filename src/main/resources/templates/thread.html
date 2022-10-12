@@ -56,6 +56,16 @@
                                 <input name="reply" style="background-color: #FFFFFF; border-radius: 20px;" type="text" class="form-control" id="reply" placeholder="Add a reply...">
                             </div>
                         </form>
+                        <div th:if="${replies} != null">
+                            <div class="thread-content-container" th:each="reply : ${replies}">
+                                   <div th:text="${reply.content}"></div>
+                                    <form>
+                                        <div class="form-group" style="margin-left: 5%;">
+                                            <input name="reply" style="background-color: #FFFFFF; border-radius: 20px;" type="text" class="form-control" id="reply" placeholder="Add a reply...">
+                                        </div>
+                                    </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

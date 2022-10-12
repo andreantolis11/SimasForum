@@ -1,5 +1,6 @@
 package com.simasforum.SimasForum.controller;
 
+import com.simasforum.SimasForum.model.Reply;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.service.ReplyService;
@@ -90,6 +91,8 @@ public class ThreadController {
     @GetMapping("/thread/{id}")
     public String getThreadDetails(@PathVariable("id") Long id, Model model, HttpSession session) {
         Optional<Thread> threadDetail = threadService.getThreadDetail(id);
+        List<Reply> reply = threadDetail.get().getReply();
+        model.addAttribute("replies", reply);
 
         User owner = threadDetail.get().getUser();
         int upVotes = threadService.getVoteByUserAndThreadId(id, owner.getId());
