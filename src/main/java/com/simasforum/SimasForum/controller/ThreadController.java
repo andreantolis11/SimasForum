@@ -108,11 +108,13 @@ public class ThreadController {
         return "thread";
     }
 
-    @PostMapping("/thread/{id}/{isUpVote}")
-    public String addUpVote(@PathVariable("id") Long id, @PathVariable("isUpVote") boolean isUpVote, HttpServletRequest request) {
+    @PostMapping("/thread/{threadId}/{isUpVote}")
+    public String addUpVote(@PathVariable("threadId") Long threadId,
+                            @PathVariable("isUpVote") boolean isUpVote,
+                            HttpServletRequest request) {
         try {
             Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
-            threadService.addUpVote(id, isUpVote, userId);
+            threadService.addUpVote(threadId, isUpVote, userId);
             String referer = request.getHeader("Referer");
             return "redirect:"+ referer;
 //            return "redirect:/thread/{id}";
