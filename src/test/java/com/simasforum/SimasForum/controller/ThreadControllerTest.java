@@ -149,6 +149,18 @@ public class ThreadControllerTest {
     }
 
     @Test
+    void addUpVote_ifNotLogin_html() throws Exception {
+        User user = new User("fadhlul", "fadhlul@gmail.com", "123");
+        Thread thread = new Thread(user, "title", "content", 0, null);
+        mockMvc.perform(post("/thread/1/true")).andExpectAll(
+                status().isOk(),
+                content().contentTypeCompatibleWith(TEXT_HTML),
+                content().encoding(UTF_8),
+                view().name("login")
+        );
+    }
+
+    @Test
     void showSearchThreadPage_html() throws Exception {
         mockMvc.perform(get("/thread/search").param("title", "ss")).andExpectAll(
                 status().isOk(),
