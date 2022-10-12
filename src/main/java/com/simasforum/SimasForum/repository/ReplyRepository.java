@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface ReplyRepository extends CrudRepository<Reply,Long> {
-        List<Reply> findByThreadId(Long threadId);
+     List<Reply> findByThreadId(Long threadId);
+
 }

@@ -95,9 +95,11 @@ public class ThreadController {
         model.addAttribute("replies", reply);
 
         User owner = threadDetail.get().getUser();
-        int upVotes = threadService.getVoteByUserAndThreadId(id, owner.getId());
+        List<Reply> threadReplies = threadDetail.get().getReply();
+        int upVotes = threadService.getVoteByUserAndThreadId(id, (Long) session.getAttribute("USER_LOGIN_ID"));
 
         model.addAttribute("threadDetail", threadDetail.get());
+        model.addAttribute("threadReplies", threadReplies);
         model.addAttribute("userName", owner.getName());
         model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
         model.addAttribute("upVotes", upVotes);
@@ -159,6 +161,15 @@ public class ThreadController {
         threadService.deleteMyThreadById(id);
         return "redirect:/mythread";
     }
+    @PostMapping("/thread/reply/delete/{id}")
+    public String deleteReply(@PathVariable("id") Long id,
+                              HttpSession session) {
+        session.getAttribute("USER_LOGIN_ID");
+
+        threadService.deleteMyThreadById(id);
+        return "redirect:/mythread";
+    }
+
 
     private User getUserFromSession(HttpSession session) {
         return userService.getUserById(Long.parseLong(session.getAttribute("USER_LOGIN_ID").toString()));
