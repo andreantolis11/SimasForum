@@ -25,7 +25,6 @@ import java.util.Optional;
 
 @Controller
 public class ThreadController {
-    private static final Logger LOG = LoggerFactory.getLogger(ThreadController.class);
 
     private ThreadService threadService;
     private UserService userService;
@@ -93,6 +92,8 @@ public class ThreadController {
     @GetMapping("/thread/{id}")
     public String getThreadDetails(@PathVariable("id") Long id, Model model, HttpSession session) {
         Optional<Thread> threadDetail = threadService.getThreadDetail(id);
+        List<Reply> reply = threadDetail.get().getReply();
+        model.addAttribute("replies", reply);
 
         User owner = threadDetail.get().getUser();
         List<Reply> threadReplies = threadDetail.get().getReply();
@@ -112,8 +113,10 @@ public class ThreadController {
         try {
             Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
             threadService.addUpVote(id, isUpVote, userId);
-            return "redirect:/thread/{id}";
-        } catch (Exception e) {
+            String referer = request.getHeader("Referer");
+            return "redirect:"+ referer;
+//            return "redirect:/thread/{id}";
+        }catch (Exception e){
             return "login";
         }
     }
