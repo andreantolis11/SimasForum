@@ -58,7 +58,7 @@ public class ThreadService {
                         result.get().setVoteScore(result.get().getVoteScore() - 1);
                     }else {
                         voteRepository.deleteById(foundVote.getId());
-                        result.get().setVoteScore(result.get().getVoteScore() + 1);
+                        result.get().setVoteScore(result.get().getVoteScore() + 2);
                         voteRepository.save(new Vote(threadId, 0L, userId, true));
                     }
                 }catch (Exception e){
@@ -72,7 +72,7 @@ public class ThreadService {
                        result.get().setVoteScore(result.get().getVoteScore() + 1);
                    }else {
                        voteRepository.deleteById(foundVote.getId());
-                       result.get().setVoteScore(result.get().getVoteScore() - 1);
+                       result.get().setVoteScore(result.get().getVoteScore() - 2);
                        voteRepository.save(new Vote(threadId, 0L, userId, false));
                    }
 
