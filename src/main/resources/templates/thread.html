@@ -13,40 +13,37 @@
     <title>Thread Detail</title>
 </head>
 <body>
-	<div style="text-decoration: none;" th:replace="fragments/nav :: navbar"></div>
+<div style="text-decoration: none;" th:replace="fragments/nav :: navbar"></div>
 
-    <div class="container" style="background-color: #FF5045; margin-top: 50px; padding: 15px; border-radius: 20px">
-        <div class="box-container">
-            <div class="thread-container">
-                <div class="thread-content-container">
-                    <div>
-                        <div th:text="${userName} + ', ' + ${threadDetail.datePost}"></div>
-                    </div>
-                    <h3 th:text="${threadDetail.title}"></h3>
-                    <div class="content" th:text="${threadDetail.content}"></div>
+<div class="container" style="background-color: #FF5045; margin-top: 50px; padding: 15px; border-radius: 20px">
+    <div class="box-container">
+        <div class="thread-container">
+            <div class="thread-content-container">
+                <div>
+                    <div th:text="${userName} + ', ' + ${threadDetail.datePost}"></div>
                 </div>
-            	<div class="thread-vote-container">
-                    <form method="post" th:action="@{'/thread/{id}/{isUpVote}' (isUpVote=true, id=${threadDetail.id})}">
-                        <button class="btn-upvote">
-<!--                            <img alt="up_vote.png" src="../assets/up_vote.png" style="max-width: 50%">-->
-<!--                            <p th:text="${upVotes}"></p>-->
-<!--                            <span  th:if="${upVotes == 1}" class="glyphicon glyphicon-menu-up up-vote" style="color: green;"></span>-->
-<!--                            <span  th:if="${upVotes == 0}" class="glyphicon glyphicon-menu-up up-vote" style="color: red;"></span>-->
-                            <span class="glyphicon glyphicon-menu-up up-vote"></span>
-                        </button>
-                    </form>
-                    <h4 th:text="${threadDetail.voteScore}">0</h4>
-                    <form method="post" th:action="@{'/thread/{id}/{isUpVote}' (isUpVote=false, id=${threadDetail.id})}">
-                        <button class="btn-downvote">
-<!--                            <img alt="down_vote.png" src="../assets/up_vote.png" style="transform: scaleY(-1); max-width: 50%">-->
-                            <span class="glyphicon glyphicon-menu-down" ></span>
-                        </button>
-                    </form>
-                </div>
-<!--                <button type="button" onclick="getViews();">Get Views Count</button>-->
+                <h3 th:text="${threadDetail.title}"></h3>
+                <div class="content" th:text="${threadDetail.content}"></div>
             </div>
+            <div class="thread-vote-container">
+                <form method="post" th:action="@{'/thread/{id}/{isUpVote}' (isUpVote=true, id=${threadDetail.id})}">
+                    <button class="btn-upvote">
+                        <span  th:if="${upVotes == 1}" class="glyphicon glyphicon-menu-up up-vote" style="color: red;"></span>
+                        <span  th:unless="${upVotes == 1}" class="glyphicon glyphicon-menu-up up-vote"></span>
+                    </button>
+                </form>
+                <h4 th:text="${threadDetail.voteScore}">0</h4>
+                <form method="post" th:action="@{'/thread/{id}/{isUpVote}' (isUpVote=false, id=${threadDetail.id})}">
+                    <button class="btn-downvote">
+                        <span  th:if="${upVotes == 0}" class="glyphicon glyphicon-menu-down" style="color: red;"></span>
+                        <span  th:unless="${upVotes == 0}" class="glyphicon glyphicon-menu-down"></span>
+                    </button>
+                </form>
+            </div>
+            <!--                <button type="button" onclick="getViews();">Get Views Count</button>-->
         </div>
     </div>
+</div>
 <script th:src="@{/webjars/bootstrap/5.1.3/dist/js/bootstrap.bundle.js}"></script>
 <!--<script type="text/javascript" th:inline="javascript">-->
 <!--    function getViews() {-->
