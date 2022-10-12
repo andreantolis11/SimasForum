@@ -28,18 +28,15 @@
             	<div class="thread-vote-container">
                     <form method="post" th:action="@{'/thread/{id}/{isUpVote}' (isUpVote=true, id=${threadDetail.id})}">
                         <button class="btn-upvote">
-<!--                            <img alt="up_vote.png" src="../assets/up_vote.png" style="max-width: 50%">-->
-<!--                            <p th:text="${upVotes}"></p>-->
-<!--                            <span  th:if="${upVotes == 1}" class="glyphicon glyphicon-menu-up up-vote" style="color: green;"></span>-->
-<!--                            <span  th:if="${upVotes == 0}" class="glyphicon glyphicon-menu-up up-vote" style="color: red;"></span>-->
-                            <span class="glyphicon glyphicon-menu-up up-vote"></span>
+                            <span  th:if="${upVotes == 1}" class="glyphicon glyphicon-menu-up up-vote" style="color: red;"></span>
+                            <span  th:unless="${upVotes == 1}" class="glyphicon glyphicon-menu-up up-vote"></span>
                         </button>
                     </form>
                     <h4 th:text="${threadDetail.voteScore}">0</h4>
                     <form method="post" th:action="@{'/thread/{id}/{isUpVote}' (isUpVote=false, id=${threadDetail.id})}">
                         <button class="btn-downvote">
-<!--                            <img alt="down_vote.png" src="../assets/up_vote.png" style="transform: scaleY(-1); max-width: 50%">-->
-                            <span class="glyphicon glyphicon-menu-down" ></span>
+                            <span  th:if="${upVotes == -1}" class="glyphicon glyphicon-menu-down" style="color: red;"></span>
+                            <span  th:unless="${upVotes == -1}" class="glyphicon glyphicon-menu-down"></span>
                         </button>
                     </form>
                 </div>

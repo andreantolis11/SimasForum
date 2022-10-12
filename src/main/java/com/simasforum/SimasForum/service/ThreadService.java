@@ -40,9 +40,9 @@ public class ThreadService {
            if (vote.get().isUpVote()){
                return 1;
            }
-           return 0;
+           return -1;
         }catch (Exception e){
-            return -1;
+            return 0;
         }
 //        return Optional.ofNullable(voteRepository.findByThreadIdAndUserId(threadId, userId));
     }
