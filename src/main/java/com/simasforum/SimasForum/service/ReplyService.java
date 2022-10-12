@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class ReplyService {
@@ -24,8 +24,8 @@ public class ReplyService {
         return replyRepository.save(reply);
     }
 
-    public Optional<Reply> getReplyByThreadId(Long id){
-        Optional<Reply> reply = replyRepository.findById(id);
+    public List<Reply> getReplyByThreadId(Long id){
+        List<Reply> reply = replyRepository.findByThreadId(id);
         return reply;
     }
 }
