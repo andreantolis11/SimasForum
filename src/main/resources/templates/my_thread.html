@@ -28,7 +28,9 @@
                         <div th:each="res : ${result}" style="background-color: #F97E7E; padding: 10px; border-radius: 10px; margin-bottom: 20px;">
                             <div style="width: 50vw; display: flex; justify-content: space-between;" >
                                 <a th:href="@{'/thread/{id}/' (id=${res.id})}" th:text="${res.title}" style="width: 50vw; color: black; font-weight: bold; background-color: #FFFFFF; padding: 10px; text-align: center; border-radius: 10px;"></a>
-                                <button style="border: none; padding: 0; background: none;"><span style="color: white;font-size: 25px; padding: 10px;" class="glyphicon glyphicon-trash"></span></button>
+                                <form method="post" th:action="@{'/mythread/{id}' (id=${res.id})}" >
+                                    <button style="border: none; padding: 0; background: none;"><span style="color: white;font-size: 25px; padding: 10px;" class="glyphicon glyphicon-trash"></span></button>
+                                </form>
                             </div>
                         </div>
                     </div>

@@ -76,4 +76,8 @@ public class ThreadService {
         return myThreads;
     }
 
+    public void deleteMyThreadById(Long id) {
+        threadRepository.deleteById(id);
+    }
+
 }

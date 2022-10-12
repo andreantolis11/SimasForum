@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 public class ThreadControllerTest {
 
-    @Autowired
+	@Autowired
     private MockMvc mockMvc;
 
     @MockBean
@@ -38,10 +38,11 @@ public class ThreadControllerTest {
 
     @Test
     @DisplayName("ShowDetailByid")
-    void showDetail_byId() throws Exception {
-        User user = new User();
-        user.setId(0L);
-        Thread mockThread = (new Thread(user, "Thread about this", "The content of the thread is", 15, null));
+    void showDetail_byId() throws Exception{
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+        Thread mockThread = (new Thread(andre, "Thread about this", "The content of the thread is", 15, null));
         when(threadService.getThreadDetail(anyLong())).thenReturn(Optional.of(mockThread));
         mockMvc.perform(get("/thread/1")).andExpectAll(
                 status().isOk(),
@@ -49,7 +50,6 @@ public class ThreadControllerTest {
 
         );
     }
-
     @Test
     public void whenIdNotFound() throws Exception {
         Long id = 1L;
@@ -64,9 +64,10 @@ public class ThreadControllerTest {
     @Test
     @Disabled
     void addThread_withSampleData_ok() throws Exception {
-        User user = new User();
-        user.setId(1L);
-        Thread mockThread = new Thread(user, "ss", "sss", 15, LocalDate.now());
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+    	Thread mockThread = new Thread(andre, "ss", "sss", 15, LocalDate.now());
         when(threadService.addThread(any(Thread.class))).thenReturn(mockThread);
 
         mockMvc.perform(post("/thread/add").param("title", "ss").param("content", "sss")).andExpectAll(
@@ -74,14 +75,14 @@ public class ThreadControllerTest {
 //                content().string(containsString("Thread about this"))
         );
     }
-
     @Test
     void showDashboardByDate() throws Exception {
-        User user = new User();
-        user.setId(1L);
-        List<Thread> mockThread = List.of(new Thread(user, "Thread about this", "The content of the thread is", 15, LocalDate.now()));
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+    	List<Thread> mockThread = List.of(new Thread(andre, "Thread about this", "The content of the thread is", 15, LocalDate.now()));
 
-        when(threadService.sortByDate()).thenReturn(mockThread);
+    	when(threadService.sortByDate()).thenReturn(mockThread);
         mockMvc.perform(get("/dashboard")).andExpectAll(
                 status().isOk(),
                 content().contentTypeCompatibleWith(TEXT_HTML),
@@ -92,11 +93,12 @@ public class ThreadControllerTest {
 
     @Test
     void showDashboardByUpvote() throws Exception {
-        User user = new User();
-        user.setId(1L);
-        List<Thread> mockThread = List.of(new Thread(user, "Thread about this", "The content of the thread is", 15, LocalDate.now()));
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+    	List<Thread> mockThread = List.of(new Thread(andre, "Thread about this", "The content of the thread is", 15, LocalDate.now()));
 
-        when(threadService.sortByVoteScore()).thenReturn(mockThread);
+    	when(threadService.sortByVoteScore()).thenReturn(mockThread);
         mockMvc.perform(get("/dashboard")).andExpectAll(
                 status().isOk(),
                 content().contentTypeCompatibleWith(TEXT_HTML),
@@ -163,9 +165,9 @@ public class ThreadControllerTest {
 
     @Test
     void defaultRedirect() throws Exception {
-        mockMvc.perform(get("/")).andExpectAll(
-                status().is3xxRedirection()
-        );
+    	mockMvc.perform(get("/")).andExpectAll(
+    			status().is3xxRedirection()
+    	);
     }
 
 }
