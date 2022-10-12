@@ -2,14 +2,16 @@ package com.simasforum.SimasForum.controller;
 
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
+import com.simasforum.SimasForum.service.ReplyService;
 import com.simasforum.SimasForum.service.ThreadService;
-import org.junit.jupiter.api.Disabled;
+import com.simasforum.SimasForum.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -20,7 +22,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.TEXT_HTML;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -30,15 +32,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 public class ThreadControllerTest {
 
-	@Autowired
+    @Autowired
     private MockMvc mockMvc;
-
+    @Autowired
+    private MockHttpSession mockSession;
     @MockBean
     private ThreadService threadService;
+    @MockBean
+    private UserService userService;
+    @MockBean
+    private ReplyService replyService;
 
     @Test
     @DisplayName("ShowDetailByid")
-    void showDetail_byId() throws Exception{
+    void showDetail_byId() throws Exception {
         LocalDate date = LocalDate.of(2020, 1, 8);
         User andre = new User("andre", "andre@gmail.com", "123");
         andre.setId(1L);
@@ -50,6 +57,7 @@ public class ThreadControllerTest {
 
         );
     }
+
     @Test
     public void whenIdNotFound() throws Exception {
         Long id = 1L;
@@ -62,27 +70,26 @@ public class ThreadControllerTest {
     }
 
     @Test
-    @Disabled
     void addThread_withSampleData_ok() throws Exception {
         LocalDate date = LocalDate.of(2020, 1, 8);
         User andre = new User("andre", "andre@gmail.com", "123");
         andre.setId(1L);
-    	Thread mockThread = new Thread(andre, "ss", "sss", 15, LocalDate.now());
-        when(threadService.addThread(any(Thread.class))).thenReturn(mockThread);
+        Thread mockThread = new Thread(andre, "ss", "sss", 15, LocalDate.now());
 
         mockMvc.perform(post("/thread/add").param("title", "ss").param("content", "sss")).andExpectAll(
-                status().isOk()
-//                content().string(containsString("Thread about this"))
+                status().is3xxRedirection()
         );
+        verify(threadService, times(1)).addThread(any(Thread.class));
     }
+
     @Test
     void showDashboardByDate() throws Exception {
         LocalDate date = LocalDate.of(2020, 1, 8);
         User andre = new User("andre", "andre@gmail.com", "123");
         andre.setId(1L);
-    	List<Thread> mockThread = List.of(new Thread(andre, "Thread about this", "The content of the thread is", 15, LocalDate.now()));
+        List<Thread> mockThread = List.of(new Thread(andre, "Thread about this", "The content of the thread is", 15, LocalDate.now()));
 
-    	when(threadService.sortByDate()).thenReturn(mockThread);
+        when(threadService.sortByDate()).thenReturn(mockThread);
         mockMvc.perform(get("/dashboard")).andExpectAll(
                 status().isOk(),
                 content().contentTypeCompatibleWith(TEXT_HTML),
@@ -96,9 +103,9 @@ public class ThreadControllerTest {
         LocalDate date = LocalDate.of(2020, 1, 8);
         User andre = new User("andre", "andre@gmail.com", "123");
         andre.setId(1L);
-    	List<Thread> mockThread = List.of(new Thread(andre, "Thread about this", "The content of the thread is", 15, LocalDate.now()));
+        List<Thread> mockThread = List.of(new Thread(andre, "Thread about this", "The content of the thread is", 15, LocalDate.now()));
 
-    	when(threadService.sortByVoteScore()).thenReturn(mockThread);
+        when(threadService.sortByVoteScore()).thenReturn(mockThread);
         mockMvc.perform(get("/dashboard")).andExpectAll(
                 status().isOk(),
                 content().contentTypeCompatibleWith(TEXT_HTML),
@@ -165,9 +172,8 @@ public class ThreadControllerTest {
 
     @Test
     void defaultRedirect() throws Exception {
-    	mockMvc.perform(get("/")).andExpectAll(
-    			status().is3xxRedirection()
-    	);
+        mockMvc.perform(get("/")).andExpectAll(
+                status().is3xxRedirection()
+        );
     }
-
 }

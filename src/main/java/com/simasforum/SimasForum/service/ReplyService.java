@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReplyService {
@@ -17,15 +18,26 @@ public class ReplyService {
     private ReplyRepository replyRepository;
 
     @Autowired
-    public void setReplyRepository(ReplyRepository replyRepository){
+    public void setReplyRepository(ReplyRepository replyRepository) {
         this.replyRepository = replyRepository;
     }
-    public Reply addReply(Reply reply){
+
+    public Reply addReply(Reply reply) {
         return replyRepository.save(reply);
     }
 
-    public List<Reply> getReplyByThreadId(Long id){
+    public List<Reply> getReplyByThreadId(Long id) {
         List<Reply> reply = replyRepository.findByThreadId(id);
         return reply;
+    }
+
+    public Boolean deleteReplyById(Long id) {
+        Optional<Reply> toDelete = replyRepository.findById(id);
+        if (toDelete.isPresent()) {
+            replyRepository.delete(toDelete.get());
+        } else {
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
     }
 }
