@@ -35,6 +35,7 @@ public class ThreadController {
     public void setThreadService(ThreadService threadService) {
         this.threadService = threadService;
     }
+
     @Autowired
     public void setReplyService(ReplyService replyService) {
         this.replyService = replyService;
@@ -64,13 +65,14 @@ public class ThreadController {
         User user = getUserFromSession(request.getSession());
         Thread thread = new Thread(user, title, content, 0, LocalDate.now());
         threadService.addThread(thread);
+        mockInsertReply(thread,user);
         request.getSession().setAttribute("successMessage", "Inserted Successfully !");
         return "redirect:/dashboard";
     }
 
     @GetMapping("/thread/{id}/vote")
-    public String updateVote(@PathVariable("id") Long id, String method){
-        if(method.equals("upVote")) {
+    public String updateVote(@PathVariable("id") Long id, String method) {
+        if (method.equals("upVote")) {
             threadService.upVoteReply(id);
         } else {
             threadService.downVoteReply(id);
@@ -113,7 +115,7 @@ public class ThreadController {
             Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
             threadService.addUpVote(id, isUpVote, userId);
             return "redirect:/thread/{id}";
-        }catch (Exception e){
+        } catch (Exception e) {
             return "login";
         }
     }
@@ -161,17 +163,24 @@ public class ThreadController {
         threadService.deleteMyThreadById(id);
         return "redirect:/mythread";
     }
-    @PostMapping("/thread/reply/delete/{id}")
-    public String deleteReply(@PathVariable("id") Long id,
-                              HttpSession session) {
-        session.getAttribute("USER_LOGIN_ID");
 
-        threadService.deleteMyThreadById(id);
-        return "redirect:/mythread";
+    @PostMapping("/thread/{id}/reply/delete/{replyId}")
+    public String deleteReply(@PathVariable("id") Long id,
+                              @PathVariable("replyId") Long replyId) {
+        replyService.deleteReplyById(replyId);
+        return "redirect:/thread/"+id;
     }
 
 
     private User getUserFromSession(HttpSession session) {
         return userService.getUserById(Long.parseLong(session.getAttribute("USER_LOGIN_ID").toString()));
+    }
+
+    private void mockInsertReply(Thread thread, User user) {
+        Reply reply = new Reply("reply name", "content reply", user, thread);
+        replyService.addReply(reply);
+        replyService.addReply(new Reply("reply name 2", "content reply2", user, reply));
+        replyService.addReply(new Reply("reply name 3", "content reply3", user, reply));
+        replyService.addReply(new Reply("reply name 4", "content reply4", user, reply));
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -34,8 +33,6 @@ public class ThreadControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private MockHttpSession mockSession;
     @MockBean
     private ThreadService threadService;
     @MockBean
@@ -175,5 +172,13 @@ public class ThreadControllerTest {
         mockMvc.perform(get("/")).andExpectAll(
                 status().is3xxRedirection()
         );
+    }
+
+    @Test
+    void deleteReply_ok() throws Exception {
+        mockMvc.perform(post("/thread/1/reply/delete/1")).andExpectAll(
+                status().is3xxRedirection()
+        );
+        verify(replyService,times(1)).deleteReplyById(anyLong());
     }
 }
