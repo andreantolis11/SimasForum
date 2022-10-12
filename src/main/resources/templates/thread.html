@@ -33,7 +33,7 @@
                     </button>
                 </form>
                 <h4 th:text="${threadDetail.voteScore}">0</h4>
-                <form method="post" th:action="@{'/thread/{id}/{isUpVote}' (isUpVote=false, id=${threadDetail.id})}">
+                <form method="post" th:action="@{'/thread/{threadId}/{isUpVote}' (isUpVote=false, threadId=${threadDetail.id})}">
                     <button class="btn-downvote">
                         <span  th:if="${upVotes == 0}" class="glyphicon glyphicon-menu-down" style="color: red;"></span>
                         <span  th:unless="${upVotes == 0}" class="glyphicon glyphicon-menu-down"></span>
