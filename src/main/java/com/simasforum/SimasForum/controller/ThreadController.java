@@ -109,7 +109,9 @@ public class ThreadController {
         try {
             Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
             threadService.addUpVote(id, isUpVote, userId);
-            return "redirect:/thread/{id}";
+            String referer = request.getHeader("Referer");
+            return "redirect:"+ referer;
+//            return "redirect:/thread/{id}";
         }catch (Exception e){
             return "login";
         }
