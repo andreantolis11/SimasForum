@@ -25,6 +25,7 @@ import java.util.Optional;
 @Controller
 public class ThreadController {
     private static final Logger LOG = LoggerFactory.getLogger(ThreadController.class);
+
     private ThreadService threadService;
     private UserService userService;
     private ReplyService replyService;
@@ -89,18 +90,23 @@ public class ThreadController {
     @GetMapping("/thread/{id}")
     public String getThreadDetails(@PathVariable("id") Long id, Model model, HttpSession session) {
         Optional<Thread> threadDetail = threadService.getThreadDetail(id);
+
         User owner = threadDetail.get().getUser();
+        int upVotes = threadService.getVoteByUserAndThreadId(id, owner.getId());
+
         model.addAttribute("threadDetail", threadDetail.get());
         model.addAttribute("userName", owner.getName());
         model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
+        model.addAttribute("upVotes", upVotes);
+
         return "thread";
     }
 
     @PostMapping("/thread/{id}/{isUpVote}")
     public String addUpVote(@PathVariable("id") Long id, @PathVariable("isUpVote") boolean isUpVote, HttpServletRequest request) {
         try {
-            Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
-            threadService.addUpVote(id, isUpVote);
+            Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
+            threadService.addUpVote(id, isUpVote, userId);
             return "redirect:/thread/{id}";
         }catch (Exception e){
             return "login";
