@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import com.simasforum.SimasForum.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,26 +32,33 @@ public class ThreadServiceTest {
     @Test
     void addThreadItem_ok() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        Thread freshThread = new Thread(2, "Fitur Simas+", "Fitur fitur yang dimiliki oleh Simas+", 12, date);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+        Thread freshThread = new Thread(andre, "Fitur Simas+", "Fitur fitur yang dimiliki oleh Simas+", 12, date);
         when(threadRepository.save(any(Thread.class))).thenReturn(freshThread);
 
         Thread savedThread = threadService.addThread(freshThread);
-        assertEquals(2, savedThread.getUserid());
+        assertEquals(1L, savedThread.getUser().getId());
     }
 
     @Test
     void getThreadItemById_existingThread_ok() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        Thread freshThread = new Thread(13, "Fitur Simas+", "Fitur fitur yang dimiliki oleh Simas+", 12, date);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+        Thread freshThread = new Thread(andre, "Fitur Simas+", "Fitur fitur yang dimiliki oleh Simas+", 12, date);
         when(threadRepository.findById(anyLong())).thenReturn(Optional.of(freshThread));
         Optional<Thread> threadtById = threadService.getThreadDetail(freshThread.getId());
         System.out.println(threadtById.get());
     }
-    
+
     @Test
     void getThreadBySearch(){
         //[SETUP]
-        List<Thread> thread = List.of(new Thread( 0, "Apa itu investasi", "Content 1", 0, null));
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+        List<Thread> thread = List.of(new Thread( andre, "Apa itu investasi", "Content 1", 0, null));
         when(threadRepository.findByTitleContainsIgnoreCase(anyString())).thenReturn(Optional.of(thread).get());
 
         //[EXERCISE]
@@ -60,30 +68,65 @@ public class ThreadServiceTest {
         verify(threadRepository, times(1)).findByTitleContainsIgnoreCase(anyString());
         assertFalse(thread1.getTitle().isEmpty());
     }
-    
+
     @Test
     void sortByUpVote() {
-    	List<Thread> thread = List.of(new Thread(0, "Title 1", "Content 1", 2, null),new Thread(0, "Title 1", "Content 1", 3, null),new Thread( 0, "Title 1", "Content 1", 6,  null));
-        when(threadRepository.findByOrderByVoteDesc()).thenReturn(Optional.of(thread).get());
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+    	List<Thread> thread = List.of(new Thread(andre, "Title 1", "Content 1", 2, null),new Thread(andre, "Title 1", "Content 1", 3,  null),new Thread( andre, "Title 1", "Content 1", 6,  null));
+        when(threadRepository.findByOrderByUpvoteDesc()).thenReturn(Optional.of(thread).get());
         Thread threadByVote = threadService.sortByUpVote().get(2);
-        assertEquals(threadByVote.getVote(), 6);
+        assertEquals(threadByVote.getUpvote(), 6);
     }
-    
+
     @Test
     void sortByDate() {
-    	List<Thread> thread = List.of(new Thread( 0, "Title 1", "Content 1", 1,  LocalDate.now()),new Thread(0, "Title 1", "Content 1", 2, LocalDate.now()),new Thread( 0, "Title 1", "Content 1", 5, LocalDate.now()));
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+    	List<Thread> thread = List.of(new Thread( andre, "Title 1", "Content 1", 1, 0, LocalDate.now()),new Thread(andre, "Title 1", "Content 1", 2, 0, LocalDate.now()),new Thread( andre, "Title 1", "Content 1", 5, 0, LocalDate.now()));
     	when(threadRepository.findByOrderByDatepostDesc()).thenReturn(Optional.of(thread).get());
     	Thread threadDate = threadService.sortByDate().get(1);
-//    	System.out.println(threadVote);
     	assertEquals(threadDate.getDatepost(), LocalDate.now());
     }
-    
+
     @Test
     void getThreadDetail() {
-    	Optional<Thread> thread = Optional.of(new Thread(0, "Title 1", "Content 1", 1, LocalDate.now()));
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+    	Optional<Thread> thread = Optional.of(new Thread(andre, "Title 1", "Content 1", 1, 0, LocalDate.now()));
     	when(threadRepository.findById(anyLong())).thenReturn(Optional.of(thread).get());
     	Optional<Thread> threadById = threadService.getThreadDetail(1L);
-//    	System.out.println(threadById);
     	assertFalse(threadById.isEmpty());
+    }
+
+    @Test
+    void upVoteReply() {
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+        Optional<Thread> thread = Optional.of(new Thread(andre, "Title 1", "Content 1", 1, 0, LocalDate.now()));
+        when(threadRepository.findById(anyLong())).thenReturn((Optional.of(thread)).get());
+        threadService.upVoteReply(thread.get().getId());
+        assertEquals(2, thread.get().getUpvote());
+    }
+
+    @Test
+    void downVoteReply() {
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+        Optional<Thread> thread = Optional.of(new Thread(andre, "Title 2", "Content 2", 31, 31, LocalDate.now()));
+        when(threadRepository.findById(anyLong())).thenReturn((Optional.of(thread)).get());
+        threadService.downVoteReply(thread.get().getId());
+        assertEquals(30, thread.get().getDownvote());
+    }
+
+    @Test
+    void deleteMyThreadById() {
+        threadService.deleteMyThreadById(0L);
+        verify(threadRepository, times(1)).deleteById(anyLong());
     }
 }

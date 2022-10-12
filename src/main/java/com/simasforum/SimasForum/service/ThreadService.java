@@ -5,23 +5,23 @@ import java.util.Optional;
 
 import com.simasforum.SimasForum.model.Vote;
 import com.simasforum.SimasForum.repository.VoteRepository;
-import liquibase.pro.packaged.P;
+import com.simasforum.SimasForum.model.Thread;
+import com.simasforum.SimasForum.model.User;
+import com.simasforum.SimasForum.repository.ThreadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.simasforum.SimasForum.model.Thread;
-import com.simasforum.SimasForum.repository.ThreadRepository;
 
 @Service
 public class ThreadService {
 
     private ThreadRepository threadRepository;
-
+    private UserService userService;
     @Autowired
     private VoteRepository voteRepository;
 
     @Autowired
     public void setThreadRepository(ThreadRepository threadRepository) {
+
         this.threadRepository = threadRepository;
     }
 
@@ -55,30 +55,30 @@ public class ThreadService {
                 try {
                     if (foundVote.isUpVote()){
                         voteRepository.deleteById(foundVote.getId());
-                        result.get().setVote(result.get().getVote() - 1);
+                        result.get().setVoteScore(result.get().getVoteScore() - 1);
                     }else {
                         voteRepository.deleteById(foundVote.getId());
-                        result.get().setVote(result.get().getVote() + 1);
+                        result.get().setVoteScore(result.get().getVoteScore() + 1);
                         voteRepository.save(new Vote(threadId, 0L, userId, true));
                     }
                 }catch (Exception e){
                     voteRepository.save(new Vote(threadId, 0L, userId, true));
-                    result.get().setVote(result.get().getVote() + 1);
+                    result.get().setVoteScore(result.get().getVoteScore() + 1);
                 }
            }else {
                try {
                    if (!foundVote.isUpVote()){
                        voteRepository.deleteById(foundVote.getId());
-                       result.get().setVote(result.get().getVote() + 1);
+                       result.get().setVoteScore(result.get().getVoteScore() + 1);
                    }else {
                        voteRepository.deleteById(foundVote.getId());
-                       result.get().setVote(result.get().getVote() - 1);
+                       result.get().setVoteScore(result.get().getVoteScore() - 1);
                        voteRepository.save(new Vote(threadId, 0L, userId, false));
                    }
 
                }catch (Exception e){
                    voteRepository.save(new Vote(threadId, 0L, userId, false));
-                   result.get().setVote(result.get().getVote() - 1);
+                   result.get().setVoteScore(result.get().getVoteScore() - 1);
                }
            }
         }
@@ -90,13 +90,37 @@ public class ThreadService {
 //        Thread thread = new Thread(Sort.Direction.DESC,"post_date");
 //        threadList.add(thread);
 
-        return (List<Thread>) threadRepository.findByOrderByDatepostDesc();
+        return (List<Thread>) threadRepository.findByOrderByDatePostDesc();
     }
 
     public List<Thread> getThreadBySearch(String title){
         return threadRepository.findByTitleContainsIgnoreCase(title);
     }
-    public List<Thread> sortByUpVote(){
-        return  (List<Thread>) threadRepository.findByOrderByVoteDesc();
+
+
+    public void upVoteReply(Long id) {
+        Optional<Thread> thread = threadRepository.findById(id);
+        int upvote = thread.get().getVoteScore();
+        thread.get().setVoteScore(upvote + 1);
     }
+
+    public void downVoteReply(Long id) {
+        Optional<Thread> thread = threadRepository.findById(id);
+        int downvote = thread.get().getVoteScore();
+        thread.get().setVoteScore(downvote - 1);
+    }
+
+    public List<Thread> sortByVoteScore(){
+        return  (List<Thread>) threadRepository.findByOrderByVoteScoreDesc();
+    }
+
+    public List<Thread> getAllMyThread(User user) {
+        List<Thread> myThreads = user.getThread();
+        return myThreads;
+    }
+
+    public void deleteMyThreadById(Long id) {
+        threadRepository.deleteById(id);
+    }
+
 }

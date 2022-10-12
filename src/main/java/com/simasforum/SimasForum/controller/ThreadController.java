@@ -2,7 +2,7 @@ package com.simasforum.SimasForum.controller;
 
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
-import com.simasforum.SimasForum.model.Vote;
+import com.simasforum.SimasForum.service.ReplyService;
 import com.simasforum.SimasForum.service.ThreadService;
 import com.simasforum.SimasForum.service.UserService;
 import org.slf4j.Logger;
@@ -28,10 +28,15 @@ public class ThreadController {
 
     private ThreadService threadService;
     private UserService userService;
+    private ReplyService replyService;
 
     @Autowired
     public void setThreadService(ThreadService threadService) {
         this.threadService = threadService;
+    }
+    @Autowired
+    public void setReplyService(ReplyService replyService) {
+        this.replyService = replyService;
     }
 
     @Autowired
@@ -47,24 +52,36 @@ public class ThreadController {
 //    }
 
     @GetMapping("/thread/add")
-    public String newThread(Model model, User user, HttpSession session) {
+    public String newThread(Model model, HttpSession session) {
         model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
+
         return "add_thread";
     }
 
     @PostMapping("/thread/add")
-    public String newThread(@RequestParam("title") String title, @RequestParam("content") String content, HttpServletRequest request) {
-        Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
-        threadService.addThread(new Thread(userId, title, content, 0, LocalDate.now()));
+    public String newThread(@RequestParam("title") String title, @RequestParam("content") String content, HttpServletRequest request, Model model) {
+        User user = getUserFromSession(request.getSession());
+        Thread thread = new Thread(user, title, content, 0, LocalDate.now());
+        threadService.addThread(thread);
+        request.getSession().setAttribute("successMessage", "Inserted Successfully !");
         return "redirect:/dashboard";
     }
 
+    @GetMapping("/thread/{id}/vote")
+    public String updateVote(@PathVariable("id") Long id, String method){
+        if(method.equals("upVote")) {
+            threadService.upVoteReply(id);
+        } else {
+            threadService.downVoteReply(id);
+        }
+        return "thread";
+    }
 
     @GetMapping("/dashboard")
     public String threadbyDate(Model model, HttpSession session) {
         List<Thread> threadByDate = new ArrayList<>(threadService.sortByDate());
         model.addAttribute("threadbydate", threadByDate);
-        List<Thread> threadByVote = new ArrayList<>(threadService.sortByUpVote());
+        List<Thread> threadByVote = new ArrayList<>(threadService.sortByVoteScore());
         model.addAttribute("threadbyvote", threadByVote);
         model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
         return "dashboard";
@@ -73,7 +90,8 @@ public class ThreadController {
     @GetMapping("/thread/{id}")
     public String getThreadDetails(@PathVariable("id") Long id, Model model, HttpSession session) {
         Optional<Thread> threadDetail = threadService.getThreadDetail(id);
-        User owner = userService.getUserById(threadDetail.get().getUserid());
+
+        User owner = threadDetail.get().getUser();
         int upVotes = threadService.getVoteByUserAndThreadId(id, owner.getId());
 
         model.addAttribute("threadDetail", threadDetail.get());
@@ -122,5 +140,24 @@ public class ThreadController {
     @GetMapping("/")
     public String defaultRedirect() {
         return "redirect:/dashboard";
+    }
+
+    @GetMapping("/mythread")
+    public String getMyThread(Model model, HttpSession session) {
+        User owner = getUserFromSession(session);
+        List<Thread> myThreads = threadService.getAllMyThread(owner);
+        model.addAttribute("result", myThreads);
+        model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
+        return "my_thread";
+    }
+
+    @PostMapping("/mythread/{id}")
+    public String deleteMyThread(@PathVariable("id") Long id) {
+        threadService.deleteMyThreadById(id);
+        return "redirect:/mythread";
+    }
+
+    private User getUserFromSession(HttpSession session) {
+        return userService.getUserById(Long.parseLong(session.getAttribute("USER_LOGIN_ID").toString()));
     }
 }

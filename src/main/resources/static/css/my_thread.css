@@ -1,0 +1,73 @@
+.container-mythread {
+    width: 60vw;
+    background-color: #FF5045;
+    margin: 50px auto 0 auto;
+    padding: 15px;
+    border-radius: 20px;
+}
+
+.container-mythread-title {
+    margin-bottom: 15px;
+}
+
+.container-mythread-description {
+    opacity: 70%;
+    color: white;
+    letter-spacing: 1px;
+}
+
+.container-mythread-list {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 20px;
+}
+
+.container-mythread-list-background {
+    height: 80vh;
+    padding: 0 0 0 20px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+}
+
+.container-mythread-list-background-scroll {
+    padding: 10px;
+    height: 80vh;
+    overflow-y: auto;
+}
+
+.container-mythread-list-background-scroll-list {
+    background-color: #F97E7E;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.container-mythread-list-background-scroll-list-flex {
+    width: 50vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.container-mythread-list-background-scroll-list-flex-title {
+    width: 50vw;
+    color: black;
+    font-weight: bold;
+    background-color: #FFFFFF;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+.container-mythread-list-background-scroll-list-flex-button {
+    border: none;
+    padding: 0;
+    background: none;
+    margin: 0 auto 0 auto;
+}
+
+.container-mythread-list-background-scroll-list-flex-button-icon {
+    color: white;
+    font-size: 25px;
+    padding: 10px;
+}

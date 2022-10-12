@@ -1,24 +1,8 @@
 package com.simasforum.SimasForum.controller;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.hamcrest.Matchers.containsString;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
-import static org.springframework.http.MediaType.TEXT_HTML;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
+import com.simasforum.SimasForum.model.Thread;
+import com.simasforum.SimasForum.model.User;
+import com.simasforum.SimasForum.service.ThreadService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,8 +12,19 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.simasforum.SimasForum.model.Thread;
-import com.simasforum.SimasForum.service.ThreadService;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
+import static org.springframework.http.MediaType.TEXT_HTML;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ThreadController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -44,12 +39,15 @@ public class ThreadControllerTest {
     @Test
     @DisplayName("ShowDetailByid")
     void showDetail_byId() throws Exception{
-        Thread mockThread = (new Thread(0, "Thread about this", "The content of the thread is", 15, null));
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+        Thread mockThread = (new Thread(andre, "Thread about this", "The content of the thread is", 15, null));
         when(threadService.getThreadDetail(anyLong())).thenReturn(Optional.of(mockThread));
         mockMvc.perform(get("/thread/1")).andExpectAll(
                 status().isOk(),
                 content().string(containsString("Thread about this"))
-                
+
         );
     }
     @Test
@@ -62,13 +60,16 @@ public class ThreadControllerTest {
 //                .andExpect(status().isNotFound()).andDo(print());
 //                .andExpectAll(status().isNotFound(),content().string(containsString("")));
     }
-    
+
     @Test
     @Disabled
     void addThread_withSampleData_ok() throws Exception {
-    	Thread mockThread = new Thread(1, "ss", "sss", 15, LocalDate.now());
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+    	Thread mockThread = new Thread(andre, "ss", "sss", 15, LocalDate.now());
         when(threadService.addThread(any(Thread.class))).thenReturn(mockThread);
-        
+
         mockMvc.perform(post("/thread/add").param("title", "ss").param("content", "sss")).andExpectAll(
                 status().isOk()
 //                content().string(containsString("Thread about this"))
@@ -76,7 +77,10 @@ public class ThreadControllerTest {
     }
     @Test
     void showDashboardByDate() throws Exception {
-    	List<Thread> mockThread = List.of(new Thread(1, "Thread about this", "The content of the thread is", 15, LocalDate.now()));
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+    	List<Thread> mockThread = List.of(new Thread(andre, "Thread about this", "The content of the thread is", 15, LocalDate.now()));
 
     	when(threadService.sortByDate()).thenReturn(mockThread);
         mockMvc.perform(get("/dashboard")).andExpectAll(
@@ -86,12 +90,15 @@ public class ThreadControllerTest {
                 view().name("dashboard")
         );
     }
-    
+
     @Test
     void showDashboardByUpvote() throws Exception {
-    	List<Thread> mockThread = List.of(new Thread(1, "Thread about this", "The content of the thread is", 15,LocalDate.now()));
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User andre = new User("andre", "andre@gmail.com", "123");
+        andre.setId(1L);
+    	List<Thread> mockThread = List.of(new Thread(andre, "Thread about this", "The content of the thread is", 15, LocalDate.now()));
 
-    	when(threadService.sortByUpVote()).thenReturn(mockThread);
+    	when(threadService.sortByVoteScore()).thenReturn(mockThread);
         mockMvc.perform(get("/dashboard")).andExpectAll(
                 status().isOk(),
                 content().contentTypeCompatibleWith(TEXT_HTML),
@@ -126,7 +133,7 @@ public class ThreadControllerTest {
                 content().string(containsString("<button"))
         );
     }
-    
+
     @Test
     void inputSearchThreadPage_html() throws Exception {
         mockMvc.perform(post("/thread/search").param("title", "ss")).andExpectAll(
@@ -136,7 +143,7 @@ public class ThreadControllerTest {
                 content().string(containsString("</html>"))
         );
     }
-    
+
     @Test
     void showSearchThreadPage_html() throws Exception {
         mockMvc.perform(get("/thread/search").param("title", "ss")).andExpectAll(
@@ -146,12 +153,21 @@ public class ThreadControllerTest {
                 content().string(containsString("</html>"))
         );
     }
-    
+
+    @Test
+    void showAllMyThreads() throws Exception {
+        mockMvc.perform(get("/my-thread")).andExpectAll(
+                status().isOk(),
+                content().contentTypeCompatibleWith(TEXT_HTML),
+                content().encoding(UTF_8)
+        );
+    }
+
     @Test
     void defaultRedirect() throws Exception {
     	mockMvc.perform(get("/")).andExpectAll(
     			status().is3xxRedirection()
     	);
     }
-   
+
 }
