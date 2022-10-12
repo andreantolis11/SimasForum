@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "simas_user")
+@Table(name = "vote")
 public class Vote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,15 +15,22 @@ public class Vote {
     @Column(name = "threadid")
     private Long threadId;
 
-    @Column(name = "replyid")
-    private Long replyid;
+    @Column(name = "replyid", nullable = true)
+    private Long replyId;
 
     @Column(name = "userid")
     private Long userId;
 
-    public Vote(Long threadId, Long replyid, Long userId) {
+    @Column(name = "isupvote")
+    private boolean isUpVote;
+
+    public Vote(){
+
+    }
+    public Vote(Long threadId, Long replyId, Long userId, boolean isUpVote) {
         this.threadId = threadId;
-        this.replyid = replyid;
+        this.replyId = replyId;
         this.userId = userId;
+        this.isUpVote = isUpVote;
     }
 }
