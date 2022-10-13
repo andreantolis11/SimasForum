@@ -1,9 +1,7 @@
 package com.simasforum.SimasForum.controller;
-import java.util.NoSuchElementException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import com.simasforum.SimasForum.model.User;
+import com.simasforum.SimasForum.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.simasforum.SimasForum.model.User;
-import com.simasforum.SimasForum.service.UserService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.NoSuchElementException;
 
 
 @Controller
@@ -43,7 +42,6 @@ public class UserController {
 
         User userEmail = userService.getUserByEmail(email);
 
-        System.out.println(userEmail);
         if(userEmail.getEmail().isBlank()){
             model.addAttribute("EMAIL_EXISTS", false);
             User loginUser = userService.addUser(new User(name, email, password));
