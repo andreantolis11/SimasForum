@@ -6,8 +6,6 @@ import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.service.ReplyService;
 import com.simasforum.SimasForum.service.ThreadService;
 import com.simasforum.SimasForum.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,6 +62,8 @@ public class ThreadController {
         User user = getUserFromSession(request.getSession());
         Thread thread = new Thread(user, title, content, 0, LocalDate.now());
         threadService.addThread(thread);
+        mockInsertReply(thread,user);
+        mockInsertReply(thread,user);
         mockInsertReply(thread,user);
         request.getSession().setAttribute("successMessage", "Inserted Successfully !");
         return "redirect:/dashboard";
