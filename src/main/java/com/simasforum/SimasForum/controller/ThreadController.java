@@ -60,7 +60,10 @@ public class ThreadController {
     }
 
     @PostMapping("/thread/add")
-    public String newThread(@RequestParam("title") String title, @RequestParam("content") String content, HttpServletRequest request, Model model) {
+    public String newThread(@RequestParam("title") String title,
+                            @RequestParam("content") String content,
+                            HttpServletRequest request,
+                            Model model) {
         User user = getUserFromSession(request.getSession());
         Thread thread = new Thread(user, title, content, 0, LocalDate.now());
         threadService.addThread(thread);
@@ -108,20 +111,20 @@ public class ThreadController {
         return "thread";
     }
 
-    @PostMapping("/thread/{threadId}/{isUpVote}")
-    public String addUpVote(@PathVariable("threadId") Long threadId,
-                            @PathVariable("isUpVote") boolean isUpVote,
-                            HttpServletRequest request) {
-        try {
-            Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
-            threadService.addUpVote(threadId, isUpVote, userId);
-            String referer = request.getHeader("Referer");
-            return "redirect:"+ referer;
-//            return "redirect:/thread/{id}";
-        }catch (Exception e){
-            return "login";
-        }
-    }
+//    @PostMapping("/thread/{threadId}/{isUpVote}")
+//    public String addThreadVote(@PathVariable("threadId") Long threadId,
+//                            @PathVariable("isUpVote") boolean isUpVote,
+//                            HttpServletRequest request) {
+//        try {
+//            Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
+//            threadService.addThreadVote(threadId, isUpVote, userId);
+//            String referer = request.getHeader("Referer");
+//            return "redirect:"+ referer;
+////            return "redirect:/thread/{id}";
+//        }catch (Exception e){
+//            return "login";
+//        }
+//    }
 
 
 //    @PostMapping("/thread")

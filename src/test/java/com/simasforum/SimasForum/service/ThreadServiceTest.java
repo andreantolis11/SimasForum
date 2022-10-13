@@ -2,7 +2,9 @@ package com.simasforum.SimasForum.service;
 
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
+import com.simasforum.SimasForum.model.Vote;
 import com.simasforum.SimasForum.repository.ThreadRepository;
+import com.simasforum.SimasForum.repository.VoteRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +24,9 @@ public class ThreadServiceTest {
 
     @Autowired
     private ThreadService threadService;
+
+    @MockBean
+    private VoteRepository voteRepository;
 
     @MockBean
     private ThreadRepository threadRepository;
@@ -78,6 +83,34 @@ public class ThreadServiceTest {
         Thread threadByVote = threadService.sortByVoteScore().get(2);
         assertEquals(threadByVote.getVoteScore(), 6);
     }
+
+//    @Test
+//    void addUpVote_thread(){
+//        LocalDate date = LocalDate.of(2020, 1, 8);
+//        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123");
+//        fadhlul.setId(1L);
+//        Thread thread = new Thread(fadhlul, "Lorem ipsum", "Lorem impus", 0, date);
+//        thread.setId(1L);
+//        when(threadRepository.findById(anyLong())).thenReturn(Optional.of(thread));
+//        when(voteRepository.findByThreadIdAndUserId(anyLong(), anyLong())).thenReturn(null);
+//        threadService.addThreadVote(thread.getId(), true, fadhlul.getId());
+//        assertEquals(thread.getVoteScore(), 1);
+//        verify(voteRepository, times(1)).save(any(Vote.class));
+//    }
+//
+//    @Test
+//    void addDownVote_thread(){
+//        LocalDate date = LocalDate.of(2020, 1, 8);
+//        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123");
+//        fadhlul.setId(1L);
+//        Thread thread = new Thread(fadhlul, "Lorem ipsum", "Lorem impus", 0, date);
+//        thread.setId(1L);
+//        when(threadRepository.findById(anyLong())).thenReturn(Optional.of(thread));
+//        when(voteRepository.findByThreadIdAndUserId(anyLong(), anyLong())).thenReturn(null);
+//        threadService.addThreadVote(thread.getId(), false, fadhlul.getId());
+//        assertEquals(thread.getVoteScore(), -1);
+//        verify(voteRepository, times(1)).save(any(Vote.class));
+//    }
 
     @Test
     void sortByDate() {
