@@ -38,11 +38,9 @@ public class VoteControllerTest {
     private VoteService voteService;
 
     @Test
-//    @Disabled
     void addUpVote_ifNotLogin_ok() throws Exception {
         mockMvc.perform(post("/thread/1/true")).andExpectAll(
-                status().isOk(),
-                view().name("login")
+                redirectedUrl("/user/login")
         );
     }
 
