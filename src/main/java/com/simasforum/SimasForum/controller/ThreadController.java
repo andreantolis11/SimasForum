@@ -65,9 +65,9 @@ public class ThreadController {
         User user = getUserFromSession(request.getSession());
         Thread thread = new Thread(user, title, content, 0, LocalDate.now());
         threadService.addThread(thread);
-        mockInsertReply(thread,user);
-        mockInsertReply(thread,user);
-        mockInsertReply(thread,user);
+//        mockInsertReply(thread,user);
+//        mockInsertReply(thread,user);
+//        mockInsertReply(thread,user);
         request.getSession().setAttribute("successMessage", "Inserted Successfully !");
         return "redirect:/dashboard";
     }
@@ -97,7 +97,7 @@ public class ThreadController {
         Optional<Thread> threadDetail = threadService.getThreadDetail(id);
         List<Reply> reply = threadDetail.get().getReply();
         model.addAttribute("replies", reply);
-
+        model.addAttribute("sizes", reply.size());
         User owner = threadDetail.get().getUser();
         List<Reply> threadReplies = threadDetail.get().getReply();
         int upVotes = threadService.getVoteByUserAndThreadId(id, (Long) session.getAttribute("USER_LOGIN_ID"));
@@ -107,6 +107,7 @@ public class ThreadController {
         model.addAttribute("userName", owner.getName());
         model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
         model.addAttribute("upVotes", upVotes);
+
 
         return "thread";
     }
@@ -182,11 +183,11 @@ public class ThreadController {
         return userService.getUserById(Long.parseLong(session.getAttribute("USER_LOGIN_ID").toString()));
     }
 
-    private void mockInsertReply(Thread thread, User user) {
-        Reply reply = new Reply("reply name", "content reply", user, thread);
-        replyService.addReply(reply);
-        replyService.addReply(new Reply("reply name 2", "content reply2", user, reply));
-        replyService.addReply(new Reply("reply name 3", "content reply3", user, reply));
-        replyService.addReply(new Reply("reply name 4", "content reply4", user, reply));
-    }
+//    private void mockInsertReply(Thread thread, User user) {
+//        Reply reply = new Reply("reply name", "content reply", user, thread);
+//        replyService.addReply(reply);
+//        replyService.addReply(new Reply("reply name 2", "content reply2", user, reply));
+//        replyService.addReply(new Reply("reply name 3", "content reply3", user, reply));
+//        replyService.addReply(new Reply("reply name 4", "content reply4", user, reply));
+//    }
 }
