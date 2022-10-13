@@ -19,7 +19,7 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ReplyController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -37,8 +37,8 @@ public class ReplyControllerTest {
     @Test
     @DisplayName("reply to thread")
     void replyToThread_ok() throws Exception {
-        User user = new User("name","email","password");
-        Thread mockThread = new Thread(user,"title","content",0,null);
+        User user = new User("name", "email", "password");
+        Thread mockThread = new Thread(user, "title", "content", 0, null);
         when(threadService.getThreadDetail(anyLong())).thenReturn(Optional.of(mockThread));
         mockMvc.perform(post("/reply/thread/1")
                 .param("content", "reply content")
@@ -51,10 +51,10 @@ public class ReplyControllerTest {
     @Test
     @DisplayName("reply to thread")
     void replyToReply_ok() throws Exception {
-        User user = new User("name","email","password");
-        Thread mockThread = new Thread(user,"title","content",0,null);
-        Reply reply = new Reply("","",user,mockThread);
-        Reply mockReply = new Reply("","",user,reply);
+        User user = new User("name", "email", "password");
+        Thread mockThread = new Thread(user, "title", "content", 0, null);
+        Reply reply = new Reply("", "", user, mockThread);
+        Reply mockReply = new Reply("", "", user, reply);
         when(replyService.getReplyById(anyLong())).thenReturn(Optional.of(mockReply));
         mockMvc.perform(post("/reply/reply/1")
                 .param("content", "reply content")
@@ -62,5 +62,15 @@ public class ReplyControllerTest {
                 status().is3xxRedirection()
         );
         verify(replyService, times(1)).addReply(any(Reply.class));
+    }
+
+    @Test
+    @DisplayName("reply to reply not login")
+    void replyToReply_IfNotLogin() throws Exception {
+        mockMvc.perform(post("/reply/reply/1")
+                .param("content", "reply content")).andExpectAll(
+                status().is3xxRedirection(),
+                redirectedUrl("/user/login")
+        );
     }
 }
