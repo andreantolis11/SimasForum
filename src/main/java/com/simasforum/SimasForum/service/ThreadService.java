@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class ThreadService {
 
     private ThreadRepository threadRepository;
-    private UserService userService;
     @Autowired
     private VoteRepository voteRepository;
 
@@ -47,42 +46,40 @@ public class ThreadService {
 //        return Optional.ofNullable(voteRepository.findByThreadIdAndUserId(threadId, userId));
     }
 
-    public void addUpVote(Long threadId, boolean isUpVote, Long userId) {
-        Optional<Thread> result = threadRepository.findById(threadId);
-        Vote foundVote = voteRepository.findByThreadIdAndUserId(threadId, userId);
-        if (result.isPresent()){
-           if (isUpVote){
-                try {
-                    if (foundVote.isUpVote()){
-                        voteRepository.deleteById(foundVote.getId());
-                        result.get().setVoteScore(result.get().getVoteScore() - 1);
-                    }else {
-                        voteRepository.deleteById(foundVote.getId());
-                        result.get().setVoteScore(result.get().getVoteScore() + 2);
-                        voteRepository.save(new Vote(threadId, 0L, userId, true));
-                    }
-                }catch (Exception e){
-                    voteRepository.save(new Vote(threadId, 0L, userId, true));
-                    result.get().setVoteScore(result.get().getVoteScore() + 1);
-                }
-           }else {
-               try {
-                   if (!foundVote.isUpVote()){
-                       voteRepository.deleteById(foundVote.getId());
-                       result.get().setVoteScore(result.get().getVoteScore() + 1);
-                   }else {
-                       voteRepository.deleteById(foundVote.getId());
-                       result.get().setVoteScore(result.get().getVoteScore() - 2);
-                       voteRepository.save(new Vote(threadId, 0L, userId, false));
-                   }
-
-               }catch (Exception e){
-                   voteRepository.save(new Vote(threadId, 0L, userId, false));
-                   result.get().setVoteScore(result.get().getVoteScore() - 1);
-               }
-           }
-        }
-    }
+//    public void addThreadVote(Long threadId, boolean isUpVote, Long userId) {
+//        Optional<Thread> result = threadRepository.findById(threadId);
+//        Vote foundVote = voteRepository.findByThreadIdAndUserId(threadId, userId);
+//        if (result.isPresent()){
+//           if (isUpVote){
+//                try {
+//                    voteRepository.deleteById(foundVote.getId());
+//                    if (foundVote.isUpVote()){
+//                        result.get().setVoteScore(result.get().getVoteScore() - 1);
+//                    }else {
+//                        result.get().setVoteScore(result.get().getVoteScore() + 2);
+//                        voteRepository.save(new Vote(threadId, 0L, userId, true));
+//                    }
+//                }catch (Exception e){
+//                    voteRepository.save(new Vote(threadId, 0L, userId, true));
+//                    result.get().setVoteScore(result.get().getVoteScore() + 1);
+//                }
+//           }else {
+//               try {
+//                   voteRepository.deleteById(foundVote.getId());
+//                   if (!foundVote.isUpVote()){
+//                       result.get().setVoteScore(result.get().getVoteScore() + 1);
+//                   }else {
+//                       result.get().setVoteScore(result.get().getVoteScore() - 2);
+//                       voteRepository.save(new Vote(threadId, 0L, userId, false));
+//                   }
+//
+//               }catch (Exception e){
+//                   voteRepository.save(new Vote(threadId, 0L, userId, false));
+//                   result.get().setVoteScore(result.get().getVoteScore() - 1);
+//               }
+//           }
+//        }
+//    }
 
     public List<Thread> sortByDate(){
 //        List<Thread> threadList = new ArrayList<Thread>();
