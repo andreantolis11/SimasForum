@@ -8,12 +8,12 @@ import com.simasforum.SimasForum.service.ThreadService;
 import com.simasforum.SimasForum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 
 @Controller
@@ -40,21 +40,21 @@ public class ReplyController {
     @PostMapping("/reply/thread/{id}")
     public String replyToThread(@PathVariable("id") Long threadId,
                                 @RequestParam("content") String content,
-                                HttpSession session, Model model) {
-        Thread thread = threadService.getThreadDetail(threadId).get();
+                                HttpSession session) {
+        Optional<Thread> thread = threadService.getThreadDetail(threadId);
         User user = getUserFromSession(session);
-        replyService.addReply(new Reply(thread.getUser().getName(), content, user, thread));
-        return "redirect:/thread/" + thread.getId();
+        replyService.addReply(new Reply(thread.get().getUser().getName(), content, user, thread.get()));
+        return "redirect:/thread/" + thread.get().getId();
     }
 
     @PostMapping("/reply/reply/{id}")
     public String replyToReply(@PathVariable("id") Long replyId,
                                @RequestParam("content") String content,
-                               HttpSession session, Model model) {
-        Reply reply = replyService.getReplyById(replyId);
+                               HttpSession session) {
+        Optional<Reply> reply = replyService.getReplyById(replyId);
         User user = getUserFromSession(session);
-        replyService.addReply(new Reply(reply.getUser().getName(), content, user, reply));
-        return "redirect:/thread/" + reply.getThreadId();
+        replyService.addReply(new Reply(reply.get().getUser().getName(), content, user, reply.get()));
+        return "redirect:/thread/" + reply.get().getThreadId();
     }
 
     private User getUserFromSession(HttpSession session) {

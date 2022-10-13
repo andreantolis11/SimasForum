@@ -24,6 +24,10 @@ public class ReplyServiceTest {
 
     @MockBean
     private ReplyRepository replyRepository;
+    @MockBean
+    private UserService userService;
+    @MockBean
+    private ThreadService threadService;
 
     @Test
     void addReplyItem_ok() {
@@ -32,6 +36,13 @@ public class ReplyServiceTest {
         Reply mockReply = new Reply("reply 1", "content 11", user, thread);
         replyService.addReply(mockReply);
         verify(replyRepository, times(1)).save(any(Reply.class));
+    }
+
+    @Test
+    void getReplyById_ok() {
+        Long id = 1L;
+        replyService.getReplyById(id);
+        verify(replyRepository, times(1)).findById(anyLong());
     }
 
     @Test
