@@ -29,9 +29,6 @@ public class Thread {
     @Column(nullable = false)
     private LocalDate datePost;
 
-    public Thread(Sort.Direction desc, String post_date) {
-    }
-
     public Thread(Thread thread) {
         this.user = thread.getUser();
         this.title = thread.getTitle();
