@@ -61,6 +61,7 @@ jobs:
           name: jacoco-report
           path: target/site/jacoco/
   deploy:
+    needs: test
     runs-on: ubuntu-22.04
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
