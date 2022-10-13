@@ -135,24 +135,24 @@ public class ThreadServiceTest {
     }
 
     @Test
-    void upVoteReply() {
+    void upVoteThread() {
         LocalDate date = LocalDate.of(2020, 1, 8);
         User andre = new User("andre", "andre@gmail.com", "123");
         andre.setId(1L);
         Optional<Thread> thread = Optional.of(new Thread(andre, "Title 1", "Content 1", 1, LocalDate.now()));
         when(threadRepository.findById(anyLong())).thenReturn((Optional.of(thread)).get());
-        threadService.upVoteReply(thread.get().getId());
+        threadService.upVoteThread(thread.get().getId());
         assertEquals(2, thread.get().getVoteScore());
     }
 
     @Test
-    void downVoteReply() {
+    void downVoteThread() {
         LocalDate date = LocalDate.of(2020, 1, 8);
         User andre = new User("andre", "andre@gmail.com", "123");
         andre.setId(1L);
         Optional<Thread> thread = Optional.of(new Thread(andre, "Title 2", "Content 2", 31, LocalDate.now()));
         when(threadRepository.findById(anyLong())).thenReturn((Optional.of(thread)).get());
-        threadService.downVoteReply(thread.get().getId());
+        threadService.downVoteThread(thread.get().getId());
         assertEquals(30, thread.get().getVoteScore());
     }
 
