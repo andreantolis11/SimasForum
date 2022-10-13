@@ -40,7 +40,7 @@ public class VoteController {
             String referer = request.getHeader("Referer");
             return "redirect:"+ referer;
         }catch (Exception e){
-            return "login";
+            return "redirect:/user/login";
         }
     }
     private User getUserFromSession(HttpSession session) {
