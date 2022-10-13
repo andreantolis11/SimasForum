@@ -1,5 +1,6 @@
 package com.simasforum.SimasForum.controller;
 
+import com.simasforum.SimasForum.model.Reply;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.service.ReplyService;
@@ -47,13 +48,14 @@ public class ThreadControllerTest {
         LocalDate date = LocalDate.of(2020, 1, 8);
         User andre = new User("andre", "andre@gmail.com", "123");
         andre.setId(1L);
-        Thread mockThread = (new Thread(andre, "Thread about this", "The content of the thread is", 15, null));
+        Thread mockThread = new Thread(andre, "Thread about this", "The content of the thread is", 15, null);
+        mockThread.setReply(List.of(new Reply("Lorem opsum", "Lorem ipsum", andre, mockThread)));
         when(threadService.getThreadDetail(anyLong())).thenReturn(Optional.of(mockThread));
         mockMvc.perform(get("/thread/1")).andExpectAll(
                 status().isOk(),
                 content().string(containsString("Thread about this"))
-
         );
+
     }
 
     @Test
