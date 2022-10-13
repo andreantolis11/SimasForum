@@ -26,6 +26,10 @@ public class ReplyService {
         return replyRepository.save(reply);
     }
 
+    public Reply getReplyById(Long id) {
+        Reply reply = replyRepository.findById(id).get();
+        return reply;
+    }
     public List<Reply> getReplyByThreadId(Long id) {
         List<Reply> reply = replyRepository.findByThreadId(id);
         return reply;
