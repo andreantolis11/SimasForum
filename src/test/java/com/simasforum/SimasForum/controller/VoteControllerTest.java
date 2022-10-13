@@ -5,6 +5,7 @@ import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.service.ReplyService;
 import com.simasforum.SimasForum.service.ThreadService;
 import com.simasforum.SimasForum.service.UserService;
+import com.simasforum.SimasForum.service.VoteService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(ThreadController.class)
+@WebMvcTest(VoteController.class)
 @AutoConfigureMockMvc(addFilters = false)
 public class VoteControllerTest {
 
@@ -33,26 +34,24 @@ public class VoteControllerTest {
     private UserService userService;
     @MockBean
     private ReplyService replyService;
+    @MockBean
+    private VoteService voteService;
 
     @Test
-    @Disabled
+//    @Disabled
     void addUpVote_ifNotLogin_ok() throws Exception {
-//        User user = new User("fadhlul", "fadhlul@gmail.com", "123");
-//        Thread thread = new Thread(user, "title", "content", 0, null);
-
         mockMvc.perform(post("/thread/1/true")).andExpectAll(
                 status().isOk(),
-                content().contentTypeCompatibleWith(TEXT_HTML),
-                content().encoding(UTF_8),
                 view().name("login")
         );
     }
 
     @Test
-    @Disabled
     void addUpVote_ifLogin_ok() throws Exception {
         HashMap<String, Object> sessionAttr = new HashMap<String, Object>();
-        sessionAttr.put("user", new User("fadhlul", "fad@gmail.com", "123"));
+        User fadhlul = new User("fadhlul", "fad@gmail.com", "123");
+        fadhlul.setId(1L);
+        sessionAttr.put("user", fadhlul);
 
         mockMvc.perform(post("/thread/1/true").sessionAttrs(sessionAttr)).andExpectAll(
                 status().is3xxRedirection()

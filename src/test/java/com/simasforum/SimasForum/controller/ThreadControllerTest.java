@@ -151,28 +151,6 @@ public class ThreadControllerTest {
     }
 
     @Test
-    void addUpVote_ifNotLogin_ok() throws Exception {
-        User user = new User("fadhlul", "fadhlul@gmail.com", "123");
-        Thread thread = new Thread(user, "title", "content", 0, null);
-        mockMvc.perform(post("/thread/1/true")).andExpectAll(
-                status().isOk(),
-                content().contentTypeCompatibleWith(TEXT_HTML),
-                content().encoding(UTF_8),
-                view().name("login")
-        );
-    }
-
-    @Test
-    void addUpVote_ifLogin_ok() throws Exception {
-        HashMap<String, Object> sessionAttr = new HashMap<String, Object>();
-        sessionAttr.put("USER_LOGIN_ID", 1L);
-
-        mockMvc.perform(post("/thread/1/true").sessionAttrs(sessionAttr)).andExpectAll(
-                status().is3xxRedirection()
-        );
-    }
-
-    @Test
     void showSearchThreadPage_html() throws Exception {
         mockMvc.perform(get("/thread/search").param("title", "ss")).andExpectAll(
                 status().isOk(),

@@ -14,13 +14,6 @@ public class VoteService {
     @Autowired
     private VoteRepository voteRepository;
 
-    private ThreadService threadService;
-
-    @Autowired
-    public void setThreadService(ThreadService threadService) {
-        this.threadService = threadService;
-    }
-
     public void addThreadVote(Thread thread, User user, boolean isUpVote) {
         Vote foundVote = voteRepository.findByThreadIdAndUserId(thread.getId(), user.getId());
         if (foundVote != null) {
