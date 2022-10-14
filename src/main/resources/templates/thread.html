@@ -58,21 +58,26 @@
                         <div th:if="${replies} != null">
                             <div class="thread-content-container" th:each="reply: ${replies}">
                                 <div>
+<!--                                    <h4 th:text="${reply.id}"></h4>-->
                                     <h4 th:text="${reply.content}" style="margin: 29px 0 0 0px;"></h4>
                                     <div style="display: flex;">
                                         <div style="display: flex">
-                                            <form style="margin: 10px 0 0 0px;">
+                                            <form method="post" th:action="@{'/thread/{id}/{replyId}/{isUpVote}' (isUpVote=true, id=${threadDetail.id},replyId=${reply.id})}" style="margin: 10px 0 0 0px;">
                                                 <button class="btn-upvote">
                                                     <!--                                        <span class="glyphicon glyphicon-menu-up up-vote"-->
                                                     <!--                                        style="color: red;"></span>                                        <span class="glyphicon glyphicon-menu-up up-vote"-->
                                                     <!--                                        style="color: red;"></span>-->
+<!--                                                    <span class="glyphicon glyphicon-menu-up up-vote"></span>-->
+<!--                                                    <span th:if="${upVotes == 1}" class="glyphicon glyphicon-menu-up up-vote" style="color: red;"></span>-->
                                                     <span class="glyphicon glyphicon-menu-up up-vote"></span>
                                                 </button>
                                             </form>
-                                            <h4 style="margin: 10px 0 0 10px;">0</h4>
-                                            <form style="margin: 10px 0 0 10px;">
+                                            <h4 th:text="${reply.voteScore}" style="margin: 10px 0 0 10px;">0</h4>
+                                            <form method="post" th:action="@{'/thread/{id}/{replyId}/{isUpVote}' (isUpVote=false, id=${threadDetail.id},replyId=${reply.id})}" style="margin: 10px 0 0 10px;">
                                                 <button class="btn-downvote">
                                                     <!--                                        <span class="glyphicon glyphicon-menu-down" style="color: red;"></span>-->
+<!--                                                    <span class="glyphicon glyphicon-menu-down"></span>-->
+<!--                                                    <span th:if="${upVotes == 0}" class="glyphicon glyphicon-menu-down" style="color: red;"></span>-->
                                                     <span class="glyphicon glyphicon-menu-down"></span>
                                                 </button>
                                             </form>
@@ -95,18 +100,22 @@
                                         <span th:text="${childreply.content}"></span>
                                         <div style="display: flex;">
                                             <div style="display: flex">
-                                                <form style="margin: 10px 0 0 0px;">
+                                                <form method="post" th:action="@{'/thread/{id}/{replyId}/{isUpVote}' (isUpVote=true, id=${threadDetail.id},replyId=${childreply.id})}" style="margin: 10px 0 0 0px;">
                                                     <button class="btn-upvote">
                                                         <!--                                        <span class="glyphicon glyphicon-menu-up up-vote"-->
                                                         <!--                                        style="color: red;"></span>                                        <span class="glyphicon glyphicon-menu-up up-vote"-->
                                                         <!--                                        style="color: red;"></span>-->
+<!--                                                        <span class="glyphicon glyphicon-menu-up up-vote"></span>-->
+<!--                                                        <span th:if="${upVotes == 1}" class="glyphicon glyphicon-menu-up up-vote" style="color: red;"></span>-->
                                                         <span class="glyphicon glyphicon-menu-up up-vote"></span>
                                                     </button>
                                                 </form>
-                                                <h4 style="margin: 10px 0 0 10px;">0</h4>
-                                                <form style="margin: 10px 0 0 10px;">
+                                                <h4 th:text="${childreply.voteScore}" style="margin: 10px 0 0 10px;">0</h4>
+                                                <form method="post" th:action="@{'/thread/{id}/{replyId}/{isUpVote}' (isUpVote=false, id=${threadDetail.id},replyId=${childreply.id})}"style="margin: 10px 0 0 10px;">
                                                     <button class="btn-downvote">
                                                         <!--                                        <span class="glyphicon glyphicon-menu-down" style="color: red;"></span>-->
+<!--                                                        <span class="glyphicon glyphicon-menu-down"></span>-->
+<!--                                                        <span th:if="${upVotes == 0}" class="glyphicon glyphicon-menu-down" style="color: red;"></span>-->
                                                         <span class="glyphicon glyphicon-menu-down"></span>
                                                     </button>
                                                 </form>

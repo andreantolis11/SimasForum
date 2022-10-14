@@ -1,5 +1,6 @@
 package com.simasforum.SimasForum.controller;
 
+import com.simasforum.SimasForum.model.Reply;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.service.ReplyService;
@@ -43,6 +44,24 @@ public class VoteController {
             return "redirect:/user/login";
         }
     }
+
+    @PostMapping("/thread/{threadId}/{replyId}/{isUpVote}")
+    public String addReplyVote(@PathVariable("threadId") Long threadId,
+                               @PathVariable("replyId") Long replyId,
+                                @PathVariable("isUpVote") boolean isUpVote,
+                                HttpServletRequest request) {
+        try {
+            Optional<Thread> thread = threadService.getThreadDetail(threadId);
+            User user = getUserFromSession(request.getSession());
+            Reply reply = replyService.getReplyById(replyId).get();
+            voteService.addReplyVote(reply, user, isUpVote);
+            String referer = request.getHeader("Referer");
+            return "redirect:"+ referer;
+        }catch (Exception e){
+            return "login";
+        }
+    }
+
     private User getUserFromSession(HttpSession session) {
         return userService.getUserById(Long.parseLong(session.getAttribute("USER_LOGIN_ID").toString()));
     }
