@@ -44,6 +44,9 @@ public class ReplyController {
                                 HttpSession session) {
         Optional<Thread> thread = threadService.getThreadDetail(threadId);
         User user = getUserFromSession(session);
+        if(user == null) {
+            return "redirect:/user/login";
+        }
         replyService.addReply(new Reply(thread.get().getUser().getName(), content, user, thread.get()));
         return "redirect:/thread/" + thread.get().getId();
     }
