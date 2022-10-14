@@ -68,8 +68,8 @@
                                                     <!--                                        style="color: red;"></span>                                        <span class="glyphicon glyphicon-menu-up up-vote"-->
                                                     <!--                                        style="color: red;"></span>-->
 <!--                                                    <span class="glyphicon glyphicon-menu-up up-vote"></span>-->
-<!--                                                    <span th:if="${upVotes == 1}" class="glyphicon glyphicon-menu-up up-vote" style="color: red;"></span>-->
-                                                    <span class="glyphicon glyphicon-menu-up up-vote"></span>
+                                                    <span th:if="${votesReply.get(reply.id) == true}" class="glyphicon glyphicon-menu-up up-vote" style="color: red;"></span>
+                                                    <span th:unless="${votesReply.get(reply.id) == true}" class="glyphicon glyphicon-menu-up up-vote"></span>
                                                 </button>
                                             </form>
                                             <h4 th:text="${reply.voteScore}" style="margin: 10px 0 0 10px;">0</h4>
@@ -78,7 +78,9 @@
                                                     <!--                                        <span class="glyphicon glyphicon-menu-down" style="color: red;"></span>-->
 <!--                                                    <span class="glyphicon glyphicon-menu-down"></span>-->
 <!--                                                    <span th:if="${upVotes == 0}" class="glyphicon glyphicon-menu-down" style="color: red;"></span>-->
-                                                    <span class="glyphicon glyphicon-menu-down"></span>
+<!--                                                    <span class="glyphicon glyphicon-menu-down"></span>-->
+                                                    <span th:if="${votesReply.get(reply.id) == false}" class="glyphicon glyphicon-menu-down" style="color: red;"></span>
+                                                    <span th:unless="${votesReply.get(reply.id) == false}" class="glyphicon glyphicon-menu-down"></span>
                                                 </button>
                                             </form>
                                         </div>
@@ -107,7 +109,9 @@
                                                         <!--                                        style="color: red;"></span>-->
 <!--                                                        <span class="glyphicon glyphicon-menu-up up-vote"></span>-->
 <!--                                                        <span th:if="${upVotes == 1}" class="glyphicon glyphicon-menu-up up-vote" style="color: red;"></span>-->
-                                                        <span class="glyphicon glyphicon-menu-up up-vote"></span>
+<!--                                                        <span class="glyphicon glyphicon-menu-up up-vote" th:id="'reply_form_'+${reply.id}"></span>-->
+                                                        <span th:if="${votesReply.get(childreply.id) == true}" class="glyphicon glyphicon-menu-up up-vote" style="color: red;"></span>
+                                                        <span th:unless="${votesReply.get(childreply.id) == true}" class="glyphicon glyphicon-menu-up up-vote"></span>
                                                     </button>
                                                 </form>
                                                 <h4 th:text="${childreply.voteScore}" style="margin: 10px 0 0 10px;">0</h4>
@@ -116,7 +120,9 @@
                                                         <!--                                        <span class="glyphicon glyphicon-menu-down" style="color: red;"></span>-->
 <!--                                                        <span class="glyphicon glyphicon-menu-down"></span>-->
 <!--                                                        <span th:if="${upVotes == 0}" class="glyphicon glyphicon-menu-down" style="color: red;"></span>-->
-                                                        <span class="glyphicon glyphicon-menu-down"></span>
+<!--                                                        <span class="glyphicon glyphicon-menu-down"></span>-->
+                                                        <span th:if="${votesReply.get(childreply.id) == false}" class="glyphicon glyphicon-menu-down" style="color: red;"></span>
+                                                        <span th:unless="${votesReply.get(childreply.id) == false}" class="glyphicon glyphicon-menu-down"></span>
                                                     </button>
                                                 </form>
                                             </div>
