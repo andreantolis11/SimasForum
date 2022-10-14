@@ -6,6 +6,7 @@ import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.service.ReplyService;
 import com.simasforum.SimasForum.service.ThreadService;
 import com.simasforum.SimasForum.service.UserService;
+import com.simasforum.SimasForum.service.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -27,6 +29,9 @@ public class ThreadController {
     private ThreadService threadService;
     private UserService userService;
     private ReplyService replyService;
+
+
+    private VoteService voteService;
 
     @Autowired
     public void setThreadService(ThreadService threadService) {
@@ -41,6 +46,11 @@ public class ThreadController {
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    @Autowired
+    public void setVoteService(VoteService voteService) {
+        this.voteService = voteService;
     }
 
 //    @GetMapping("/thread")
@@ -101,12 +111,14 @@ public class ThreadController {
         model.addAttribute("sizes", reply.size());
         User owner = threadDetail.get().getUser();
         List<Reply> threadReplies = threadDetail.get().getReply();
+        Map<Long, Boolean> replyVoteMap = voteService.getUserVotedList(threadReplies,(Long) session.getAttribute("USER_LOGIN_ID"));
         int upVotes = threadService.getVoteByUserAndThreadId(id, (Long) session.getAttribute("USER_LOGIN_ID"));
         model.addAttribute("threadDetail", threadDetail.get());
         model.addAttribute("threadReplies", threadReplies);
         model.addAttribute("userName", owner.getName());
         model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
         model.addAttribute("upVotes", upVotes);
+        model.addAttribute("votesReply", replyVoteMap);
 
         return "thread";
     }
