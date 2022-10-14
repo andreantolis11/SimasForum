@@ -11,15 +11,15 @@
                     <input name="title"  style="background-color: #FFFFFF; border-radius: 20px;"  type="text" class="form-control" id="title" placeholder="Search...">
                 </div>
 	        </form>
-			<button th:if="${USER_LOGIN_NAME} != null" style="text-decoration: none;border: none; padding: 0; background: none;">
+			<button th:if="${session.USER_LOGIN_NAME} != null" style="text-decoration: none;border: none; padding: 0; background: none;">
 				<a href="/mythread">
 					<img th:src="@{/assets/user.png}" src="../assets/user.png" alt="user-icon" style="width: 40px;" />
 				</a>
 			</button>
-	        <div th:if="${USER_LOGIN_NAME} != null" class="text-white">
+	        <div th:if="${session.USER_LOGIN_NAME} != null" class="text-white">
 	        	<a style="color: white;" href="/user/logout">Log Out</a>
 	        </div>
-	       	<div th:unless="${USER_LOGIN_NAME} != null" class="text-white">
+	       	<div th:unless="${session.USER_LOGIN_NAME} != null" class="text-white">
 	        	<a style="color: white;" href="/user/login">Log In</a>
 	        </div>
 		</div>

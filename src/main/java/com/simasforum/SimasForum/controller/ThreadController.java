@@ -101,7 +101,6 @@ public class ThreadController {
         model.addAttribute("threadbydate", threadByDate);
         List<Thread> threadByVote = new ArrayList<>(threadService.sortByVoteScore());
         model.addAttribute("threadbyvote", threadByVote);
-        model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
         return "dashboard";
     }
 
@@ -157,7 +156,6 @@ public class ThreadController {
 
     @PostMapping("/mythread/{id}")
     public String deleteMyThread(@PathVariable("id") Long id) {
-        voteService.deleteVoteByThreadId(id);
         threadService.deleteMyThreadById(id);
         return "redirect:/mythread";
     }

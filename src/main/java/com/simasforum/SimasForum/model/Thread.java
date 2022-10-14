@@ -1,7 +1,6 @@
 package com.simasforum.SimasForum.model;
 
 import lombok.Data;
-import org.springframework.data.domain.Sort;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -28,6 +27,9 @@ public class Thread {
     private int voteScore;
     @Column(nullable = false)
     private LocalDate datePost;
+
+    @OneToMany(mappedBy = "thread", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Vote> votes;
 
     public Thread(Thread thread) {
         this.user = thread.getUser();
