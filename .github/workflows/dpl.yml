@@ -11,7 +11,22 @@ jobs:
     name: Run all tests
 
     runs-on: ubuntu-22.04
+    services:
+      postgres:
+        image: postgres
 
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432/tcp
     env:
       # Based on the Maven CI/CD template from GitLab:
       # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Maven.gitlab-ci.yml
@@ -39,6 +54,9 @@ jobs:
           cache: "maven"
       - name: Run unit tests
         run: mvn $MAVEN_CLI_OPTS test
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
       - name: Generate JaCoCo Badge
         id: jacoco
         uses: cicirello/jacoco-badge-generator@v2
