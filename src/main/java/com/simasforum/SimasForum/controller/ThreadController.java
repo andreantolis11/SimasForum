@@ -9,6 +9,7 @@ import com.simasforum.SimasForum.service.UserService;
 import com.simasforum.SimasForum.service.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
+@Transactional
 public class ThreadController {
 
     private ThreadService threadService;
@@ -155,6 +157,7 @@ public class ThreadController {
 
     @PostMapping("/mythread/{id}")
     public String deleteMyThread(@PathVariable("id") Long id) {
+        voteService.deleteVoteByThreadId(id);
         threadService.deleteMyThreadById(id);
         return "redirect:/mythread";
     }

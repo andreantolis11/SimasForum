@@ -90,4 +90,8 @@ public class VoteService {
         }
         return listVote;
     }
+
+    public void deleteVoteByThreadId(Long threadId){
+        voteRepository.deleteAllByThreadId(threadId);
+    }
 }
