@@ -1,5 +1,6 @@
 package com.simasforum.SimasForum.service;
 
+import com.simasforum.SimasForum.model.Reply;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.model.Vote;

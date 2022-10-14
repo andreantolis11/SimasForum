@@ -95,7 +95,7 @@
                                         <span th:text="${childreply.content}"></span>
                                         <div style="display: flex;">
                                             <div style="display: flex">
-                                                <form style="margin: 10px 0 0 0px;">
+                                                <form method="post" th:action="@{'/thread/{id}/{replyId}/{isUpVote}' (isUpVote=true, id=${threadDetail.id},replyId=${childreply.id})}" style="margin: 10px 0 0 0px;">
                                                     <button class="btn-upvote">
                                                         <!--                                        <span class="glyphicon glyphicon-menu-up up-vote"-->
                                                         <!--                                        style="color: red;"></span>                                        <span class="glyphicon glyphicon-menu-up up-vote"-->
