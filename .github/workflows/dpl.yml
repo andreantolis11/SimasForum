@@ -26,7 +26,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 5432/tcp
+          - 5432:5432
     env:
       # Based on the Maven CI/CD template from GitLab:
       # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Maven.gitlab-ci.yml
@@ -55,8 +55,8 @@ jobs:
       - name: Run unit tests
         run: mvn $MAVEN_CLI_OPTS test
         env:
-          POSTGRES_HOST: postgres
-          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
       - name: Generate JaCoCo Badge
         id: jacoco
         uses: cicirello/jacoco-badge-generator@v2
