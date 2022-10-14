@@ -18,7 +18,7 @@
             <h5 class="text-white">
                 Pembicaraan terbaru
             </h5>
-            <div th:if="${USER_LOGIN_NAME} != null">
+            <div th:if="${session.USER_LOGIN_NAME} != null">
                 <a href="/thread/add">
                     <button class="button-white container-dashboard-border-first-button">
                         <div class="container-dashboard-border-first-button-text">Create Thread</div>
