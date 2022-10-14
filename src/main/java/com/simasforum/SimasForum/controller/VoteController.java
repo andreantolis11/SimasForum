@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -54,7 +53,7 @@ public class VoteController {
         try {
             Optional<Thread> thread = threadService.getThreadDetail(threadId);
             User user = getUserFromSession(request.getSession());
-            Reply reply = replyService.getReplyById(replyId);
+            Reply reply = replyService.getReplyById(replyId).get();
             voteService.addReplyVote(reply, user, isUpVote);
             String referer = request.getHeader("Referer");
             return "redirect:"+ referer;
