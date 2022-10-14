@@ -8,7 +8,7 @@ import com.simasforum.SimasForum.repository.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -28,7 +28,7 @@ public class VoteService {
                     thread.setVoteScore(thread.getVoteScore() + 2);
                     voteRepository.save(new Vote(thread, user, true));
                 }
-            } else{
+            } else {
                 voteRepository.deleteById(foundVote.getId());
                 if (!foundVote.isUpVote()) {
                     thread.setVoteScore(thread.getVoteScore() + 1);
@@ -38,10 +38,10 @@ public class VoteService {
                 }
             }
         } else {
-            if(isUpVote){
+            if (isUpVote) {
                 voteRepository.save(new Vote(thread, user, true));
                 thread.setVoteScore(thread.getVoteScore() + 1);
-            }else{
+            } else {
                 voteRepository.save(new Vote(thread, user, false));
                 thread.setVoteScore(thread.getVoteScore() - 1);
             }
@@ -69,7 +69,7 @@ public class VoteService {
                 }
             }
         } else {
-            if(isUpVote){
+            if (isUpVote) {
                 voteRepository.save(new Vote(reply, user, true));
                 reply.setVoteScore(reply.getVoteScore() + 1);
             } else {
@@ -77,5 +77,21 @@ public class VoteService {
                 reply.setVoteScore(reply.getVoteScore() - 1);
             }
         }
+    }
+
+    public Map<Long, Boolean> getUserVotedList(List<Reply> replies, Long userId) {
+        //Map<replyId, isUpVote>
+        Map<Long, Boolean> listVote = new HashMap<Long, Boolean>();
+        for (Reply reply : replies) {
+            Vote vote = voteRepository.findByReplyIdAndUserId(reply.getId(),userId);
+            if(vote!=null){
+                listVote.put(vote.getReply().getId(),vote.isUpVote());
+            }
+        }
+        return listVote;
+    }
+
+    public void deleteVoteByThreadId(Long threadId){
+        voteRepository.deleteAllByThreadId(threadId);
     }
 }

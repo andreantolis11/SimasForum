@@ -40,6 +40,7 @@ public class ReplyControllerTest {
     void replyToThread_ok() throws Exception {
         User user = new User("name", "email", "password");
         Thread mockThread = new Thread(user, "title", "content", 0, null);
+        when(userService.getUserById(anyLong())).thenReturn(user);
         when(threadService.getThreadDetail(anyLong())).thenReturn(Optional.of(mockThread));
         mockMvc.perform(post("/reply/thread/1")
                 .param("content", "reply content")
@@ -66,6 +67,15 @@ public class ReplyControllerTest {
         verify(replyService, times(1)).addReply(any());
     }
 
+    @Test
+    @DisplayName("reply to thread not login")
+    void replyToThread_IfNotLogin() throws Exception {
+        mockMvc.perform(post("/reply/thread/1")
+                .param("content", "reply content")).andExpectAll(
+                status().is3xxRedirection(),
+                redirectedUrl("/user/login")
+        );
+    }
     @Test
     @DisplayName("reply to reply not login")
     void replyToReply_IfNotLogin() throws Exception {

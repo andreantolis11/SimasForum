@@ -15,4 +15,6 @@ public interface VoteRepository extends CrudRepository<Vote, Long> {
     Vote findByReplyIdAndUserId(Long id, Long user_id);
     void deleteByUserId(Long id);
 
+    void deleteAllByThreadId(Long threadId);
+
 }

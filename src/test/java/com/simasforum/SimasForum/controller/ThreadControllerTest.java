@@ -6,6 +6,7 @@ import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.service.ReplyService;
 import com.simasforum.SimasForum.service.ThreadService;
 import com.simasforum.SimasForum.service.UserService;
+import com.simasforum.SimasForum.service.VoteService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,9 @@ public class ThreadControllerTest {
     private UserService userService;
     @MockBean
     private ReplyService replyService;
+
+    @MockBean
+    private VoteService voteService;
 
     @Test
     @DisplayName("ShowDetailByid")
