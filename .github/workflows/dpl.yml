@@ -55,7 +55,7 @@ jobs:
       - name: Run unit tests
         run: mvn $MAVEN_CLI_OPTS test
         env:
-          POSTGRES_HOST: localhost
+          POSTGRES_HOST: postgres
           POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
       - name: Generate JaCoCo Badge
         id: jacoco
