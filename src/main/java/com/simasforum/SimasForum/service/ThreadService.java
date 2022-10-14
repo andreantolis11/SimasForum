@@ -95,13 +95,13 @@ public class ThreadService {
     }
 
 
-    public void upVoteReply(Long id) {
+    public void upVoteThread(Long id) {
         Optional<Thread> thread = threadRepository.findById(id);
         int upvote = thread.get().getVoteScore();
         thread.get().setVoteScore(upvote + 1);
     }
 
-    public void downVoteReply(Long id) {
+    public void downVoteThread(Long id) {
         Optional<Thread> thread = threadRepository.findById(id);
         int downvote = thread.get().getVoteScore();
         thread.get().setVoteScore(downvote - 1);

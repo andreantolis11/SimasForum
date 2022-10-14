@@ -74,10 +74,11 @@ public class ThreadController {
 
     @GetMapping("/thread/{id}/vote")
     public String updateVote(@PathVariable("id") Long id, String method) {
+        System.out.println("This one triggered");
         if (method.equals("upVote")) {
-            threadService.upVoteReply(id);
+            threadService.upVoteThread(id);
         } else {
-            threadService.downVoteReply(id);
+            threadService.downVoteThread(id);
         }
         return "thread";
     }
@@ -101,39 +102,14 @@ public class ThreadController {
         User owner = threadDetail.get().getUser();
         List<Reply> threadReplies = threadDetail.get().getReply();
         int upVotes = threadService.getVoteByUserAndThreadId(id, (Long) session.getAttribute("USER_LOGIN_ID"));
-
         model.addAttribute("threadDetail", threadDetail.get());
         model.addAttribute("threadReplies", threadReplies);
         model.addAttribute("userName", owner.getName());
         model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
         model.addAttribute("upVotes", upVotes);
 
-
         return "thread";
     }
-
-//    @PostMapping("/thread/{threadId}/{isUpVote}")
-//    public String addThreadVote(@PathVariable("threadId") Long threadId,
-//                            @PathVariable("isUpVote") boolean isUpVote,
-//                            HttpServletRequest request) {
-//        try {
-//            Long userId = Long.parseLong(request.getSession().getAttribute("USER_LOGIN_ID").toString());
-//            threadService.addThreadVote(threadId, isUpVote, userId);
-//            String referer = request.getHeader("Referer");
-//            return "redirect:"+ referer;
-////            return "redirect:/thread/{id}";
-//        }catch (Exception e){
-//            return "login";
-//        }
-//    }
-
-
-//    @PostMapping("/thread")
-//    public String newThread(@RequestParam("thread_item") Thread thread) {
-//        Thread saved = threadService.addThread(thread);
-//
-//        return redirectToList(saved.getId());
-//    }
 
     @PostMapping("/thread/search")
     public String getThreadByTitle(@RequestParam("title") String title, Model model) {

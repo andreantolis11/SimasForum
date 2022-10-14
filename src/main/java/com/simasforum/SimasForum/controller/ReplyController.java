@@ -6,6 +6,7 @@ import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.service.ReplyService;
 import com.simasforum.SimasForum.service.ThreadService;
 import com.simasforum.SimasForum.service.UserService;
+import liquibase.pro.packaged.E;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,11 +54,18 @@ public class ReplyController {
                                HttpSession session) {
         Optional<Reply> reply = replyService.getReplyById(replyId);
         User user = getUserFromSession(session);
+        if(user == null) {
+            return "redirect:/user/login";
+        }
         replyService.addReply(new Reply(reply.get().getUser().getName(), content, user, reply.get()));
         return "redirect:/thread/" + reply.get().getThreadId();
     }
 
     private User getUserFromSession(HttpSession session) {
-        return userService.getUserById(Long.parseLong(session.getAttribute("USER_LOGIN_ID").toString()));
+        try {
+            return userService.getUserById(Long.parseLong(session.getAttribute("USER_LOGIN_ID").toString()));
+        }catch(Exception e) {
+            return null;
+        }
     }
 }

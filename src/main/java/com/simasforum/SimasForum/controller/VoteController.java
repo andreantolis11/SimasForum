@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -41,9 +42,27 @@ public class VoteController {
             String referer = request.getHeader("Referer");
             return "redirect:"+ referer;
         }catch (Exception e){
+            return "redirect:/user/login";
+        }
+    }
+
+    @PostMapping("/thread/{threadId}/{replyId}/{isUpVote}")
+    public String addReplyVote(@PathVariable("threadId") Long threadId,
+                               @PathVariable("replyId") Long replyId,
+                                @PathVariable("isUpVote") boolean isUpVote,
+                                HttpServletRequest request) {
+        try {
+            Optional<Thread> thread = threadService.getThreadDetail(threadId);
+            User user = getUserFromSession(request.getSession());
+            Reply reply = replyService.getReplyById(replyId);
+            voteService.addReplyVote(reply, user, isUpVote);
+            String referer = request.getHeader("Referer");
+            return "redirect:"+ referer;
+        }catch (Exception e){
             return "login";
         }
     }
+
     private User getUserFromSession(HttpSession session) {
         return userService.getUserById(Long.parseLong(session.getAttribute("USER_LOGIN_ID").toString()));
     }

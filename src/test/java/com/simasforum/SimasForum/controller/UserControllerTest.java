@@ -16,7 +16,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.TEXT_HTML;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -30,12 +31,16 @@ public class UserControllerTest {
 
     @Test
     @DisplayName("RegisterTest")
-    void registerTest_isOk() throws Exception{
-        User userMock = new User("name","name@gmail.com","password");
+    void registerTest_isOk() throws Exception {
+        User userMock = new User("name", "name@gmail.com", "password");
+        when(userService.getUserByEmail("name@gmail.com")).thenReturn(new User("", "", ""));
         when(userService.addUser(userMock)).thenReturn(userMock);
-        mockMvc.perform(post("/user/register").param("name","name").param("email", "name@gmail.com").param("password","password").param("conf_password","password"))
-                .andExpectAll(status().is3xxRedirection()
-                );
+        mockMvc.perform(post("/user/register")
+                .param("name", "name")
+                .param("email", "name@gmail.com")
+                .param("password", "password")
+                .param("conf_password", "password")
+        ).andExpectAll(status().is3xxRedirection());
     }
 
     @Test
@@ -54,15 +59,17 @@ public class UserControllerTest {
                 content().string(containsString("<button"))
         );
     }
+
     @Test
     @DisplayName("LoginTest")
-    void LoginTest_IsOk() throws Exception{
-        User userMock = new User("name","name@gmail.com","password");
+    void LoginTest_IsOk() throws Exception {
+        User userMock = new User("name", "name@gmail.com", "password");
         when(userService.getUserByEmail(userMock.getEmail())).thenReturn(userMock);
-        mockMvc.perform(post("/user/login").param("email", "name@gmail.com").param("password","password"))
+        mockMvc.perform(post("/user/login").param("email", "name@gmail.com").param("password", "password"))
                 .andExpectAll(status().is3xxRedirection()
                 );
     }
+
     @Test
     @DisplayName("HTTP GET '/user/login' show login.html ")
     void showLoginPage_html() throws Exception {
