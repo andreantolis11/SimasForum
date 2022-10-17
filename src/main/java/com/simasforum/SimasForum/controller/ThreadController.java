@@ -117,6 +117,7 @@ public class ThreadController {
         model.addAttribute("threadDetail", threadDetail.get());
         model.addAttribute("threadReplies", threadReplies);
         model.addAttribute("userName", owner.getName());
+        model.addAttribute("userId", session.getAttribute("USER_LOGIN_ID"));
         model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
         model.addAttribute("upVotes", upVotes);
         model.addAttribute("votesReply", replyVoteMap);
