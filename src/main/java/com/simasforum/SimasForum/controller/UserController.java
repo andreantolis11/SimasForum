@@ -50,7 +50,8 @@ public class UserController {
 
         if(userEmail.getEmail().isBlank()){
             model.addAttribute("EMAIL_EXISTS", false);
-            User loginUser = userService.addUser(new User(name, email, password));
+            Optional<Role> role = roleService.getRoleById(1L);
+            User loginUser = userService.addUser(new User(name, email, password, role.get()));
             System.out.println(loginUser.getName()+" is registered");
             return "redirect:/user/login";
         }else {

@@ -4,6 +4,7 @@ package com.simasforum.SimasForum.service;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import com.simasforum.SimasForum.model.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class UserService {
     }
     public User getUserByEmail(String email) throws NoSuchElementException {
 
-        Optional<User> result = Optional.of(userRepository.findByEmailIgnoreCase(email).orElse(new User("", "", "")));
+        Optional<User> result = Optional.of(userRepository.findByEmailIgnoreCase(email).orElse(new User("", "", "", new Role(""))));
 
         return result.get();
     }

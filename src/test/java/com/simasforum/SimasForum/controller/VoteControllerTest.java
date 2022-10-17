@@ -1,5 +1,6 @@
 package com.simasforum.SimasForum.controller;
 
+import com.simasforum.SimasForum.model.Role;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.service.ReplyService;
@@ -47,7 +48,7 @@ public class VoteControllerTest {
     @Test
     void addUpVote_ifLogin_ok() throws Exception {
         HashMap<String, Object> sessionAttr = new HashMap<String, Object>();
-        User fadhlul = new User("fadhlul", "fad@gmail.com", "123");
+        User fadhlul = new User("fadhlul", "fad@gmail.com", "123", new Role("user"));
         fadhlul.setId(1L);
         sessionAttr.put("user", fadhlul);
 

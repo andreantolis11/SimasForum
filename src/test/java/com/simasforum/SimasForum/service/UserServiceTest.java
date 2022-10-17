@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
+import com.simasforum.SimasForum.model.Role;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ class UserServiceTest {
     @Test
     @DisplayName("Given a new user, addUser should save the user")
     void addUser_ok() {
-        User user = new User("testuser","password","email@gmail.com");
+        User user = new User("testuser","password","email@gmail.com", new Role("user"));
         User registeredUser = userService.addUser(user);
         verify(userRepository, times(1)).save(any(User.class));
     }
@@ -41,7 +42,7 @@ class UserServiceTest {
     @DisplayName("Given a new user, addUser should save the user")
     void getUserById_ok() {
         Long id = 1L;
-        Optional<User> mockUser= Optional.of(new User("name","email@email.com","password"));
+        Optional<User> mockUser= Optional.of(new User("name","email@email.com","password", new Role("user")));
         when(userRepository.findById(anyLong())).thenReturn(mockUser);
         User registeredUser = userService.getUserById(id);
         verify(userRepository, times(1)).findById(any(Long.class));
@@ -52,7 +53,7 @@ class UserServiceTest {
     @DisplayName("Given a new user, addUser should save the user")
     void getUserEmail_ok() {
     	String email = "email@email.com";
-    	Optional<User> mockUser= Optional.of(new User("name",email,"password"));
+    	Optional<User> mockUser= Optional.of(new User("name",email,"password", new Role("user")));
     	when(userRepository.findByEmailIgnoreCase(anyString())).thenReturn(mockUser);
     	User registeredUser = userService.getUserByEmail(email);
     	verify(userRepository, times(1)).findByEmailIgnoreCase(any(String.class));

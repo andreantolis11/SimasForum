@@ -18,9 +18,9 @@ public class Role {
 
     private String roleName;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "roleId")
-    private List<User> users;
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "roleId")
+//    private List<User> users;
 
     public Role(String roleName){
         this.roleName = roleName;

@@ -22,17 +22,18 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private Long roleId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Role role;
 
     public User() {
     }
 
-    public User(String name, String email, String password) {
+    public User(String name, String email, String password, Role role) {
         super();
         this.name = name;
         this.email = email;
         this.password = password;
-        this.roleId = 1L;
+        this.role = role;
     }
 
     public User(User user) {
