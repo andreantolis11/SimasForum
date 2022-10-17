@@ -1,10 +1,7 @@
 package com.simasforum.SimasForum.service;
 
-import com.simasforum.SimasForum.model.Reply;
-import com.simasforum.SimasForum.model.Role;
 import com.simasforum.SimasForum.model.Thread;
-import com.simasforum.SimasForum.model.User;
-import com.simasforum.SimasForum.model.Vote;
+import com.simasforum.SimasForum.model.*;
 import com.simasforum.SimasForum.repository.VoteRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +55,7 @@ public class VoteServiceTest {
     @Test
     void cancelUpVote_thread() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123");
+        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123", new Role());
         fadhlul.setId(1L);
         Thread thread = new Thread(fadhlul, "Lorem ipsum", "Lorem impus", 0, date);
         thread.setId(1L);
@@ -73,7 +70,7 @@ public class VoteServiceTest {
     @Test
     void cancelDownVote_thread() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123");
+        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123", new Role());
         fadhlul.setId(1L);
         Thread thread = new Thread(fadhlul, "Lorem ipsum", "Lorem impus", 0, date);
         thread.setId(1L);
@@ -88,7 +85,7 @@ public class VoteServiceTest {
     @Test
     void changeUpVoteToDownVote_thread() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123");
+        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123", new Role());
         fadhlul.setId(1L);
         Thread thread = new Thread(fadhlul, "Lorem ipsum", "Lorem impus", 0, date);
         thread.setId(1L);
@@ -103,7 +100,7 @@ public class VoteServiceTest {
     @Test
     void changeDownVoteToUpVote_thread() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123");
+        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123", new Role());
         fadhlul.setId(1L);
         Thread thread = new Thread(fadhlul, "Lorem ipsum", "Lorem impus", 0, date);
         thread.setId(1L);
@@ -118,7 +115,7 @@ public class VoteServiceTest {
     @Test
     void addUpVote_reply() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123");
+        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123", new Role());
         fadhlul.setId(1L);
         Thread thread = new Thread(fadhlul, "Lorem ipsum", "Lorem impus", 0, date);
         Reply reply = new Reply("name", "content", fadhlul, thread);
@@ -132,7 +129,7 @@ public class VoteServiceTest {
     @Test
     void addDownVote_reply() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123");
+        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123", new Role());
         fadhlul.setId(1L);
         Thread thread = new Thread(fadhlul, "Lorem ipsum", "Lorem impus", 0, date);
         Reply reply = new Reply("name", "content", fadhlul, thread);
@@ -146,7 +143,7 @@ public class VoteServiceTest {
     @Test
     void cancelUpVote_reply() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123");
+        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123", new Role());
         fadhlul.setId(1L);
         Thread thread = new Thread(fadhlul, "Lorem ipsum", "Lorem impus", 0, date);
         thread.setId(1L);
@@ -162,7 +159,7 @@ public class VoteServiceTest {
     @Test
     void cancelDownVote_reply() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123");
+        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123", new Role());
         fadhlul.setId(1L);
         Thread thread = new Thread(fadhlul, "Lorem ipsum", "Lorem impus", 0, date);
         thread.setId(1L);
@@ -178,7 +175,7 @@ public class VoteServiceTest {
     @Test
     void changeUpVoteToDownVote_reply() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123");
+        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123", new Role());
         fadhlul.setId(1L);
         Thread thread = new Thread(fadhlul, "Lorem ipsum", "Lorem impus", 0, date);
         thread.setId(1L);
@@ -194,7 +191,7 @@ public class VoteServiceTest {
     @Test
     void changeDownVoteToUpVote_reply() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123");
+        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123", new Role());
         fadhlul.setId(1L);
         Thread thread = new Thread(fadhlul, "Lorem ipsum", "Lorem impus", 0, date);
         thread.setId(1L);
@@ -210,7 +207,7 @@ public class VoteServiceTest {
     @Test
     void getUserVotedList_ok() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123");
+        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123", new Role());
         fadhlul.setId(1L);
         Thread thread = new Thread(fadhlul, "Lorem ipsum", "Lorem impus", 0, date);
         thread.setId(1L);
