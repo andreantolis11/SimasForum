@@ -29,6 +29,9 @@ public class Reply {
 
     @OneToMany(mappedBy = "reply", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Vote> votes;
+
+    @OneToMany(mappedBy = "reply", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Pin> pins;
     @ManyToOne
     private User user;
 

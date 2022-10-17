@@ -31,6 +31,9 @@ public class Thread {
     @OneToMany(mappedBy = "thread", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Vote> votes;
 
+    @OneToMany(mappedBy = "thread", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Pin> pins;
+
     public Thread(Thread thread) {
         this.user = thread.getUser();
         this.title = thread.getTitle();
