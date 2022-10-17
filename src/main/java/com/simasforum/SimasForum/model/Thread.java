@@ -20,8 +20,8 @@ public class Thread {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "threadId")
     private List<Reply> reply;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "threadId")
+
+    @OneToMany(mappedBy = "thread",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Report> report;
     @Column(nullable = false)
     private String title;
