@@ -22,6 +22,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    private Long roleId;
+
     public User() {
     }
 
@@ -30,6 +32,7 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.roleId = 1L;
     }
 
     public User(User user) {

@@ -1,6 +1,8 @@
 package com.simasforum.SimasForum.controller;
 
+import com.simasforum.SimasForum.model.Role;
 import com.simasforum.SimasForum.model.User;
+import com.simasforum.SimasForum.service.RoleService;
 import com.simasforum.SimasForum.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 @Controller
@@ -22,6 +25,9 @@ public class UserController {
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     public void setTodoListService(UserService userService) {
