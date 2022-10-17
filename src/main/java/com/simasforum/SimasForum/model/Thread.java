@@ -20,6 +20,9 @@ public class Thread {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "threadId")
     private List<Reply> reply;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "threadId")
+    private List<Report> report;
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
@@ -30,6 +33,9 @@ public class Thread {
 
     @OneToMany(mappedBy = "thread", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Vote> votes;
+
+    @OneToMany(mappedBy = "thread", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Pin> pins;
 
     public Thread(Thread thread) {
         this.user = thread.getUser();
