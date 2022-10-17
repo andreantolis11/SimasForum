@@ -67,7 +67,7 @@ public class VoteControllerTest {
     @Test
     void replyUpVote_ifLogin_ok() throws Exception {
         HashMap<String, Object> sessionAttr = new HashMap<String, Object>();
-        User fadhlul = new User("fadhlul", "fad@gmail.com", "123");
+        User fadhlul = new User("fadhlul", "fad@gmail.com", "123",new Role());
         fadhlul.setId(1L);
         sessionAttr.put("USER_LOGIN_ID", fadhlul.getId());
         when(replyService.getReplyById(anyLong())).thenReturn(Optional.of(new Reply()));
