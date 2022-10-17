@@ -51,14 +51,13 @@ public class VoteController {
                                 @PathVariable("isUpVote") boolean isUpVote,
                                 HttpServletRequest request) {
         try {
-            Optional<Thread> thread = threadService.getThreadDetail(threadId);
             User user = getUserFromSession(request.getSession());
             Reply reply = replyService.getReplyById(replyId).get();
             voteService.addReplyVote(reply, user, isUpVote);
             String referer = request.getHeader("Referer");
             return "redirect:"+ referer;
         }catch (Exception e){
-            return "login";
+            return "redirect:/user/login";
         }
     }
 

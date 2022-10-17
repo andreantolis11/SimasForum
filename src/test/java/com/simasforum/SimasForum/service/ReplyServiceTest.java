@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -61,5 +62,11 @@ public class ReplyServiceTest {
         Boolean result = replyService.deleteReplyById(1L);
         verify(replyRepository, times(1)).delete(any(Reply.class));
         assertEquals(Boolean.TRUE, result);
+    }
+
+    @Test
+    void deleteReplyById_notFound() {
+        when(replyRepository.findById(anyLong())).thenReturn(Optional.empty());
+        assertFalse(replyService.deleteReplyById(1L));
     }
 }
