@@ -3,73 +3,190 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" th:href="@{/css/my_thread.css}">
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/dist/css/bootstrap.css}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>My threads</title>
 </head>
 
 <body>
     <div th:replace="fragments/nav :: navbar"></div>
-    <div class="container">
-        <div class="container-mythread">
-            <div class="container-mythread-title">
-                <h3 class="text-white">
-                    My threads
-                </h3>
-            </div>
-            <div class="container-mythread-description">
-                Menampilkan list pertanyaan atau informasi yang dibuat oleh anda
-            </div>
-            <div class="container-mythread-list">
-                <div class="container-mythread-list-background">
-                    <div class="container-mythread-list-background-scroll">
-                        <div class="container-mythread-list-background-scroll-list" th:each="res : ${result}">
-                            <div class="container-mythread-list-background-scroll-list-flex">
-                                <a th:href="@{'/thread/{id}/' (id=${res.id})}" th:text="${res.title}" class="container-mythread-list-background-scroll-list-flex-title"></a>
-                                <form method="post" th:action="@{'/mythread/{id}' (id=${res.id})}" >
-                                    <button class="container-mythread-list-background-scroll-list-flex-button">
-                                        <span class="glyphicon glyphicon-trash container-mythread-list-background-scroll-list-flex-button-icon"></span>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <div id="mySidebar" class="sidebar">
+        <a class="mySidebar-logo" href="/dashboard">
+            <img th:src="@{/assets/logosimaforum.png}"
+                 src="../assets/logosimaforum.png" alt="logo-icon" width="130" style="margin-top: -30px;" />
+        </a>
+        <hr style="height: 3px; " class="mySidebar-line">
+        <a href="/dashboard"><i class="fa fa-home"></i>Dashboard</a>
+        <a th:if="${session.USER_LOGIN_NAME}" href="/mythread"><i class='fas fa-briefcase'></i>My threads</a>
+        <div th:if="${session.USER_LOGIN_NAME}">
+            <span class="sidebar-parent"><i class="fas fa-user-alt"></i>Account</span>
+            <a th:if="${session.USER_LOGIN_NAME}" class="sidebar-child" href="/user/logout"><i class='fas fa-door-open'></i>Logout</a>
         </div>
+        <div th:unless="${session.USER_LOGIN_NAME}">
+            <span class="sidebar-parent"><i class="fas fa-user-alt"></i>Account</span>
+            <a class="sidebar-child" href="/user/register"><i class='fas fa-user-plus'></i>Register</a>
+            <a class="sidebar-child" href="/user/login"><i class='fas fa-door-closed'></i>Login</a>
+        </div>
+        <a href="/reports"><i class='fas fa-ban'></i>Reports</a>
+    </div>
+    <div class="mythread">
+        <h3 class="title">My Threads</h3>
+        <p class="content">Menampilkan hasil list dari thread yang telah anda buat.</p>
+        <table class="table table-bordered">
+            <thead>
+                <tr class="tr-head">
+                    <th class="th-title" scope="col">Title</th>
+                    <th class="th-title width-action" scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="res : ${result}">
+                    <td><a th:text="${res.title}"></a></td>
+                    <td class="td-flex">
+                        <form>
+                            <button class="clear-decoration"><a th:href="@{'/thread/{id}/' (id=${res.id})}"  class="detail-button">detail</a></button>
+                        </form>
+                        <form>
+                            <button class="clear-decoration"><a class="edit-button">edit</a></button>
+                        </form>
+                        <form method="post" th:action="@{'/mythread/{id}' (id=${res.id})}">
+                            <button class="button-delete clear-decoration"><a class="delete-button">delete</a></button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 <script th:src="@{/webjars/bootstrap/5.1.3/dist/js/bootstrap.bundle.js}"></script>
 </body>
 </html>
 <style>
-    /* width */
-    ::-webkit-scrollbar {
-        width: 10px;
-
+    .title {
+        font-weight: bold;
     }
-
-    a {
+    .content{
+        color: #927B7B;
+        margin-bottom: 20px;
+    }
+    .width-action {
+        width: 200px;
+    }
+    .edit-button {
+         color: #73ABFF;
         text-decoration: none;
     }
-
-    /* Track */
-    ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 20px;
-        margin: 0 15px 0 0;
+    .delete-button {
+        color: #FF6363;
+        text-decoration: none;
+    }
+    .detail-button {
+        color:#73ABFF;
+        text-decoration: none;
+    }
+    .clear-decoration {
+        text-decoration: none;
+        padding: 0;
+        border: none;
+        background: none;
+    }
+    .td-flex {
+        display: flex;
+        justify-content: space-evenly;
+    }
+    .tr-head {
+        background-color: #FF6A6A;
+        color: #FFFFFF;
+    }
+    .th-title {
+        text-align: center;
+    }
+    i {
+        margin-right: 10px;
     }
 
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-        background: #F97E7E;
-        border-radius: 20px;
+    .sidebar-parent {
+        padding: 16px 8px 16px 32px;
+        text-decoration: none;
+        font-size: 16px;
+        color: #EFDADA;
+        display: block;
+        transition: 0.3s;
     }
 
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-        background: #555;
+    .sidebar-child {
+        margin-left: 25px;
+    }
+
+    .mySidebar-logo {
+        margin-left: 30px;
+    }
+
+    .mySidebar-line {
+        margin: 20px;
+        color: white;
+        background-color: white;
+        border-width: 0;
+    }
+
+    body {
+        font-family: Inter;
+        letter-spacing: 2px;
+        margin-right: 30px;
+    }
+
+    .sidebar {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        background-color: #FF5045;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+    }
+
+    .sidebar a {
+        padding: 16px 8px 16px 32px;
+        text-decoration: none;
+        font-size: 16px;
+        color: #EFDADA;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+        color: #FFFFFF;
+    }
+
+    .sidebar .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+    .mythread {
+        margin: 150px 0 0 330px;
+    }
+
+    /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+    @media screen and (max-height: 450px) {
+        .sidebar {
+            padding-top: 15px;
+        }
+
+        .sidebar a {
+            font-size: 18px;
+        }
     }
 </style>

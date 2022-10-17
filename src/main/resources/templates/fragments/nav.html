@@ -1,32 +1,18 @@
 <div th:fragment="navbar">
-    <nav class="navbar navbar-expand-lg" style="background-color: #FF5045;">
-<!--        <div class="container-fluid">-->
-		<div class="container">
-			<a class="navbar-brand text-white" href="/dashboard">
-				<img th:src="@{/assets/logosimaforum.png}"
-					 src="../assets/logosimaforum.png" alt="logo-icon" width="80" style="margin-top: -10px;" />
-			</a>
-	        <form style="width:500px; margin-top: 20px;" th:action="@{'/thread/search/' (title=${title})}" method="get">
+    <nav class="navbar navbar-expand-lg" style="background-color: #FFA7A1; position: fixed; top: 0; width: 100%; z-index: 1;">
+		<div style="height: 65px;justify-content: space-between; display:flex; width: 100%;">
+	        <form style="width:500px; height: 50px; margin-left: 325px;" th:action="@{'/thread/search/' (title=${title})}" method="get">
                 <div class="mb-3">
-                    <input name="title"  style="background-color: #FFFFFF; border-radius: 20px;"  type="text" class="form-control" id="title" placeholder="Search...">
+                    <input name="title" style="font-family:Inter; letter-spacing: 2px; margin-top:15px; height: 46px; background-color: #FFFFFF; border-radius: 20px;"  type="text" class="form-control" id="title" placeholder="Search...">
                 </div>
 	        </form>
-			<button th:if="${session.USER_LOGIN_NAME} != null" style="text-decoration: none;border: none; padding: 0; background: none;">
-				<a href="/mythread">
-					<img th:src="@{/assets/user.png}" src="../assets/user.png" alt="user-icon" style="width: 40px;" />
-				</a>
-			</button>
-	        <div th:if="${session.USER_LOGIN_NAME} != null" class="text-white">
-	        	<a style="color: white;" href="/user/logout">Log Out</a>
-	        </div>
-	       	<div th:unless="${session.USER_LOGIN_NAME} != null" class="text-white">
-	        	<a style="color: white;" href="/user/login">Log In</a>
-	        </div>
-		</div>
+            <button style="padding: 0; border: 0; background: none; margin-right: 30px;"><a href="/thread/add" style="text-decoration: none; color: #FFFFFF; font-family: Inter; letter-spacing: 2px;">Create threads</a></button>
+        </div>
+
     </nav>
 </div>
 <style>
-a {
-	text-decoration: none;
-}
+    a {
+	    text-decoration: none;
+    }
 </style>

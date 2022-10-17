@@ -3,72 +3,197 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" th:href="@{/css/search_thread_result.css}">
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/dist/css/bootstrap.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Search Threads</title>
 </head>
 <body>
 <div th:replace="fragments/nav :: navbar"></div>
-<div class="container">
-    <div class="container-search">
-        <div class="container-search-title">
-            <h5 class="text-white">
-                Pencarian
-            </h5>
-        </div>
-        <div class="container-search-description">
-            Menampilkan hasil list pencarian yang dicari
-        </div>
-        <div class="container-search-list">
-            <div class="container-search-list-scroll">
-                <div class="container-search-list-scroll-background" th:each="thread : ${listSearchThreads}">
-                    <a th:href="@{'/thread/{id}/' (id=${thread.id})}">
-                        <div class="container-search-list-scroll-background-flex">
-                            <div>
-                                <div class="container-search-list-scroll-background-flex-title"
-                                     th:text="${thread.title}"></div>
-                                <div class="container-search-list-scroll-background-flex-content"
-                                     th:text="${thread.content}"></div>
-                            </div>
-                            <div th:text="${thread.voteScore}"
-                                 class="mx-auto container-search-list-scroll-background-flex-upvote"></div>
-                        </div>
-                    </a>
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<div id="mySidebar" class="sidebar">
+    <a class="mySidebar-logo" href="/dashboard">
+        <img th:src="@{/assets/logosimaforum.png}"
+             src="../assets/logosimaforum.png" alt="logo-icon" width="130" style="margin-top: -30px;" />
+    </a>
+    <hr style="height: 3px; " class="mySidebar-line">
+    <a href="/dashboard"><i class="fa fa-home"></i>Dashboard</a>
+    <a th:if="${session.USER_LOGIN_NAME}" href="/mythread"><i class='fas fa-briefcase'></i>My threads</a>
+    <div th:if="${session.USER_LOGIN_NAME}">
+        <span class="sidebar-parent"><i class="fas fa-user-alt"></i>Account</span>
+        <a th:if="${session.USER_LOGIN_NAME}" class="sidebar-child" href="/user/logout"><i class='fas fa-door-open'></i>Logout</a>
+    </div>
+    <div th:unless="${session.USER_LOGIN_NAME}">
+        <span class="sidebar-parent"><i class="fas fa-user-alt"></i>Account</span>
+        <a class="sidebar-child" href="/user/register"><i class='fas fa-user-plus'></i>Register</a>
+        <a class="sidebar-child" href="/user/login"><i class='fas fa-door-closed'></i>Login</a>
+    </div>
+    <a href="/reports"><i class='fas fa-ban'></i>Reports</a>
+</div>
+<div class="search-thread-result">
+    <div th:each="thread : ${listSearchThreads}" id="pembicaraan-terbaru">
+        <h3 class="pembicaraan-terbaru-title">Hasil pencarian</h3>
+        <p class="pembicaraan-terbaru-description">Menampilkan hasil list dari pencarian.</p>
+        <div class="pembicaraan">
+            <button class="clear-decoration pembicaraan-title"><a th:href="@{'/thread/{id}/' (id=${thread.id})}"><span th:text="${thread.title}"></span></a><i
+                    class='icon-margin fas fa-thumbtack'></i></button>
+            <p class="pembicaraan-content" th:text="${thread.content}"></p>
+            <div class="pembicaraan-flex">
+                <div class="pembicaraan-flex-inside">
+                    <span class="pembicaraan-flex-inside-span">answer 0</span>
+                </div>
+                <div>
+                    andre, 17 agustus 2025
                 </div>
             </div>
+            <hr class="line-pembicaraan">
         </div>
     </div>
 </div>
-
 <script th:src="@{/webjars/bootstrap/5.1.3/dist/js/bootstrap.bundle.js}"></script>
 </body>
 </html>
 <style>
-    /* width */
-    ::-webkit-scrollbar {
-        width: 10px;
-
+    .pembicaraan-terbaru-title {
+        font-weight: bold;
     }
 
-    a {
+    .icon-margin {
+        margin-left: 20px;
+        color: red;
+    }
+
+    .line-pembicaraan {
+        height: 2px;
+        margin-top: 20px;
+        margin-right: 30px;
+    }
+
+    .pembicaraan {
+        margin-top: 40px;
+    }
+
+    .pembicaraan-title {
+        font-family: Inter;
+        letter-spacing: 2px;
         text-decoration: none;
+        color: #73ABFF;
+        font-size: 20px;
+        margin-bottom: 10px;
     }
 
-    /* Track */
-    ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 20px;
+    .pembicaraan-content {
+        color: #5E504F;
+        margin-right: 30px;
+        font-size: 14px;
+    }
+
+    .pembicaraan-flex-inside-span {
         margin: 0 15px 0 0;
     }
 
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-        background: #F97E7E;
-        border-radius: 20px;
+    .pembicaraan-flex {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 30px 0 0;
     }
 
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-        background: #555;
+    .pembicaraan-flex-inside {
+        display: flex;
+    }
+
+    .clear-decoration {
+        text-decoration: none;
+        padding: 0;
+        border: none;
+        background: none;
+    }
+
+    .pembicaraan-terbaru-description {
+        color: #927B7B;
+    }
+
+    i {
+        margin-right: 10px;
+    }
+
+    .sidebar-parent {
+        padding: 16px 8px 16px 32px;
+        text-decoration: none;
+        font-size: 16px;
+        color: #EFDADA;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .sidebar-child {
+        margin-left: 25px;
+    }
+
+    .mySidebar-logo {
+        margin-left: 30px;
+    }
+
+    .mySidebar-line {
+        margin: 20px;
+        color: white;
+        background-color: white;
+        border-width: 0;
+    }
+
+    body {
+        font-family: Inter;
+        letter-spacing: 2px;
+    }
+
+    .sidebar {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        background-color: #FF5045;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+    }
+
+    .sidebar a {
+        padding: 16px 8px 16px 32px;
+        text-decoration: none;
+        font-size: 16px;
+        color: #EFDADA;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+        color: #FFFFFF;
+    }
+
+    .sidebar .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+    .search-thread-result {
+        margin: 150px 0 0 330px;
+    }
+
+    /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+    @media screen and (max-height: 450px) {
+        .sidebar {
+            padding-top: 15px;
+        }
+
+        .sidebar a {
+            font-size: 18px;
+        }
     }
 </style>

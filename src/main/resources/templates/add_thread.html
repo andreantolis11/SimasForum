@@ -5,31 +5,152 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/dist/css/bootstrap.css}"/>
-    <link rel="stylesheet" th:href="@{/css/add_thread.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Add Thread</title>
 </head>
 <body>
 <div th:replace="fragments/nav :: navbar"></div>
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<div id="mySidebar" class="sidebar">
+    <a class="mySidebar-logo" href="/dashboard">
+        <img th:src="@{/assets/logosimaforum.png}"
+             src="../assets/logosimaforum.png" alt="logo-icon" width="130" style="margin-top: -30px;" />
+    </a>
+    <hr style="height: 3px; " class="mySidebar-line">
+    <a href="/dashboard"><i class="fa fa-home"></i>Dashboard</a>
+    <a th:if="${session.USER_LOGIN_NAME}" href="/mythread"><i class='fas fa-briefcase'></i>My threads</a>
+    <div th:if="${session.USER_LOGIN_NAME}">
+        <span class="sidebar-parent"><i class="fas fa-user-alt"></i>Account</span>
+        <a th:if="${session.USER_LOGIN_NAME}" class="sidebar-child" href="/user/logout"><i class='fas fa-door-open'></i>Logout</a>
+    </div>
+    <div th:unless="${session.USER_LOGIN_NAME}">
+        <span class="sidebar-parent"><i class="fas fa-user-alt"></i>Account</span>
+        <a class="sidebar-child" href="/user/register"><i class='fas fa-user-plus'></i>Register</a>
+        <a class="sidebar-child" href="/user/login"><i class='fas fa-door-closed'></i>Login</a>
+    </div>
+    <a href="/reports"><i class='fas fa-ban'></i>Reports</a>
+</div>
+<div class="add-thread">
+    <h3 class="title">Create Thread</h3>
+    <p class="content">Membuat sebuah thread seperti pertanyaan atau informasi yang ingin disampaikan
+        kepada nasabah lainnya.</p>
 
-<div class="container container-add-thread">
-    <div><h1 class="container-add-thread-title">Create Thread</h1></h1></div>
-    <form method="post" th:action="@{/thread/add}">
-        <div class="form-group">
-            <label class="container-add-thread-form-title-label" for="title">Title</label>
-            <input name="title" type="text" class="form-control" id="title" placeholder="Title">
-        </div>
-        <div class="form-group container-add-thread-form-content">
-            <label class="container-add-thread-form-content-label" for="content">Content</label>
-            <textarea name="content" placeholder="Content" class="form-control" id="content" rows="10"></textarea>
-        </div>
-        <div class="form-group container-add-thread-form-table">
-            <input class="btn btn-danger container-add-thread-form-table-input" value="Back" type="button"
-                   onclick="history.back()"/>
-            <button type="submit" class="btn btn-success container-add-thread-form-table-button">Submit</button>
-        </div>
-    </form>
+    <div class="form-add-thread">
+        <form method="post" th:action="@{/thread/add}">
+            <div class="form-group" style="width: 400px">
+                <label for="title">Title</label>
+                <input name="title" type="text" class="form-control" id="title" placeholder="input title...">
+            </div>
+            <div class="form-group" style="width: 400px">
+                <label for="content">Content</label>
+                <textarea name="content" placeholder="input content..." class="form-control" id="content" rows="10"></textarea>
+            </div>
+            <input type="submit" class="btn button-form" />
+        </form>
+    </div>
 </div>
 
 <script th:src="@{/webjars/bootstrap/5.1.3/dist/js/bootstrap.bundle.js}"></script>
 </body>
 </html>
+<style>
+    .button-form{
+        color: #B69797;
+        font-weight: bold;
+        background-color: #D8C4C4;
+        border-radius: 5px;
+        border-color: #D8C4C4;
+        width: 70px;
+    }
+    .title {
+        font-weight: bold;
+    }
+    .content{
+        color: #927B7B;
+        margin-bottom: 20px;
+    }
+    i {
+        margin-right: 10px;
+    }
+
+    .sidebar-parent {
+        padding: 16px 8px 16px 32px;
+        text-decoration: none;
+        font-size: 16px;
+        color: #EFDADA;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .sidebar-child {
+        margin-left: 25px;
+    }
+
+    .mySidebar-logo {
+        margin-left: 30px;
+    }
+
+    .mySidebar-line {
+        margin: 20px;
+        color: white;
+        background-color: white;
+        border-width: 0;
+    }
+
+    body {
+        font-family: Inter;
+        letter-spacing: 2px;
+    }
+
+    .sidebar {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        background-color: #FF5045;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+    }
+
+    .sidebar a {
+        padding: 16px 8px 16px 32px;
+        text-decoration: none;
+        font-size: 16px;
+        color: #EFDADA;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+        color: #FFFFFF;
+    }
+
+    .sidebar .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+    .add-thread {
+        margin: 150px 0 0 330px;
+    }
+
+    /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+    @media screen and (max-height: 450px) {
+        .sidebar {
+            padding-top: 15px;
+        }
+
+        .sidebar a {
+            font-size: 18px;
+        }
+    }
+</style>
