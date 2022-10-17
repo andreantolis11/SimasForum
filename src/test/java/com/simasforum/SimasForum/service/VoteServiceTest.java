@@ -1,6 +1,7 @@
 package com.simasforum.SimasForum.service;
 
 import com.simasforum.SimasForum.model.Reply;
+import com.simasforum.SimasForum.model.Role;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.model.Vote;
@@ -31,7 +32,7 @@ public class VoteServiceTest {
     @Test
     void addUpVote_thread() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123");
+        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123", new Role("user"));
         fadhlul.setId(1L);
         Thread thread = new Thread(fadhlul, "Lorem ipsum", "Lorem impus", 0, date);
         thread.setId(1L);
@@ -44,7 +45,7 @@ public class VoteServiceTest {
     @Test
     void addDownVote_thread() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123");
+        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123", new Role("user"));
         fadhlul.setId(1L);
         Thread thread = new Thread(fadhlul, "Lorem ipsum", "Lorem impus", 0, date);
         thread.setId(1L);
