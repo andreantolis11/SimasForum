@@ -24,4 +24,13 @@ public class ReportService {
     public void acceptReportById(Long id) {
         reportRepository.deleteById(id);
     }
+    public List<Report> getReportByThreadId(Long id) {
+        List<Report> report = reportRepository.findByThreadId(id);
+        return report;
+    }
+
+    public List<Report> getReportByReplyId(Long id) {
+        List<Report> report = reportRepository.findByReplyId(id);
+        return report;
+    }
 }

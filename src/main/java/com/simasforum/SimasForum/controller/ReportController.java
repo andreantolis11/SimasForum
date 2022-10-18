@@ -1,8 +1,10 @@
 package com.simasforum.SimasForum.controller;
 
+import com.simasforum.SimasForum.model.Reply;
 import com.simasforum.SimasForum.model.Report;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
+import com.simasforum.SimasForum.service.ReplyService;
 import com.simasforum.SimasForum.service.ReportService;
 import com.simasforum.SimasForum.service.ThreadService;
 import com.simasforum.SimasForum.service.UserService;
@@ -29,6 +31,9 @@ public class ReportController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ReplyService replyService;
+
     @PostMapping("/thread/report/{threadId}/{userId}")
     public String newReport(@PathVariable Long threadId,
                             @PathVariable Long userId,
@@ -36,9 +41,24 @@ public class ReportController {
 
         Optional<Thread> foundThread = threadService.getThreadDetail(threadId);
         User foundUser = userService.getUserById(userId);
+        if(foundUser == null) {
+            return "redirect:/user/login";
+        }
         reportService.addReport(new Report(alasan, foundThread.get(), foundUser));
+        return "redirect:/thread/" + foundThread.get().getId();
+    }
 
-        return "redirect:/dashboard";
+    @PostMapping("/thread/reply/report/{id}")
+    public String reportReply(@PathVariable Long replyId,
+                              @PathVariable Long userId,
+                              @RequestParam("alasan") String alasan) {
+        Optional<Reply> reply = replyService.getReplyById(replyId);
+        User foundUser = userService.getUserById(userId);
+        if(foundUser == null) {
+            return "redirect:/user/login";
+        }
+        reportService.addReport(new Report(alasan, reply.get(), foundUser));
+        return "redirect:/thread/" + reply.get().getThreadId();
     }
 
     @GetMapping("/reports")

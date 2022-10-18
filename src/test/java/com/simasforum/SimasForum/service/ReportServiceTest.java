@@ -1,9 +1,8 @@
 package com.simasforum.SimasForum.service;
 
-import com.simasforum.SimasForum.model.Report;
-import com.simasforum.SimasForum.model.Role;
+
+import com.simasforum.SimasForum.model.*;
 import com.simasforum.SimasForum.model.Thread;
-import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.repository.ReportRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +11,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 @SpringBootTest
 public class ReportServiceTest {
@@ -26,18 +27,39 @@ public class ReportServiceTest {
     private ReportRepository reportRepository;
 
     @Test
-    void addReport_ok(){
+    void addReport_thread() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        Role user = new Role("user");
-        user.setId(1L);
-        User john = new User("john", "john@gmail.com", "john12345", user);
-        john.setId(1L);
-        Thread thread = new Thread(john, "Title Spam", "Content Spam", 0, date);
-        Report report = new Report("Spam", thread, john);
+        User axel = new User("axel", "axel@mail.com", "1234", new Role("user"));
+        axel.setId(1L);
+        Thread thread = new Thread(axel, "Judul", "Konten", 0, date);
+        thread.setId(1L);
+        Report report = new Report("Thread mengandung konten SARA", thread, axel);
+        reportService.addReport(report);
+        verify(reportRepository, times(1)).save(any(Report.class));
+    }
 
-        when(reportRepository.save(any(Report.class))).thenReturn(report);
+    @Test
+    void addReport_reply() {
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User axel = new User("axel", "axel@mail.com", "1234", new Role("user"));
+        axel.setId(1L);
+        Thread thread = new Thread(axel, "Judul", "Konten", 0, date);
+        thread.setId(1L);
+        Reply reply = new Reply("Thread jadul", "Konten", axel, thread);
+        Report report = new Report("Thread mengandung konten SARA", reply, axel);
+        reportService.addReport(report);
+        verify(reportRepository, times(1)).save(any(Report.class));
+    }
 
-        Report savedReport = reportService.addReport(report);
-        assertEquals(1L, savedReport.getUser().getId());
+    @Test
+    void getReportByThreadId() {
+        reportService.getReportByThreadId(1L);
+        verify(reportRepository, times(1)).findByThreadId(anyLong());
+    }
+
+    @Test
+    void getReportByReplyId() {
+        reportService.getReportByReplyId(1L);
+        verify(reportRepository, times(1)).findByReplyId(anyLong());
     }
 }
