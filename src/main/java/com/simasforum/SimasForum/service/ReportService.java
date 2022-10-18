@@ -5,6 +5,8 @@ import com.simasforum.SimasForum.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ReportService {
 
@@ -13,5 +15,15 @@ public class ReportService {
 
     public void addReport(Report report){
         reportRepository.save(report);
+    }
+
+    public List<Report> getReportByThreadId(Long id) {
+        List<Report> report = reportRepository.findByThreadId(id);
+        return report;
+    }
+
+    public List<Report> getReportByReplyId(Long id) {
+        List<Report> report = reportRepository.findByReplyId(id);
+        return report;
     }
 }
