@@ -1,5 +1,6 @@
 package com.simasforum.SimasForum.service;
 
+
 import com.simasforum.SimasForum.model.*;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.repository.ReportRepository;
@@ -9,10 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
-import java.util.List;
 
+import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 @SpringBootTest
 public class ReportServiceTest {
