@@ -62,4 +62,23 @@ public class ReportServiceTest {
         reportService.getReportByReplyId(1L);
         verify(reportRepository, times(1)).findByReplyId(anyLong());
     }
+
+    @Test
+    void acceptReportById() {
+        reportService.acceptReportById(1L);
+        verify(reportRepository, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    void ignoreReportById() {
+        reportService.ignoreReportById(1L);
+        verify(reportRepository, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    void reportReason() {
+        reportService.reportReason();
+        verify(reportRepository, times(1)).findByThreadIsNotNull();
+        verify(reportRepository, times(1)).findByReplyIsNotNull();
+    }
 }

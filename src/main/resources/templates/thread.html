@@ -129,7 +129,6 @@
                         <a class="button-reply">BALAS</a>
                     </button>
                 </div>
-
                 <form th:if="${session.USER_LOGIN_NAME}" method="post" th:id="'r_form_'+${reply.id}" th:action="@{'/reply/reply/{id}' (id=${reply.id})}"
                       style="width: 955px; float: right; display: none;">
                     <div class="form-group">
