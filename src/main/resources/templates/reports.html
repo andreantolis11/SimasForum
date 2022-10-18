@@ -34,6 +34,7 @@
 <div class="reports">
     <h3 class="title">All Reports</h3>
     <p class="content">Menampilkan hasil list dari report yang dibuat oleh user dan anonymous.</p>
+    <h5 class="title" style="margin-top: 20px;">Thread Reports</h5>
     <table class="table table-bordered">
         <thead>
         <tr class="tr-head">
@@ -42,19 +43,50 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="res : ${reports}">
-            <td><a th:text="${res.reasonForReport}"></a></td>
-            <td th:text="${res.thread.id}"></td>
-            <td class="td-flex">
-<!--                <form>-->
-<!--                    <button class="clear-decoration"><a th:href="@{'/thread/{id}/' (id=${res.id})}"  class="detail-button">detail</a></button>-->
-<!--                </form>-->
-<!--                <form>-->
-<!--                    <button class="clear-decoration"><a class="edit-button">edit</a></button>-->
-<!--                </form>-->
-                <form method="post" th:action="@{'/reports/{id}' (id=${res.id})}">
-                    <button class="button-delete clear-decoration"><a class="delete-button">accept</a></button>
-                </form>
+        <tr th:each="res : ${reportsThread}">
+            <td style="height: 0;">
+                <div th:each="res1 : ${reasonsThread.get(res.getThread().getId())}">
+                    <span th:text="${res1}"></span>
+                </div>
+            </td>
+            <td style="height: 0;">
+                <div class="td-flex" style="align-items: center">
+                    <button class="clear-decoration"><a th:href="@{'/thread/{id}/' (id=${res.thread.id})}" class="detail-button">detail</a></button>
+                    <form method="post" th:action="@{'/reports/accept/{id}/thread/{threadId}' (id=${res.id},threadId=${res.thread.id})}">
+                        <button class="clear-decoration"><a class="detail-button">accept</a></button>
+                    </form>
+                    <form method="post" th:action="@{'/reports/thread/ignore/{id}' (id=${res.id})}">
+                        <button class="button-delete clear-decoration"><a class="delete-button">ignore</a></button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <h5 class="title" style="margin-top: 40px;">Reply Reports</h5>
+    <table class="table table-bordered">
+        <thead>
+        <tr class="tr-head">
+            <th class="th-title" scope="col">Alasan</th>
+            <th class="th-title width-action" scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="res : ${reportsReply}">
+            <td style="height: 0;">
+                <div th:each="res1 : ${reasonsReply.get(res.getReply().id)}">
+                    <span th:text="${res1}"></span>
+                </div>
+            </td>
+            <td style="height: 0;">
+                <div class="td-flex" style="align-items: center">
+                    <form method="post" th:action="@{'/reports/accept/{id}/reply/{replyId}' (id=${res.id},replyId=${res.reply.id})}">
+                        <button class="clear-decoration"><a class="detail-button">accept</a></button>
+                    </form>
+                    <form method="post" th:action="@{'/reports/reply/ignore/{id}' (id=${res.id})}">
+                        <button class="button-delete clear-decoration"><a class="delete-button">ignore</a></button>
+                    </form>
+                </div>
             </td>
         </tr>
         </tbody>
@@ -95,6 +127,7 @@
     .td-flex {
         display: flex;
         justify-content: space-evenly;
+        height: max-content;
     }
     .tr-head {
         background-color: #FF6A6A;
