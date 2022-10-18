@@ -1,5 +1,6 @@
 package com.simasforum.SimasForum.service;
 
+import com.simasforum.SimasForum.model.Role;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.model.Vote;
@@ -34,7 +35,7 @@ public class ThreadServiceTest {
     @Test
     void addThreadItem_ok() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User andre = new User("andre", "andre@gmail.com", "123");
+        User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));
         andre.setId(1L);
         Thread freshThread = new Thread(andre, "Fitur Simas+", "Fitur fitur yang dimiliki oleh Simas+", 412, date);
 
@@ -47,7 +48,7 @@ public class ThreadServiceTest {
     @Test
     void getThreadItemById_existingThread_ok() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User andre = new User("andre", "andre@gmail.com", "123");
+        User andre = new User("andre", "andre@gmail.com", "123",new Role("user"));
         andre.setId(1L);
         Thread freshThread = new Thread(andre, "Fitur Simas+", "Fitur fitur yang dimiliki oleh Simas+", 412, date);
 
@@ -60,7 +61,7 @@ public class ThreadServiceTest {
     void getThreadBySearch(){
         //[SETUP]
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User andre = new User("andre", "andre@gmail.com", "123");
+        User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));
         andre.setId(1L);
         List<Thread> thread = List.of(new Thread( andre, "Apa itu investasi", "Content 1", 0, null));
         when(threadRepository.findByTitleContainsIgnoreCase(anyString())).thenReturn(Optional.of(thread).get());
@@ -76,7 +77,7 @@ public class ThreadServiceTest {
     @Test
     void sortByUpVote() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User andre = new User("andre", "andre@gmail.com", "123");
+        User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));
         andre.setId(1L);
     	  List<Thread> thread = List.of(new Thread(andre, "Title 1", "Content 1", 2, null),new Thread(andre, "Title 1", "Content 1", 3, null),new Thread( andre, "Title 1", "Content 1", 6, null));
         when(threadRepository.findByOrderByVoteScoreDesc()).thenReturn(Optional.of(thread).get());
@@ -115,7 +116,7 @@ public class ThreadServiceTest {
     @Test
     void sortByDate() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User andre = new User("andre", "andre@gmail.com", "123");
+        User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));
         andre.setId(1L);
     	List<Thread> thread = List.of(new Thread( andre, "Title 1", "Content 1", 1, LocalDate.now()),new Thread(andre, "Title 1", "Content 1", 2, LocalDate.now()),new Thread( andre, "Title 1", "Content 1", 5, LocalDate.now()));
     	when(threadRepository.findByOrderByDatePostDesc()).thenReturn(Optional.of(thread).get());
@@ -126,7 +127,7 @@ public class ThreadServiceTest {
     @Test
     void getThreadDetail() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User andre = new User("andre", "andre@gmail.com", "123");
+        User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));
         andre.setId(1L);
     	Optional<Thread> thread = Optional.of(new Thread(andre, "Title 1", "Content 1", 1, LocalDate.now()));
     	when(threadRepository.findById(anyLong())).thenReturn(Optional.of(thread).get());
@@ -137,7 +138,7 @@ public class ThreadServiceTest {
     @Test
     void upVoteThread() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User andre = new User("andre", "andre@gmail.com", "123");
+        User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));
         andre.setId(1L);
         Optional<Thread> thread = Optional.of(new Thread(andre, "Title 1", "Content 1", 1, LocalDate.now()));
         when(threadRepository.findById(anyLong())).thenReturn((Optional.of(thread)).get());
@@ -148,7 +149,7 @@ public class ThreadServiceTest {
     @Test
     void downVoteThread() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User andre = new User("andre", "andre@gmail.com", "123");
+        User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));
         andre.setId(1L);
         Optional<Thread> thread = Optional.of(new Thread(andre, "Title 2", "Content 2", 31, LocalDate.now()));
         when(threadRepository.findById(anyLong())).thenReturn((Optional.of(thread)).get());
