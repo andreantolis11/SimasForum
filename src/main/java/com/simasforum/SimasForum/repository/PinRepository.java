@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 public interface PinRepository extends CrudRepository<Pin, Long> {
     Pin findByThreadId(Long id);
     Pin findByReplyId(Long id);
+    Pin findByReplyIdAndThreadId(Long replyId,Long threadId);
     void deletePinByThreadId(Long id);
     void deletePinByReplyId(Long id);
 }
