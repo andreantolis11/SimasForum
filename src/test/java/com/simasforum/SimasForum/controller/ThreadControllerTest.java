@@ -105,6 +105,14 @@ public class ThreadControllerTest {
     }
 
     @Test
+    void getEditPage_ok() throws Exception {
+        mockMvc.perform(get("/thread/edit/1")).andExpectAll(
+                status().isOk(),
+                view().name("edit_thread")
+        );
+    }
+
+    @Test
     void showDashboardByUpvote() throws Exception {
         LocalDate date = LocalDate.of(2020, 1, 8);
         User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));

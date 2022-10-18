@@ -125,6 +125,7 @@ public class ThreadController {
         return "thread";
     }
 
+
     @PostMapping("/thread/search")
     public String getThreadByTitle(@RequestParam("title") String title, Model model) {
         List<Thread> threads = threadService.getThreadBySearch(title);
