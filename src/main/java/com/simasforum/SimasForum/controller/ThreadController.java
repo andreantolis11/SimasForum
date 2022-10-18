@@ -31,9 +31,9 @@ public class ThreadController {
     private ThreadService threadService;
     private UserService userService;
     private ReplyService replyService;
-
-
     private VoteService voteService;
+
+    private static final String THREAD_DETAIL_MODEL = "threadDetail";
 
     @Autowired
     public void setThreadService(ThreadService threadService) {
@@ -114,7 +114,7 @@ public class ThreadController {
         List<Reply> threadReplies = threadDetail.get().getReply();
         Map<Long, Boolean> replyVoteMap = voteService.getUserVotedList(threadReplies,(Long) session.getAttribute("USER_LOGIN_ID"));
         int upVotes = threadService.getVoteByUserAndThreadId(id, (Long) session.getAttribute("USER_LOGIN_ID"));
-        model.addAttribute("threadDetail", threadDetail.get());
+        model.addAttribute(THREAD_DETAIL_MODEL, threadDetail.get());
         model.addAttribute("threadReplies", threadReplies);
         model.addAttribute("userName", owner.getName());
         model.addAttribute("userId", session.getAttribute("USER_LOGIN_ID"));
@@ -144,6 +144,25 @@ public class ThreadController {
     @GetMapping("/")
     public String defaultRedirect() {
         return "redirect:/dashboard";
+    }
+
+    @GetMapping("/thread/edit/{id}")
+    public String getEditPage(@PathVariable("id") Long id, Model model){
+        Optional<Thread> foundThread = threadService.getThreadDetail(id);
+        model.addAttribute(THREAD_DETAIL_MODEL, foundThread.get());
+        return "edit_thread";
+    }
+
+    @PostMapping("/thread/edit/{id}")
+    public String editThreadDetails(@PathVariable("id") Long id,
+                                    @RequestParam("title") String title,
+                                    @RequestParam("content") String content,
+                                    Model model) {
+        Optional<Thread> threadDetail = threadService.getThreadDetail(id);
+        threadDetail.get().setTitle(title);
+        threadDetail.get().setContent(content);
+        model.addAttribute(THREAD_DETAIL_MODEL, threadDetail.get());
+        return "redirect:/mythread";
     }
 
     @GetMapping("/mythread")
