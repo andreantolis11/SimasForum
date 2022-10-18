@@ -18,8 +18,8 @@
 
 <div class="container">
     <div class="container-registers">
-        <div>
-            <div><p class="container-register-background-title">REGISTER</p></div>
+        <div class="container-register-form mx-auto">
+            <div><p class="container-register-background-title text-center">REGISTER</p></div>
             <form class="container-register-background-form" th:action="@{'/user/register'}" method="post">
                 <div class="mb-3">
                     <label class="text-white">Name</label>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="container-register-background-form-bottom">
                     <a style="text-decoration: none; color: #FFFFFF;" href="/user/login">already have an account?</a>
-                    <input type="submit" class="btn button-form" />
+                    <input style="float: right;" type="submit" class="btn button-form" />
                 </div>
             </form>
         </div>
@@ -69,6 +69,9 @@
 </body>
 </html>
 <style>
+    .container-register-form {
+        width: 23vw;
+    }
     .container-register-background-title {
         color: #FFFFFF;
         font-weight: bold;
@@ -92,7 +95,7 @@
         margin: 50px auto 0 auto;
         padding: 30px;
         border-radius: 5px;
-        width: 30vw;
+        width: max-content;
         display: flex;
     }
     .navbar-color {

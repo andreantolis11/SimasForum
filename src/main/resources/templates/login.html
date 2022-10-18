@@ -18,8 +18,8 @@
 
 <div class="container">
     <div class="container-login">
-        <div>
-            <div><p class="container-login-background-title">LOGIN</p></div>
+        <div class="logins">
+            <div><p class="container-login-background-title text-center">LOGIN</p></div>
             <form name="loginform" class="container-login-background-form" th:action="@{'/user/login'}" method="post">
                 <div class="mb-3">
                     <label class="text-white">Email</label>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="container-login-background-form-bottom">
                     <a style="text-decoration: none; color: #FFFFFF;" href="/user/register">don't have an account?</a>
-                    <input type="submit" class="btn button-form" />
+                    <input style="float: right;" type="submit" class="btn button-form" />
                 </div>
             </form>
         </div>
@@ -47,6 +47,9 @@
 </body>
 </html>
 <style>
+    .logins {
+        width: 23vw;
+    }
     .button-form {
         color: #B69797;
         font-weight: bold;

@@ -14,11 +14,6 @@
 <div th:replace="fragments/nav :: navbar"></div>
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <div id="mySidebar" class="sidebar">
-    <a class="mySidebar-logo" href="/dashboard">
-        <img th:src="@{/assets/logosimaforum.png}"
-             src="../assets/logosimaforum.png" alt="logo-icon" width="130" style="margin-top: -30px;" />
-    </a>
-    <hr style="height: 3px; " class="mySidebar-line">
     <a href="/dashboard"><i class="fa fa-home"></i>Dashboard</a>
     <a th:if="${session.USER_LOGIN_NAME}" href="/mythread"><i class='fas fa-briefcase'></i>My threads</a>
     <div th:if="${session.USER_LOGIN_NAME}">
@@ -163,15 +158,15 @@
     .sidebar-child {
         margin-left: 25px;
     }
-    .mySidebar-logo {
-        margin-left: 30px;
-    }
-    .mySidebar-line {
-        margin: 20px;
-        color: white;
-        background-color: white;
-        border-width:0;
-    }
+    /*.mySidebar-logo {*/
+    /*    margin-left: 30px;*/
+    /*}*/
+    /*.mySidebar-line {*/
+    /*    margin: 20px;*/
+    /*    color: white;*/
+    /*    background-color: white;*/
+    /*    border-width:0;*/
+    /*}*/
     body {
         font-family: Inter;
         letter-spacing: 2px;
@@ -180,13 +175,14 @@
         height: 100%;
         width: 250px;
         position: fixed;
-        z-index: 2;
+        z-index: 1;
         top: 0;
         left: 0;
-        background-color: #FF5045;
+        background-color: #C12F2F;
         overflow-x: hidden;
         transition: 0.5s;
         padding-top: 60px;
+        margin-top: 70px;
     }
 
     .sidebar a {
@@ -212,11 +208,5 @@
 
     .dashboard {
         margin: 150px 0 0 330px;
-    }
-
-    /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-    @media screen and (max-height: 450px) {
-        .sidebar {padding-top: 15px;}
-        .sidebar a {font-size: 18px;}
     }
 </style>
