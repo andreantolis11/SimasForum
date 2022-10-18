@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ReportRepository extends CrudRepository<Report, Long> {
     List<Report> findByThreadId(Long id);
+    List<Report> findAll();
 }
