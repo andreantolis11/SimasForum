@@ -20,4 +20,8 @@ public class ReportService {
     public List<Report> allReports() {
         return reportRepository.findAll();
     }
+
+    public void acceptReportById(Long id) {
+        reportRepository.deleteById(id);
+    }
 }

@@ -45,6 +45,12 @@ public class ReportController {
     public String allReports(Model model) {
         List<Report> getData = reportService.allReports();
         model.addAttribute("reports", getData);
-        return "report";
+        return "reports";
+    }
+
+    @PostMapping("/reports/{id}")
+    public String acceptReport(@PathVariable Long id) {
+        reportService.acceptReportById(id);
+        return "redirect:/reports";
     }
 }

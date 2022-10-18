@@ -37,22 +37,23 @@
     <table class="table table-bordered">
         <thead>
         <tr class="tr-head">
-            <th class="th-title" scope="col">Title</th>
+            <th class="th-title" scope="col">Alasan</th>
             <th class="th-title width-action" scope="col">Action</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="res : ${result}">
-            <td><a th:text="${res.title}"></a></td>
+        <tr th:each="res : ${reports}">
+            <td><a th:text="${res.reasonForReport}"></a></td>
+            <td th:text="${res.thread.id}"></td>
             <td class="td-flex">
-                <form>
-                    <button class="clear-decoration"><a th:href="@{'/thread/{id}/' (id=${res.id})}"  class="detail-button">detail</a></button>
-                </form>
-                <form>
-                    <button class="clear-decoration"><a class="edit-button">edit</a></button>
-                </form>
-                <form method="post" th:action="@{'/mythread/{id}' (id=${res.id})}">
-                    <button class="button-delete clear-decoration"><a class="delete-button">delete</a></button>
+<!--                <form>-->
+<!--                    <button class="clear-decoration"><a th:href="@{'/thread/{id}/' (id=${res.id})}"  class="detail-button">detail</a></button>-->
+<!--                </form>-->
+<!--                <form>-->
+<!--                    <button class="clear-decoration"><a class="edit-button">edit</a></button>-->
+<!--                </form>-->
+                <form method="post" th:action="@{'/reports/{id}' (id=${res.id})}">
+                    <button class="button-delete clear-decoration"><a class="delete-button">accept</a></button>
                 </form>
             </td>
         </tr>
