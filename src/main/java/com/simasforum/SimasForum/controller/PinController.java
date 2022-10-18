@@ -19,7 +19,7 @@ public class PinController {
     @Autowired
     private ReplyService replyService;
 
-    @PostMapping("/thread/{replyId}")
+    @PostMapping("/pin/{replyId}")
     public String pinReply(@PathVariable("replyId") Long replyId, HttpServletRequest request){
         try{
             Reply reply = replyService.getReplyById(replyId).get();

@@ -68,7 +68,14 @@
         </form>
         <div class="replies" th:if="${replies} != null" th:each="reply: ${replies}">
             <div class="replies-reply-thread">
-                <p th:text="${reply.content}"></p>
+                <div th:if="${pinsReply.get(reply.id) == true} ">
+                    <div style="display: flex;">
+                        <p th:text="${reply.content}"></p><i class='icon-margin fas fa-thumbtack' style="color: red;"></i>
+                    </div>
+                </div>
+                <div th:unless="${pinsReply.get(reply.id) == true}">
+                    <p th:text="${reply.content}"></p>
+                </div>
                 <div class="reply-action">
                     <form th:if="${session.USER_LOGIN_NAME}" method="post"
                           th:action="@{'/thread/{id}/{replyId}/{isUpVote}' (isUpVote=true, id=${threadDetail.id},replyId=${reply.id})}">
