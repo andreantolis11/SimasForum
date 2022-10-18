@@ -125,7 +125,6 @@ public class ThreadController {
         return "thread";
     }
 
-
     @PostMapping("/thread/search")
     public String getThreadByTitle(@RequestParam("title") String title, Model model) {
         List<Thread> threads = threadService.getThreadBySearch(title);
@@ -145,6 +144,25 @@ public class ThreadController {
     @GetMapping("/")
     public String defaultRedirect() {
         return "redirect:/dashboard";
+    }
+
+    @GetMapping("/thread/edit/{id}")
+    public String getEditPage(@PathVariable("id") Long id, Model model){
+        Optional<Thread> foundThread = threadService.getThreadDetail(id);
+        model.addAttribute("threadDetail", foundThread.get());
+        return "edit_thread";
+    }
+
+    @PostMapping("/thread/edit/{id}")
+    public String editThreadDetails(@PathVariable("id") Long id,
+                                    @RequestParam("title") String title,
+                                    @RequestParam("content") String content,
+                                    Model model) {
+        Optional<Thread> threadDetail = threadService.getThreadDetail(id);
+        threadDetail.get().setTitle(title);
+        threadDetail.get().setContent(content);
+        model.addAttribute("threadDetail", threadDetail.get());
+        return "redirect:/mythread";
     }
 
     @GetMapping("/mythread")
