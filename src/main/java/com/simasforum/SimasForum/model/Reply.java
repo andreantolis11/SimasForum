@@ -26,8 +26,8 @@ public class Reply {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "replyId")
     private List<Reply> replies;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "replyId")
+
+    @OneToMany(mappedBy = "reply", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Report> reports;
 
     @OneToMany(mappedBy = "reply", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
