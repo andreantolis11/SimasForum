@@ -1,0 +1,29 @@
+.container-register-form {
+    width: 23vw;
+}
+.container-register-background-title {
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+.container-register-background-form-bottom {
+    margin-top: 20px;
+}
+.container-register-background-title {
+    color:white;
+}
+.container-registers {
+    background-color: #FF6A6A;
+    margin: 50px auto 0 auto;
+    padding: 30px;
+    border-radius: 5px;
+    width: max-content;
+    display: flex;
+}
+.navbar-color {
+    background-color: #FF5045;
+}
+body {
+    font-family: 'Source Sans Pro',sans-serif;
+    letter-spacing: 1px;
+}

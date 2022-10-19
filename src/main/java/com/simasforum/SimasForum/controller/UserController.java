@@ -85,6 +85,7 @@ public class UserController {
         request.getSession().setAttribute("LOGIN_ERROR", false);
         request.getSession().setAttribute("USER_LOGIN_ID", loginUser.getId());
         request.getSession().setAttribute("USER_LOGIN_NAME", loginUser.getName());
+        request.getSession().setAttribute("USER_LOGIN_ROLE", loginUser.getRole().getRoleName());
         return "redirect:/dashboard";
     }
     
