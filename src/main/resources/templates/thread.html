@@ -125,6 +125,32 @@
                             </a>
                         </button>
                     </form>
+                    <button th:if="${userId != null}" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                        Report
+                    </button>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Report Reply</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="post"
+                                          th:action="@{'/thread/reply/report/{id}/{userId}' (id=${reply.id}, userId=${userId})}">
+                                        <div class="form-group">
+                                            <label>Alasan</label>
+                                            <input name="alasan" type="tel" class="form-control" id="alasan" placeholder="Alasan">
+                                        </div>
+                                        <!--                                    <div class="modal-footer">-->
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <!--                                    </div>-->
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                     <button th:if="${session.USER_LOGIN_NAME}" th:onclick="|hide('r_form_'+${reply.id})|" class="clear-decoration button-area">
                         <a class="button-reply">BALAS</a>
                     </button>
