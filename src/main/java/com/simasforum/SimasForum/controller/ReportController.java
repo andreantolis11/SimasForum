@@ -61,7 +61,7 @@ public class ReportController {
         return "redirect:"+ referer;
     }
 
-    @PostMapping("/thread/reply/report/{id}")
+    @PostMapping("/thread/reply/report/{id}/{userId}")
     public String reportReply(@PathVariable Long replyId,
                               @PathVariable Long userId,
                               @RequestParam("alasan") String alasan) {
