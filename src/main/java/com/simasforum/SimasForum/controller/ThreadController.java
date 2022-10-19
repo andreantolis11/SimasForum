@@ -1,6 +1,5 @@
 package com.simasforum.SimasForum.controller;
 
-import com.simasforum.SimasForum.model.Pin;
 import com.simasforum.SimasForum.model.Reply;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
@@ -96,9 +95,7 @@ public class ThreadController {
         model.addAttribute("threadbydate", dateThreads.get("threadList"));
         model.addAttribute("pinnedthreadbydate", dateThreads.get("pinnedThreads"));
         List<Thread> threadByVote = new ArrayList<>(threadService.sortByVoteScore());
-        Map<String, List<Thread>> voteThreads = pinService.mapPinnedThread(threadByVote);
-        model.addAttribute("threadbyvote", voteThreads.get("threadList"));
-        model.addAttribute("pinnedthreadbyvote", voteThreads.get("pinnedThreads"));
+        model.addAttribute("threadbyvote", threadByVote);
         return "dashboard";
     }
 
@@ -111,7 +108,7 @@ public class ThreadController {
         User owner = threadDetail.get().getUser();
         List<Reply> threadReplies = threadDetail.get().getReply();
         Map<Long, Boolean> replyVoteMap = voteService.getUserVotedList(threadReplies, (Long) session.getAttribute("USER_LOGIN_ID"));
-        Map<Long, Boolean> replyPin= pinService.getPinReply(threadReplies,id);
+        Map<Long, Boolean> replyPin = pinService.getPinReply(threadReplies, id);
         int upVotes = threadService.getVoteByUserAndThreadId(id, (Long) session.getAttribute("USER_LOGIN_ID"));
         model.addAttribute(THREAD_DETAIL_MODEL, threadDetail.get());
         model.addAttribute("threadReplies", threadReplies);
@@ -147,7 +144,7 @@ public class ThreadController {
     }
 
     @GetMapping("/thread/edit/{id}")
-    public String getEditPage(@PathVariable("id") Long id, Model model){
+    public String getEditPage(@PathVariable("id") Long id, Model model) {
         Optional<Thread> foundThread = threadService.getThreadDetail(id);
         model.addAttribute(THREAD_DETAIL_MODEL, foundThread.get());
         return "edit_thread";
