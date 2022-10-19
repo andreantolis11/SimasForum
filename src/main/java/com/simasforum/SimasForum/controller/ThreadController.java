@@ -1,6 +1,5 @@
 package com.simasforum.SimasForum.controller;
 
-import com.simasforum.SimasForum.model.Pin;
 import com.simasforum.SimasForum.model.Reply;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
@@ -96,9 +95,7 @@ public class ThreadController {
         model.addAttribute("threadbydate", dateThreads.get("threadList"));
         model.addAttribute("pinnedthreadbydate", dateThreads.get("pinnedThreads"));
         List<Thread> threadByVote = new ArrayList<>(threadService.sortByVoteScore());
-        Map<String, List<Thread>> voteThreads = pinService.mapPinnedThread(threadByVote);
-        model.addAttribute("threadbyvote", voteThreads.get("threadList"));
-        model.addAttribute("pinnedthreadbyvote", voteThreads.get("pinnedThreads"));
+        model.addAttribute("threadbyvote", threadByVote);
         return "dashboard";
     }
 

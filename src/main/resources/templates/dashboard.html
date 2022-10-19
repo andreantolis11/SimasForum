@@ -30,40 +30,61 @@
 
 <div class="dashboard">
     <ul class="nav nav-tabs">
-        <li class="active"><a style="text-decoration: none" data-toggle="tab" href="#pembicaraan-terbaru">Pembicaraan Terbaru</a></li>
+        <li class="active"><a style="text-decoration: none" data-toggle="tab" href="#pembicaraan-terbaru">Pembicaraan
+            Terbaru</a></li>
         <li><a style="text-decoration: none" data-toggle="tab" href="#pembicaraan-populer">Pembicaraan Populer</a></li>
     </ul>
     <div class="tab-content">
         <div id="pembicaraan-terbaru" class="tab-pane fade in active">
-            <p class="pembicaraan-terbaru-description">Menampilkan semua list pertanyaan atau informasi dari setiap nasabah secara up to date.</p>
-            <div class="pembicaraan" th:each="thread : ${threadbydate}">
-                <button class="clear-decoration pembicaraan-title"><a th:href="@{'/thread/{id}/' (id=${thread.id})}"><span th:text="${thread.title}" /></a><i class='icon-margin fas fa-thumbtack'></i></button>
+            <p class="pembicaraan-terbaru-description">Menampilkan semua list pertanyaan atau informasi dari setiap
+                nasabah secara up to date.</p>
+            <div class="pembicaraan" th:each="thread : ${pinnedthreadbydate}">
+                <div style="display: flex; justify-content: space-between;">
+                    <button class="clear-decoration pembicaraan-title">
+                        <a th:href="@{'/thread/{id}/' (id=${thread.id})}"><span th:text="${thread.title}"/></a>
+                    </button>
+                    <i style="margin-right: 30px; font-size: 17px;" class='icon-margin fas fa-thumbtack'></i>
+                </div>
+
                 <p class="pembicaraan-content" th:text="${thread.content}"></p>
                 <div class="pembicaraan-flex">
                     <div class="pembicaraan-flex-inside">
-                        <span class="pembicaraan-flex-inside-span">answer 0</span>
-                        <button class="clear-decoration pembicaraan-flex-inside-delete"><a>delete</a></button>
-                        <button class="clear-decoration pembicaraan-flex-inside-pin"><a>tambahkan pin</a></button>
-                        <button class="clear-decoration pembicaraan-flex-inside-pinned"><a>telah dipin</a></button>
+                        <span class="pembicaraan-flex-inside-span" th:text="'answer '+${#lists.size(thread.reply)}"></span>
+                        <div th:if="${session.USER_LOGIN_ROLE == 'admin'}">
+                            <button class="clear-decoration pembicaraan-flex-inside-pinned"><a th:href="@{'/pin/thread/{id}/' (id=${thread.id})}">telah dipin</a></button>
+                        </div>
                     </div>
-                    <div>
-                        andre, 17 agustus 2025
+                    <div th:text="${thread.user.name}+', '+${#temporals.format(thread.datePost, 'dd-MM-yyyy')}" />
+                </div>
+                <hr class="line-pembicaraan">
+            </div>
+            <div class="pembicaraan" th:each="thread : ${threadbydate}">
+                <button class="clear-decoration pembicaraan-title"><a
+                        th:href="@{'/thread/{id}/' (id=${thread.id})}"><span th:text="${thread.title}"/></a></button>
+                <p class="pembicaraan-content" th:text="${thread.content}"></p>
+                <div class="pembicaraan-flex">
+                    <div class="pembicaraan-flex-inside">
+                        <span class="pembicaraan-flex-inside-span" th:text="'answer '+${#lists.size(thread.reply)}"></span>
+                        <div th:if="${session.USER_LOGIN_ROLE == 'admin'}">
+                            <button class="clear-decoration pembicaraan-flex-inside-pin"><a th:href="@{'/pin/thread/{id}/' (id=${thread.id})}">tambahkan pin</a></button>
+                        </div>
                     </div>
+                    <div th:text="${thread.user.name}+', '+${#temporals.format(thread.datePost, 'dd-MM-yyyy')}" />
                 </div>
                 <hr class="line-pembicaraan">
             </div>
         </div>
         <div id="pembicaraan-populer" class="tab-pane fade">
-            <p class="pembicaraan-terbaru-description">Menampilkan semua list pertanyaan atau informasi dari setiap nasabah berdasarkan jumlah vote.</p>
+            <p class="pembicaraan-terbaru-description">Menampilkan semua list pertanyaan atau informasi dari setiap
+                nasabah berdasarkan jumlah vote.</p>
             <div class="pembicaraan" th:each="thread : ${threadbyvote}">
-                <button class="clear-decoration pembicaraan-title"><a th:href="@{'/thread/{id}/' (id=${thread.id})}"><span th:text="${thread.title}" /></a></button>
+                <button class="clear-decoration pembicaraan-title"><a
+                        th:href="@{'/thread/{id}/' (id=${thread.id})}"><span th:text="${thread.title}"/></a></button>
                 <p class="pembicaraan-content" th:text="${thread.content}"></p>
                 <div class="pembicaraan-flex">
                     <div class="pembicaraan-flex-inside">
-                        <span class="pembicaraan-flex-inside-span">vote <span th:text="${thread.voteScore}"></span></span>
-                        <button class="clear-decoration pembicaraan-flex-inside-delete"><a>delete</a></button>
-                        <button class="clear-decoration pembicaraan-flex-inside-pin"><a>tambahkan pin</a></button>
-                        <button class="clear-decoration pembicaraan-flex-inside-pinned"><a>telah dipin</a></button>
+                        <span class="pembicaraan-flex-inside-span">vote <span th:text="${thread.voteScore}"></span>
+                        </span>
                     </div>
                     <div>
                         andre, 17 agustus 2025
@@ -209,4 +230,5 @@
     .dashboard {
         margin: 150px 0 0 330px;
     }
+
 </style>
