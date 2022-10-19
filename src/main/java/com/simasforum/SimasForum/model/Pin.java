@@ -15,9 +15,7 @@ public class Pin {
 
     private Long threadId;
 
-    @OneToOne
-    @JoinColumn(name = "replyId", referencedColumnName = "id")
-    private Reply reply;
+    private Long replyId;
 
     private boolean isPin;
 
@@ -34,7 +32,13 @@ public class Pin {
     }
 
     public Pin(Reply reply, boolean isPin) {
-        this.reply = reply;
+        this.replyId = reply.getId();
+        this.isPin = isPin;
+    }
+
+    public Pin(Thread thread, Reply reply, boolean isPin) {
+        this.threadId = thread.getId();
+        this.replyId = reply.getId();
         this.isPin = isPin;
     }
 }

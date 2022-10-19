@@ -33,8 +33,6 @@ public class Reply {
     @OneToMany(mappedBy = "reply", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Vote> votes;
 
-    @OneToOne(mappedBy = "reply", cascade = CascadeType.ALL)
-    private Pin pin;
     @ManyToOne
     private User user;
 
