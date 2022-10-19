@@ -75,7 +75,7 @@ public class ReportControllerTest {
         mockMvc.perform(post("/reports/thread/ignore/1")).andExpectAll(
                 status().is3xxRedirection()
         );
-        verify(reportService,times(1)).ignoreReportById(anyLong());
+        verify(reportService,times(1)).ignoreReportThreadById(anyLong());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class ReportControllerTest {
         mockMvc.perform(post("/reports/reply/ignore/1")).andExpectAll(
                 status().is3xxRedirection()
         );
-        verify(reportService,times(1)).ignoreReportById(anyLong());
+        verify(reportService,times(1)).ignoreReportReplyById(anyLong());
     }
 
     @Test

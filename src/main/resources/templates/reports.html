@@ -30,7 +30,7 @@
         <a class="sidebar-child" href="/user/register"><i class='fas fa-user-plus'></i>Register</a>
         <a class="sidebar-child" href="/user/login"><i class='fas fa-door-closed'></i>Login</a>
     </div>
-    <a href="/reports"><i class='fas fa-ban'></i>Reports</a>
+    <a th:if="${session.USER_LOGIN_ROLE == 'admin'}" href="/reports"><i class='fas fa-ban'></i>Reports</a>
 </div>
 <div class="reports">
     <h3 class="title">All Reports</h3>
@@ -56,7 +56,7 @@
                     <form method="post" th:action="@{'/reports/accept/{id}/thread/{threadId}' (id=${res.id},threadId=${res.thread.id})}">
                         <button class="clear-decoration"><a class="detail-button">accept</a></button>
                     </form>
-                    <form method="post" th:action="@{'/reports/thread/ignore/{id}' (id=${res.id})}">
+                    <form method="post" th:action="@{'/reports/thread/ignore/{id}' (id=${res.thread.id})}">
                         <button class="button-delete clear-decoration"><a class="delete-button">ignore</a></button>
                     </form>
                 </div>
@@ -68,12 +68,16 @@
     <table class="table table-bordered">
         <thead>
         <tr class="tr-head">
+            <th class="th-title" scope="col">Content</th>
             <th class="th-title" scope="col">Alasan</th>
             <th class="th-title width-action" scope="col">Action</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="res : ${reportsReply}">
+            <td style="height: 0;">
+                <span th:text="${res.reply.content}"></span>
+            </td>
             <td style="height: 0;">
                 <div th:each="res1 : ${reasonsReply.get(res.getReply().id)}">
                     <span th:text="${res1}"></span>
@@ -84,7 +88,7 @@
                     <form method="post" th:action="@{'/reports/accept/{id}/reply/{replyId}' (id=${res.id},replyId=${res.reply.id})}">
                         <button class="clear-decoration"><a class="detail-button">accept</a></button>
                     </form>
-                    <form method="post" th:action="@{'/reports/reply/ignore/{id}' (id=${res.id})}">
+                    <form method="post" th:action="@{'/reports/reply/ignore/{id}' (id=${res.reply.id})}">
                         <button class="button-delete clear-decoration"><a class="delete-button">ignore</a></button>
                     </form>
                 </div>

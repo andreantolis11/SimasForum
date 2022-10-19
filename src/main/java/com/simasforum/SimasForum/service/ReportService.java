@@ -5,6 +5,7 @@ import com.simasforum.SimasForum.repository.ReportRepository;
 import com.simasforum.SimasForum.repository.ThreadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,11 +57,15 @@ public class ReportService {
     }
 
 
-    public void ignoreReportById(Long id) {
-        reportRepository.deleteById(id);
+    @Transactional
+    public void ignoreReportThreadById(Long id) {
+        reportRepository.deleteByThreadId(id);
+
     }
-
-
+    @Transactional
+    public void ignoreReportReplyById(Long id) {
+        reportRepository.deleteByReplyId(id);
+    }
 
     public List<Report> getReportByThreadId(Long id) {
         List<Report> report = reportRepository.findByThreadId(id);

@@ -12,5 +12,7 @@ public interface ReportRepository extends CrudRepository<Report, Long> {
     List<Report> findByThreadIsNotNull();
     List<Report> findByReplyIsNotNull();
 
+    void deleteByThreadId(Long id);
+    void deleteByReplyId(Long id);
     void deleteById(Long id);
 }
