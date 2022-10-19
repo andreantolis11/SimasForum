@@ -87,9 +87,7 @@
                         <span class="pembicaraan-flex-inside-span">vote <span th:text="${thread.voteScore}"></span>
                         </span>
                     </div>
-                    <div>
-                        andre, 17 agustus 2025
-                    </div>
+                    <div th:text="${thread.user.name}+', '+${#temporals.format(thread.datePost, 'dd-MM-yyyy')}" />
                 </div>
                 <hr class="line-pembicaraan">
             </div>
