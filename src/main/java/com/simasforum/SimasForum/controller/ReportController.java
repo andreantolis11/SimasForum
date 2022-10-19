@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,9 +46,10 @@ public class ReportController {
     private ReplyRepository replyRepository;
 
     @PostMapping("/thread/report/{threadId}/{userId}")
-    public String newReport(@PathVariable Long threadId,
+    public String reportThread(@PathVariable Long threadId,
                             @PathVariable Long userId,
-                            @RequestParam("alasan") String alasan){
+                            @RequestParam("alasan") String alasan,
+                           HttpServletRequest request){
 
         Optional<Thread> foundThread = threadService.getThreadDetail(threadId);
         User foundUser = userService.getUserById(userId);
@@ -55,10 +57,11 @@ public class ReportController {
             return "redirect:/user/login";
         }
         reportService.addReport(new Report(alasan, foundThread.get(), foundUser));
-        return "redirect:/thread/" + foundThread.get().getId();
+        String referer = request.getHeader("Referer");
+        return "redirect:"+ referer;
     }
 
-    @PostMapping("/thread/reply/report/{id}")
+    @PostMapping("/thread/reply/report/{id}/{userId}")
     public String reportReply(@PathVariable Long replyId,
                               @PathVariable Long userId,
                               @RequestParam("alasan") String alasan) {

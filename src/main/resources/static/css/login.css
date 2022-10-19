@@ -1,0 +1,26 @@
+.logins {
+    width: 23vw;
+}
+
+.container-login-background-form-bottom {
+    margin-top: 30px;
+}
+.container-login-background-title {
+    color: #FFFFFF;
+    font-weight: bold;
+}
+.container-login {
+    background-color: #FF6A6A;
+    margin: 50px auto 0 auto;
+    display: flex;
+    width: max-content;
+    padding: 20px;
+    border-radius: 5px;
+}
+body {
+    font-family: 'Source Sans Pro',sans-serif;
+    letter-spacing: 1px;
+}
+.navbar-color {
+    background-color: #FF5045;
+}

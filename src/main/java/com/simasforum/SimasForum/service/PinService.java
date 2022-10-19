@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.*;
 
 @Service
 public class PinService {
@@ -64,7 +64,13 @@ public class PinService {
         return Map.of("pinnedReply",pinnedReply,"replyList",replies);
     }
 
+    public void deleteExpiredThreadPin() {
+        LocalDate tenDaysAgo = LocalDate.now().minusDays(10);
+        pinRepository.deleteByDateBefore(tenDaysAgo);
+    }
+
     public void pinReply(Thread thread,Reply reply) {
+
         Pin pin = pinRepository.findByReplyId(reply.getId());
         if (pin == null) {
             pinRepository.save(new Pin(reply, true));
@@ -73,13 +79,6 @@ public class PinService {
             pinRepository.delete(pin);
         }
     }
-
-    public void deleteExpiredThreadPin() {
-        LocalDate tenDaysAgo = LocalDate.now().minusDays(10);
-        pinRepository.deleteByDateBefore(tenDaysAgo);
-    }
-
-
 
     public Map<Long, Boolean> getPinReply(List<Reply> replies, Long threadId) {
         //Map<replyId, isUpVote>

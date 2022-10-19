@@ -3,7 +3,9 @@ package com.simasforum.SimasForum.controller;
 import com.simasforum.SimasForum.model.Role;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
+import com.simasforum.SimasForum.repository.ReplyRepository;
 import com.simasforum.SimasForum.repository.ThreadRepository;
+import com.simasforum.SimasForum.service.ReplyService;
 import com.simasforum.SimasForum.service.ReportService;
 import com.simasforum.SimasForum.service.ThreadService;
 import com.simasforum.SimasForum.service.UserService;
@@ -39,6 +41,15 @@ public class ReportControllerTest {
     @MockBean
     private ThreadService threadService;
 
+    @MockBean
+    private ReplyService replyService;
+
+    @MockBean
+    private ThreadRepository threadRepository;
+
+    @MockBean
+    private ReplyRepository replyRepository;
+
 
     @Test
     void redirectAfterReport_ok() throws Exception {
@@ -59,28 +70,28 @@ public class ReportControllerTest {
         );
     }
 
-//    @Test
-//    void ignoreReport_ok() throws Exception {
-//        mockMvc.perform(post("/reports/thread/ignore/1")).andExpectAll(
-//                status().is3xxRedirection()
-//        );
-//        verify(reportService,times(1)).ignoreReportById(anyLong());
-//    }
-//
-//    @Test
-//    void ignoreReportReply_ok() throws Exception {
-//        mockMvc.perform(post("/reports/reply/ignore/1")).andExpectAll(
-//                status().is3xxRedirection()
-//        );
-//        verify(reportService,times(1)).ignoreReportById(anyLong());
-//    }
-//
-//    @Test
-//    void acceptReport_ok() throws Exception {
-//        mockMvc.perform(post("/reports/accept/1/thread/1")).andExpectAll(
-//                status().is3xxRedirection()
-//        );
-//        verify(reportService,times(1)).acceptReportById(anyLong());
-//        verify(threadRepository,times(1)).deleteById(anyLong());
-//    }
+    @Test
+    void ignoreReport_ok() throws Exception {
+        mockMvc.perform(post("/reports/thread/ignore/1")).andExpectAll(
+                status().is3xxRedirection()
+        );
+        verify(reportService,times(1)).ignoreReportById(anyLong());
+    }
+
+    @Test
+    void ignoreReportReply_ok() throws Exception {
+        mockMvc.perform(post("/reports/reply/ignore/1")).andExpectAll(
+                status().is3xxRedirection()
+        );
+        verify(reportService,times(1)).ignoreReportById(anyLong());
+    }
+
+    @Test
+    void acceptReport_ok() throws Exception {
+        mockMvc.perform(post("/reports/accept/1/thread/1")).andExpectAll(
+                status().is3xxRedirection()
+        );
+        verify(reportService,times(1)).acceptReportById(anyLong());
+        verify(threadRepository,times(1)).deleteById(anyLong());
+    }
 }
