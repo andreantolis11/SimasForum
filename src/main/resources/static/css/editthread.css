@@ -1,0 +1,66 @@
+.title {
+    font-weight: bold;
+}
+.content{
+    color: #927B7B;
+    margin-bottom: 20px;
+}
+i {
+    margin-right: 10px;
+}
+
+.sidebar-parent {
+    padding: 16px 8px 16px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #EFDADA;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar-child {
+    margin-left: 25px;
+}
+body {
+    font-family: 'Source Sans Pro',sans-serif;
+    letter-spacing: 1px;
+}
+
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #C12F2F;
+    overflow-x: hidden;
+    transition: 0.5s;
+    margin-top: 70px;
+    padding-top: 60px;
+}
+
+.sidebar a {
+    padding: 16px 8px 16px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #EFDADA;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    color: #FFFFFF;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.add-thread {
+    margin: 150px 0 0 330px;
+}
