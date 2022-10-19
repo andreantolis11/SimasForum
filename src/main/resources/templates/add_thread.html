@@ -26,7 +26,7 @@
         <a class="sidebar-child" href="/user/register"><i class='fas fa-user-plus'></i>Register</a>
         <a class="sidebar-child" href="/user/login"><i class='fas fa-door-closed'></i>Login</a>
     </div>
-    <a href="/reports"><i class='fas fa-ban'></i>Reports</a>
+    <a th:if="${session.USER_LOGIN_ROLE == 'admin'}" href="/reports"><i class='fas fa-ban'></i>Reports</a>
 </div>
 <div class="add-thread">
     <h3 class="title">Create Thread</h3>

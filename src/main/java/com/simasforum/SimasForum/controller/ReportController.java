@@ -61,10 +61,10 @@ public class ReportController {
         return "redirect:"+ referer;
     }
 
-    @PostMapping("/thread/reply/report/{id}/{userId}")
+    @PostMapping("/thread/reply/report/{replyId}/{userId}")
     public String reportReply(@PathVariable Long replyId,
                               @PathVariable Long userId,
-                              @RequestParam("alasan") String alasan) {
+                              @RequestParam("alasanReply") String alasan) {
         Optional<Reply> reply = replyService.getReplyById(replyId);
         User foundUser = userService.getUserById(userId);
         if(foundUser == null) {
@@ -86,13 +86,13 @@ public class ReportController {
 
     @PostMapping("/reports/thread/ignore/{id}")
     public String ignoreReport(@PathVariable Long id) {
-        reportService.ignoreReportById(id);
+        reportService.ignoreReportThreadById(id);
         return "redirect:/reports";
     }
 
     @PostMapping("/reports/reply/ignore/{id}")
     public String ignoreReportReply(@PathVariable Long id) {
-        reportService.ignoreReportById(id);
+        reportService.ignoreReportReplyById(id);
         return "redirect:/reports";
     }
 

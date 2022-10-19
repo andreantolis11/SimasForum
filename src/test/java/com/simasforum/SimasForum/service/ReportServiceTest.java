@@ -70,9 +70,15 @@ public class ReportServiceTest {
     }
 
     @Test
-    void ignoreReportById() {
-        reportService.ignoreReportById(1L);
-        verify(reportRepository, times(1)).deleteById(anyLong());
+    void ignoreReportReplyById() {
+        reportService.ignoreReportReplyById(1L);
+        verify(reportRepository, times(1)).deleteByReplyId(anyLong());
+    }
+
+    @Test
+    void ignoreReportThreadById() {
+        reportService.ignoreReportThreadById(1L);
+        verify(reportRepository, times(1)).deleteByThreadId(anyLong());
     }
 
     @Test
