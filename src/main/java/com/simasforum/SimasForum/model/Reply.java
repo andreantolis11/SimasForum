@@ -27,14 +27,14 @@ public class Reply {
     @JoinColumn(name = "replyId")
     private List<Reply> replies;
 
-    @OneToMany(mappedBy = "reply", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "reply", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Report> reports;
 
     @OneToMany(mappedBy = "reply", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Vote> votes;
 
-    @OneToMany(mappedBy = "reply", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Pin> pins;
+    @OneToOne(mappedBy = "reply", cascade = CascadeType.ALL)
+    private Pin pin;
     @ManyToOne
     private User user;
 
