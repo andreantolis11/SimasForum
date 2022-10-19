@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface ReplyRepository extends CrudRepository<Reply,Long> {
      List<Reply> findByThreadId(Long threadId);
+     void deleteById(Long id);
 
 }

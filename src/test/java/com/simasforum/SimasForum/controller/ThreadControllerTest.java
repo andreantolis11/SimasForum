@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -102,6 +103,34 @@ public class ThreadControllerTest {
                 content().encoding(UTF_8),
                 view().name("dashboard")
         );
+    }
+
+    @Test
+    void getEditPage_ok() throws Exception {
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User fadhlul = new User("fadhlul", "andre@gmail.com", "123", new Role("user"));
+        Thread thread = new Thread(fadhlul, "title", "content" ,0, date);
+        when(threadService.getThreadDetail(anyLong())).thenReturn(Optional.of(thread));
+        mockMvc.perform(get("/thread/edit/1")).andExpectAll(
+                status().isOk(),
+                view().name("edit_thread")
+        );
+
+    }
+
+    @Test
+    void editThread_ok() throws Exception {
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        User fadhlul = new User("fadhlul", "andre@gmail.com", "123", new Role("user"));
+        Thread thread = new Thread(fadhlul, "title", "content" ,0, date);
+        when(threadService.getThreadDetail(anyLong())).thenReturn(Optional.of(thread));
+        mockMvc.perform(post("/thread/edit/1")
+                .param("title", "change title")
+                .param("content", "change content")
+        ).andExpectAll(
+                status().is3xxRedirection()
+        );
+        assertEquals("change title", thread.getTitle());
     }
 
     @Test

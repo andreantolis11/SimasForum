@@ -49,7 +49,7 @@
                             <button class="clear-decoration"><a th:href="@{'/thread/{id}/' (id=${res.id})}"  class="detail-button">detail</a></button>
                         </form>
                         <form>
-                            <button class="clear-decoration"><a class="edit-button">edit</a></button>
+                            <button class="clear-decoration"><a th:href="@{'/thread/edit/{id}/' (id=${res.id})}" class="edit-button">edit</a></button>
                         </form>
                         <form method="post" th:action="@{'/mythread/{id}' (id=${res.id})}">
                             <button class="button-delete clear-decoration"><a class="delete-button">delete</a></button>

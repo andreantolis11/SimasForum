@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.*;
 
 @Service
 public class PinService {
@@ -60,5 +61,19 @@ public class PinService {
     public void deleteExpiredThreadPin() {
         LocalDate tenDaysAgo = LocalDate.now().minusDays(10);
         pinRepository.deleteByDateBefore(tenDaysAgo);
+    }
+
+
+
+    public Map<Long, Boolean> getPinReply(List<Reply> replies, Long threadId) {
+        //Map<replyId, isUpVote>
+        Map<Long, Boolean> listPin = new HashMap<Long, Boolean>();
+        for (Reply reply : replies) {
+            Pin pin = pinRepository.findByReplyIdAndThreadId(reply.getId(),threadId);
+            if(pin!=null){
+                listPin.put(pin.getReply().getId(),pin.isPin());
+            }
+        }
+        return listPin;
     }
 }
