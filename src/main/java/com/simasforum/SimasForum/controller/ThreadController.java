@@ -3,10 +3,7 @@ package com.simasforum.SimasForum.controller;
 import com.simasforum.SimasForum.model.Reply;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
-import com.simasforum.SimasForum.service.ReplyService;
-import com.simasforum.SimasForum.service.ThreadService;
-import com.simasforum.SimasForum.service.UserService;
-import com.simasforum.SimasForum.service.VoteService;
+import com.simasforum.SimasForum.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,9 +28,8 @@ public class ThreadController {
     private ThreadService threadService;
     private UserService userService;
     private ReplyService replyService;
-
-
     private VoteService voteService;
+    private PinService pinService;
 
     @Autowired
     public void setThreadService(ThreadService threadService) {
@@ -55,12 +51,10 @@ public class ThreadController {
         this.voteService = voteService;
     }
 
-//    @GetMapping("/thread")
-//    public String threadAll(Thread thread, Model model) {
-//        model.addAttribute("thread", thread);
-//
-//        return "thread";
-//    }
+    @Autowired
+    public void setPinService(PinService pinService) {
+        this.pinService = pinService;
+    }
 
     @GetMapping("/thread/add")
     public String newThread(Model model, HttpSession session) {
@@ -77,9 +71,6 @@ public class ThreadController {
         User user = getUserFromSession(request.getSession());
         Thread thread = new Thread(user, title, content, 0, LocalDate.now());
         threadService.addThread(thread);
-//        mockInsertReply(thread,user);
-//        mockInsertReply(thread,user);
-//        mockInsertReply(thread,user);
         request.getSession().setAttribute("successMessage", "Inserted Successfully !");
         return "redirect:/dashboard";
     }
@@ -98,9 +89,13 @@ public class ThreadController {
     @GetMapping("/dashboard")
     public String threadbyDate(Model model, HttpSession session) {
         List<Thread> threadByDate = new ArrayList<>(threadService.sortByDate());
-        model.addAttribute("threadbydate", threadByDate);
+        Map<String, List<Thread>> dateThreads = pinService.mapPinnedThread(threadByDate);
+        model.addAttribute("threadbydate", dateThreads.get("threadList"));
+        model.addAttribute("pinnedthreadbydate", dateThreads.get("pinnedThreads"));
         List<Thread> threadByVote = new ArrayList<>(threadService.sortByVoteScore());
-        model.addAttribute("threadbyvote", threadByVote);
+        Map<String, List<Thread>> voteThreads = pinService.mapPinnedThread(threadByVote);
+        model.addAttribute("threadbyvote", voteThreads.get("threadList"));
+        model.addAttribute("pinnedthreadbyvote", voteThreads.get("pinnedThreads"));
         return "dashboard";
     }
 
@@ -112,7 +107,7 @@ public class ThreadController {
         model.addAttribute("sizes", reply.size());
         User owner = threadDetail.get().getUser();
         List<Reply> threadReplies = threadDetail.get().getReply();
-        Map<Long, Boolean> replyVoteMap = voteService.getUserVotedList(threadReplies,(Long) session.getAttribute("USER_LOGIN_ID"));
+        Map<Long, Boolean> replyVoteMap = voteService.getUserVotedList(threadReplies, (Long) session.getAttribute("USER_LOGIN_ID"));
         int upVotes = threadService.getVoteByUserAndThreadId(id, (Long) session.getAttribute("USER_LOGIN_ID"));
         model.addAttribute("threadDetail", threadDetail.get());
         model.addAttribute("threadReplies", threadReplies);
@@ -165,7 +160,7 @@ public class ThreadController {
     public String deleteReply(@PathVariable("id") Long id,
                               @PathVariable("replyId") Long replyId) {
         replyService.deleteReplyById(replyId);
-        return "redirect:/thread/"+id;
+        return "redirect:/thread/" + id;
     }
 
 
