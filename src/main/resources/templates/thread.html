@@ -134,7 +134,7 @@
                         </form>
                         <button th:if="${session.USER_LOGIN_NAME}" th:onclick="|hide('r_form_'+${reply.id})|"
                                 class="clear-decoration button-area">
-                            <a class="button-reply">BALAS</a>
+                            <a class="button-reply">balas</a>
                         </button>
                         <form method="post"
                               th:action="@{'/pin/reply/{threadId}/{replyId}'(threadId=${threadDetail.id},replyId=${reply.id})}">
@@ -143,6 +143,34 @@
                                 <a th:unless="${pinsReply.get(reply.id) == true} " class="button-reply">Pin Reply</a>
                             </button>
                         </form>
+                        <button style="font-size: 16px;margin-left: 12px; margin-top: -14px;color: #FF6363;" type="button" class="clear-decoration"
+                                data-toggle="modal"
+                                th:data-target="'#replyReport'+${reply.id}">
+                            <a>
+                                report
+                            </a>
+                        </button>
+                    </div>
+                    <div class="modal fade" th:id="'replyReport'+${reply.id}" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Report</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="post"
+                                          th:action="@{'/thread/reply/report/{replyId}/{userId}' (replyId=${reply.id}, userId=${userId})}">
+                                        <div class="form-group">
+                                            <label>Alasan</label>
+                                            <input name="alasanReply" type="tel" class="form-control" id="alasanReply"
+                                                   placeholder="Alasan">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <form th:if="${session.USER_LOGIN_NAME}" method="post" th:id="'r_form_'+${reply.id}"
                           th:action="@{'/reply/reply/{id}' (id=${reply.id})}"
@@ -218,7 +246,7 @@
                         </form>
                         <button th:if="${session.USER_LOGIN_NAME}" th:onclick="|hide('r_form_'+${reply.id})|"
                                 class="clear-decoration button-area">
-                            <a class="button-reply">BALAS</a>
+                            <a class="button-reply">balas</a>
                         </button>
                         <form method="post"
                               th:action="@{'/pin/reply/{threadId}/{replyId}'(threadId=${threadDetail.id},replyId=${reply.id})}">
@@ -227,6 +255,35 @@
                                 <a th:unless="${pinsReply.get(reply.id) == true} " class="button-reply">Pin Reply</a>
                             </button>
                         </form>
+                        <button style="font-size: 16px;margin-left: 12px; margin-top: -14px;color: #FF6363;" type="button" class="clear-decoration"
+                                data-toggle="modal"
+                                th:data-target="'#replyReport'+${reply.id}">
+                            <a>
+                                report
+                            </a>
+                        </button>
+
+                    </div>
+                    <div class="modal fade" th:id="'replyReport'+${reply.id}" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Report</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="post"
+                                          th:action="@{'/thread/reply/report/{replyId}/{userId}' (replyId=${reply.id}, userId=${userId})}">
+                                        <div class="form-group">
+                                            <label>Alasan</label>
+                                            <input name="alasanReply" type="tel" class="form-control" id="alasanReply"
+                                                   placeholder="Alasan">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <form th:if="${session.USER_LOGIN_NAME}" method="post" th:id="'r_form_'+${reply.id}"
                           th:action="@{'/reply/reply/{id}' (id=${reply.id})}"
@@ -283,6 +340,7 @@
             x.style.display = "none";
         }
     }
+
 </script>
 </body>
 </html>
@@ -302,4 +360,5 @@
     a:hover {
         text-decoration: none;
     }
+
 </style>
