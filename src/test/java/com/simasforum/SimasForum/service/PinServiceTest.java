@@ -53,7 +53,7 @@ class PinServiceTest {
         List<Thread> threads = new ArrayList<>();
         threads.add(threadPinned);
         threads.add(new Thread());
-        when(pinRepository.findByThreadId(eq(1L))).thenReturn(pin);
+        when(pinRepository.findByThreadId(1L)).thenReturn(pin);
         Map<String, List<Thread>> result = pinService.mapPinnedThread(threads);
         Assertions.assertEquals(1, result.get("pinnedThreads").size());
         Assertions.assertEquals(1, result.get("threadList").size());
@@ -83,7 +83,7 @@ class PinServiceTest {
         List<Reply> replies = new ArrayList<>();
         replies.add(reply);
         replies.add(new Reply());
-        when(pinRepository.findByReplyId(eq(1L))).thenReturn(pin);
+        when(pinRepository.findByReplyId(1L)).thenReturn(pin);
 
         Map<Long, Boolean> predict = Map.of(1L, true);
         Map<Long, Boolean> result = pinService.getPinReply(replies);
