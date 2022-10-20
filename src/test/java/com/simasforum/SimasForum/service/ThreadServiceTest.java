@@ -152,8 +152,7 @@ class ThreadServiceTest {
 
         when(voteRepository.findByThreadIdAndUserId(anyLong(), anyLong())).thenReturn(vote);
 
-        threadService.getVoteByUserAndThreadId(1L, 1L);
-        assertEquals(1,1, "1");
+        assertEquals(1,threadService.getVoteByUserAndThreadId(1L, 1L));
 
     }
 
@@ -166,8 +165,7 @@ class ThreadServiceTest {
 
         when(voteRepository.findByThreadIdAndUserId(anyLong(), anyLong())).thenReturn(vote);
 
-        threadService.getVoteByUserAndThreadId(1L, 1L);
-        assertEquals(0,0, "0");
+        assertEquals(0,threadService.getVoteByUserAndThreadId(1L, 1L));
 
     }
 
@@ -180,8 +178,7 @@ class ThreadServiceTest {
 
         when(voteRepository.findByThreadIdAndUserId(anyLong(), anyLong())).thenReturn(null);
 
-        threadService.getVoteByUserAndThreadId(1L, 1L);
-        assertEquals(-1,-1, "-1");
+        assertEquals(-1,threadService.getVoteByUserAndThreadId(1L, 1L));
     }
 
     @Test
