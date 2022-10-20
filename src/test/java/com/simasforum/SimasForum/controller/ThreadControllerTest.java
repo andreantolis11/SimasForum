@@ -65,14 +65,10 @@ class ThreadControllerTest {
     }
 
     @Test
-    public void whenIdNotFound() throws Exception {
+    void whenIdNotFound() throws Exception {
         Long id = 1L;
         when(threadService.getThreadDetail(id))
                 .thenReturn(Optional.empty());
-//        mockMvc.perform(get("/thread/1"))
-//                .andExpectAll(status().isNotFound());
-//                .andExpect(status().isNotFound()).andDo(print());
-//                .andExpectAll(status().isNotFound(),content().string(containsString("")));
     }
 
     @Test
