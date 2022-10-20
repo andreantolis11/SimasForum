@@ -22,19 +22,17 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Role role;
+
     public User() {
     }
 
-    public User(String name, String email, String password) {
+    public User(String name, String email, String password, Role role) {
         super();
         this.name = name;
         this.email = email;
         this.password = password;
-    }
-
-    public User(User user) {
-        this.email = user.getEmail();
-        this.name = user.getName();
-        this.password = user.getPassword();
+        this.role = role;
     }
 }

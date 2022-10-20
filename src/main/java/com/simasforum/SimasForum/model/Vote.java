@@ -2,8 +2,6 @@ package com.simasforum.SimasForum.model;
 
 import javax.persistence.*;
 
-import com.simasforum.SimasForum.model.Reply;
-import com.simasforum.SimasForum.model.Thread;
 import lombok.Data;
 
 @Data

@@ -1,39 +1,123 @@
-.box-container{
-    background-color: #FFFFFF;
-    border-radius: 10px;
-    margin-bottom: 20px;
+.replies-reply-child-title {
+    margin-top: 10px;
 }
 
-.thread-container{
-    padding: 20px;
-    justify-content: space-between;
-    align-items: center;
+.replies-reply-child {
+    margin-left: 50px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.button-area {
+    margin-left: 12px;
+    margin-top: -14px;
+}
+
+.button-reply {
+    color: #817878;
+    font-size: 16px;
+}
+
+.count-vote {
+    font-size: 20px;
+    margin-top: -6px;
+}
+
+.down-vote {
+    margin-left: 10px;
+    font-size: 30px;
+    color: #C0A5A5;
+}
+
+.up-vote {
+    margin-right: 10px;
+    font-size: 30px;
+    color: #C0A5A5;
+}
+
+.clear-decoration {
+    text-decoration: none;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.thread-action {
     display: flex;
 }
 
-.thread-content-container{
-    width: 90%;
+.reply-action {
+    display: flex;
 }
 
-.content{
-    word-wrap: break-word;
+.thread-content {
+    color: #5E504F;
 }
 
-.thread-vote-container{
-    width: 10%;
-    text-align: center;
-    align-items: center;
+.thread-title {
+    font-weight: bold;
 }
 
-.btn-upvote{
-    border: none;
-    background:none;
-    padding: 0;
+em {
+    margin-right: 10px;
 }
 
-.btn-downvote{
-    border: none;
-    background:none;
-    padding: 0;
+.sidebar-parent {
+    padding: 16px 8px 16px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #EFDADA;
+    display: block;
+    transition: 0.3s;
 }
 
+.sidebar-child {
+    margin-left: 25px;
+}
+
+body {
+    font-family: 'Source Sans Pro',sans-serif;
+    letter-spacing: 1px;
+    margin-right: 30px;
+}
+
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #C12F2F;
+    overflow-x: hidden;
+    transition: 0.5s;
+    margin-top: 70px;
+    padding-top: 60px;
+}
+
+.sidebar a {
+    padding: 16px 8px 16px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #EFDADA;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    color: #FFFFFF;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.thread {
+    margin: 150px 0 0 330px;
+}

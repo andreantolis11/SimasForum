@@ -29,8 +29,7 @@ public class ThreadService {
     }
 
     public Optional<Thread> getThreadDetail(Long id) {
-        Optional<Thread> result = threadRepository.findById(id);
-        return result;
+        return threadRepository.findById(id);
     }
 
     public int getVoteByUserAndThreadId(Long threadId, Long userId){
@@ -43,51 +42,10 @@ public class ThreadService {
         }catch (Exception e){
             return -1;
         }
-//        return Optional.ofNullable(voteRepository.findByThreadIdAndUserId(threadId, userId));
     }
 
-//    public void addThreadVote(Long threadId, boolean isUpVote, Long userId) {
-//        Optional<Thread> result = threadRepository.findById(threadId);
-//        Vote foundVote = voteRepository.findByThreadIdAndUserId(threadId, userId);
-//        if (result.isPresent()){
-//           if (isUpVote){
-//                try {
-//                    voteRepository.deleteById(foundVote.getId());
-//                    if (foundVote.isUpVote()){
-//                        result.get().setVoteScore(result.get().getVoteScore() - 1);
-//                    }else {
-//                        result.get().setVoteScore(result.get().getVoteScore() + 2);
-//                        voteRepository.save(new Vote(threadId, 0L, userId, true));
-//                    }
-//                }catch (Exception e){
-//                    voteRepository.save(new Vote(threadId, 0L, userId, true));
-//                    result.get().setVoteScore(result.get().getVoteScore() + 1);
-//                }
-//           }else {
-//               try {
-//                   voteRepository.deleteById(foundVote.getId());
-//                   if (!foundVote.isUpVote()){
-//                       result.get().setVoteScore(result.get().getVoteScore() + 1);
-//                   }else {
-//                       result.get().setVoteScore(result.get().getVoteScore() - 2);
-//                       voteRepository.save(new Vote(threadId, 0L, userId, false));
-//                   }
-//
-//               }catch (Exception e){
-//                   voteRepository.save(new Vote(threadId, 0L, userId, false));
-//                   result.get().setVoteScore(result.get().getVoteScore() - 1);
-//               }
-//           }
-//        }
-//    }
-
     public List<Thread> sortByDate(){
-//        List<Thread> threadList = new ArrayList<Thread>();
-//        System.out.println(threadList);
-//        Thread thread = new Thread(Sort.Direction.DESC,"post_date");
-//        threadList.add(thread);
-
-        return (List<Thread>) threadRepository.findByOrderByDatePostDesc();
+        return threadRepository.findByOrderByDatePostDesc();
     }
 
     public List<Thread> getThreadBySearch(String title){
@@ -108,12 +66,11 @@ public class ThreadService {
     }
 
     public List<Thread> sortByVoteScore(){
-        return  (List<Thread>) threadRepository.findByOrderByVoteScoreDesc();
+        return threadRepository.findByOrderByVoteScoreDesc();
     }
 
     public List<Thread> getAllMyThread(User user) {
-        List<Thread> myThreads = user.getThread();
-        return myThreads;
+        return user.getThread();
     }
 
     public void deleteMyThreadById(Long id) {

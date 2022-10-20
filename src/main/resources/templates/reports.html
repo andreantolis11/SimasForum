@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" th:href="@{/css/reports.css}">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/dist/css/bootstrap.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>My threads</title>
+</head>
+
+<body>
+<div th:replace="fragments/nav :: navbar"></div>
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<div th:replace="fragments/sidebar :: sidebar"></div>
+<div class="reports">
+    <h3 class="title">All Reports</h3>
+    <p class="content">Menampilkan hasil list dari report yang dibuat oleh user dan anonymous.</p>
+    <h5 class="title" style="margin-top: 20px;">Thread Reports</h5>
+    <table class="table table-bordered">
+        <thead>
+        <tr class="tr-head">
+            <th class="th-title" scope="col">Alasan</th>
+            <th class="th-title width-action" scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="res : ${reportsThread}">
+            <td style="height: 0;">
+                <div th:each="res1 : ${reasonsThread.get(res.getThread().getId())}">
+                    <span th:text="${res1}"></span>
+                </div>
+            </td>
+            <td style="height: 0;">
+                <div class="td-flex" style="align-items: center">
+                    <button class="clear-decoration"><a th:href="@{'/thread/{id}/' (id=${res.thread.id})}" class="detail-button">detail</a></button>
+                    <form method="post" th:action="@{'/reports/accept/{id}/thread/{threadId}' (id=${res.id},threadId=${res.thread.id})}">
+                        <button class="clear-decoration"><a class="detail-button">accept</a></button>
+                    </form>
+                    <form method="post" th:action="@{'/reports/thread/ignore/{id}' (id=${res.thread.id})}">
+                        <button class="button-delete clear-decoration"><a class="delete-button">ignore</a></button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <h5 class="title" style="margin-top: 40px;">Reply Reports</h5>
+    <table class="table table-bordered">
+        <thead>
+        <tr class="tr-head">
+            <th class="th-title" scope="col">Content</th>
+            <th class="th-title" scope="col">Alasan</th>
+            <th class="th-title width-action" scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="res : ${reportsReply}">
+            <td style="height: 0;">
+                <span th:text="${res.reply.content}"></span>
+            </td>
+            <td style="height: 0;">
+                <div th:each="res1 : ${reasonsReply.get(res.getReply().id)}">
+                    <span th:text="${res1}"></span>
+                </div>
+            </td>
+            <td style="height: 0;">
+                <div class="td-flex" style="align-items: center">
+                    <form method="post" th:action="@{'/reports/accept/{id}/reply/{replyId}' (id=${res.id},replyId=${res.reply.id})}">
+                        <button class="clear-decoration"><a class="detail-button">accept</a></button>
+                    </form>
+                    <form method="post" th:action="@{'/reports/reply/ignore/{id}' (id=${res.reply.id})}">
+                        <button class="button-delete clear-decoration"><a class="delete-button">ignore</a></button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script th:src="@{/webjars/bootstrap/5.1.3/dist/js/bootstrap.bundle.js}"></script>
+</body>
+</html>
+<style>
+body {
+    margin-right: 30px;
+}
+a:hover {
+    text-decoration: none;
+}
+</style>

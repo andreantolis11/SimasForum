@@ -3,72 +3,65 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" th:href="@{/css/search_thread_result.css}">
+    <link rel="stylesheet" th:href="@{/css/searchthreadresult.css}">
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/dist/css/bootstrap.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Search Threads</title>
 </head>
 <body>
 <div th:replace="fragments/nav :: navbar"></div>
-<div class="container">
-    <div class="container-search">
-        <div class="container-search-title">
-            <h5 class="text-white">
-                Pencarian
-            </h5>
-        </div>
-        <div class="container-search-description">
-            Menampilkan hasil list pencarian yang dicari
-        </div>
-        <div class="container-search-list">
-            <div class="container-search-list-scroll">
-                <div class="container-search-list-scroll-background" th:each="thread : ${listSearchThreads}">
-                    <a th:href="@{'/thread/{id}/' (id=${thread.id})}">
-                        <div class="container-search-list-scroll-background-flex">
-                            <div>
-                                <div class="container-search-list-scroll-background-flex-title"
-                                     th:text="${thread.title}"></div>
-                                <div class="container-search-list-scroll-background-flex-content"
-                                     th:text="${thread.content}"></div>
-                            </div>
-                            <div th:text="${thread.voteScore}"
-                                 class="mx-auto container-search-list-scroll-background-flex-upvote"></div>
-                        </div>
-                    </a>
-                </div>
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<div th:replace="fragments/sidebar :: sidebar"></div>
+<div class="search-thread-result">
+    <h3 class="pembicaraan-terbaru-title">Hasil pencarian</h3>
+    <p class="pembicaraan-terbaru-description">Menampilkan hasil list dari pencarian.</p>
+    <hr class="line-pembicaraan">
+    <div th:each="thread : ${PinnedSearchThreads}" id="pembicaraan-terbaru-pin">
+        <div class="pembicaraan">
+            <div style="display: flex; justify-content: space-between;">
+                <button class="clear-decoration pembicaraan-title">
+                    <a th:href="@{'/thread/{id}/' (id=${thread.id})}"><span th:text="${thread.title}"></span></a>
+                </button>
+                <em style="margin-right: 30px; font-size: 17px;" class='icon-margin fas fa-thumbtack'></em>
             </div>
+            <p class="pembicaraan-content" th:text="${thread.content}"></p>
+            <div class="pembicaraan-flex">
+                <div class="pembicaraan-flex-inside">
+                    <span class="pembicaraan-flex-inside-span" th:text="'answer '+${#lists.size(thread.reply)}"></span>
+                </div>
+                <div th:text="${thread.user.name}+', '+${#temporals.format(thread.datePost, 'dd-MM-yyyy')}" />
+            </div>
+            <hr class="line-pembicaraan">
+        </div>
+    </div>
+    <div th:each="thread : ${listSearchThreads}" id="pembicaraan-terbaru">
+        <div class="pembicaraan">
+            <button class="clear-decoration pembicaraan-title">
+                <a th:href="@{'/thread/{id}/' (id=${thread.id})}"><span th:text="${thread.title}"></span></a>
+            </button>
+            <p class="pembicaraan-content" th:text="${thread.content}"></p>
+            <div class="pembicaraan-flex">
+                <div class="pembicaraan-flex-inside">
+                    <span class="pembicaraan-flex-inside-span" th:text="'answer '+${#lists.size(thread.reply)}"></span>
+                </div>
+                <div th:text="${thread.user.name}+', '+${#temporals.format(thread.datePost, 'dd-MM-yyyy')}" />
+            </div>
+            <hr class="line-pembicaraan">
         </div>
     </div>
 </div>
-
 <script th:src="@{/webjars/bootstrap/5.1.3/dist/js/bootstrap.bundle.js}"></script>
 </body>
 </html>
 <style>
-    /* width */
-    ::-webkit-scrollbar {
-        width: 10px;
-
-    }
-
-    a {
+    a:hover {
         text-decoration: none;
     }
-
-    /* Track */
-    ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 20px;
-        margin: 0 15px 0 0;
-    }
-
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-        background: #F97E7E;
-        border-radius: 20px;
-    }
-
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-        background: #555;
+    body {
+        font-family: 'Source Sans Pro',sans-serif;
+        letter-spacing: 1px;
     }
 </style>

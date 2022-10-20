@@ -1,6 +1,7 @@
 package com.simasforum.SimasForum.controller;
 
 import com.simasforum.SimasForum.model.Reply;
+import com.simasforum.SimasForum.model.Role;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.service.ReplyService;
@@ -24,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ReplyController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class ReplyControllerTest {
+class ReplyControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -38,7 +39,7 @@ public class ReplyControllerTest {
     @Test
     @DisplayName("reply to thread")
     void replyToThread_ok() throws Exception {
-        User user = new User("name", "email", "password");
+        User user = new User("name", "email", "password", new Role("user"));
         Thread mockThread = new Thread(user, "title", "content", 0, null);
         when(userService.getUserById(anyLong())).thenReturn(user);
         when(threadService.getThreadDetail(anyLong())).thenReturn(Optional.of(mockThread));
@@ -53,7 +54,7 @@ public class ReplyControllerTest {
     @Test
     @DisplayName("reply to reply")
     void replyToReply_ok() throws Exception {
-        User user = new User("name", "email", "password");
+        User user = new User("name", "email", "password", new Role("user"));
         Thread mockThread = new Thread(user, "title", "content", 0, null);
         Reply reply = new Reply("", "", user, mockThread);
         Reply mockReply = new Reply("", "", user, reply);
