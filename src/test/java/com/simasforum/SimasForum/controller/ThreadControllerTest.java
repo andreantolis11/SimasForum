@@ -171,8 +171,7 @@ public class ThreadControllerTest {
                 content().string(containsString("</html>")),
                 content().string(containsString("<form")),
                 content().string(containsString("<input")),
-                content().string(containsString("<textarea")),
-                content().string(containsString("<button"))
+                content().string(containsString("<textarea"))
         );
     }
 

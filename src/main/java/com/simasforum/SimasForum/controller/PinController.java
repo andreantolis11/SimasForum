@@ -41,11 +41,11 @@ public class PinController {
         try {
             Reply reply = replyService.getReplyById(replyId).get();
             Thread thread = threadService.getThreadDetail(threadId).get();
-            pinService.pinReply(thread,reply);
+            pinService.pinReply(reply);
             String referer = request.getHeader("Referer");
             return "redirect:" + referer;
         } catch (Exception e) {
-            return "login";
+            return "redirect:/user/login";
         }
     }
 }
