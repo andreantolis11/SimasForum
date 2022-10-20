@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ThreadController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class ThreadControllerTest {
+class ThreadControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -171,8 +171,7 @@ public class ThreadControllerTest {
                 content().string(containsString("</html>")),
                 content().string(containsString("<form")),
                 content().string(containsString("<input")),
-                content().string(containsString("<textarea")),
-                content().string(containsString("<button"))
+                content().string(containsString("<textarea"))
         );
     }
 

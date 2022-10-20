@@ -3,7 +3,6 @@ package com.simasforum.SimasForum.service;
 import com.simasforum.SimasForum.model.Role;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
-import com.simasforum.SimasForum.model.Vote;
 import com.simasforum.SimasForum.repository.ThreadRepository;
 import com.simasforum.SimasForum.repository.VoteRepository;
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class ThreadServiceTest {
+class ThreadServiceTest {
 
     @Autowired
     private ThreadService threadService;
@@ -133,5 +132,13 @@ public class ThreadServiceTest {
     void deleteMyThreadById() {
         threadService.deleteMyThreadById(0L);
         verify(threadRepository, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    void deleteThreadById_notFound() {
+        when(threadRepository.findById(anyLong())).thenReturn(Optional.empty());
+        threadService.deleteMyThreadById(anyLong());
+        verify(threadRepository, times(1)).deleteById(anyLong());
+        assertFalse(false,"Not Found");
     }
 }

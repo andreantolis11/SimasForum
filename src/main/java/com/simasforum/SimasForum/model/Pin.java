@@ -36,9 +36,4 @@ public class Pin {
         this.isPin = isPin;
     }
 
-    public Pin(Thread thread, Reply reply, boolean isPin) {
-        this.threadId = thread.getId();
-        this.replyId = reply.getId();
-        this.isPin = isPin;
-    }
 }

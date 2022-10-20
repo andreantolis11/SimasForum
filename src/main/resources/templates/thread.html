@@ -123,7 +123,7 @@
                             <a class="button-reply">balas</a>
                         </button>
                         <form method="post"
-                              th:action="@{'/pin/reply/{threadId}/{replyId}'(threadId=${threadDetail.id},replyId=${reply.id})}">
+                              th:action="@{'/pin/reply/{replyId}'(replyId=${reply.id})}">
                             <div th:if="${session.USER_LOGIN_ID == threadDetail.user.getId()}">
                                 <button style="margin-top: -14px;"  class="clear-decoration button-area">
                                     <a style="font-size: 16px;" th:if="${pinsReply.get(reply.id) == true} "
@@ -240,7 +240,7 @@
                             <a class="button-reply">balas</a>
                         </button>
                         <form method="post" style="margin-top: -2px;"
-                              th:action="@{'/pin/reply/{threadId}/{replyId}'(threadId=${threadDetail.id},replyId=${reply.id})}">
+                              th:action="@{'/pin/reply/{replyId}'(replyId=${reply.id})}">
                             <div th:if="${session.USER_LOGIN_ID == threadDetail.user.getId()}">
                                 <button style="margin-top: -14px;" class="clear-decoration button-area">
                                     <a style="font-size: 16px;" th:if="${pinsReply.get(reply.id) == true} "

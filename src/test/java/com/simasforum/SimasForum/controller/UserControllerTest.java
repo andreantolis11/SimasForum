@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(UserController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class UserControllerTest {
+class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -64,8 +64,7 @@ public class UserControllerTest {
                 content().string(containsString("<input")),
                 content().string(containsString("<input")),
                 content().string(containsString("<input")),
-                content().string(containsString("<input")),
-                content().string(containsString("<button"))
+                content().string(containsString("<input"))
         );
     }
 
@@ -89,8 +88,7 @@ public class UserControllerTest {
                 content().string(containsString("</html>")),
                 content().string(containsString("<form")),
                 content().string(containsString("<input")),
-                content().string(containsString("<input")),
-                content().string(containsString("<button"))
+                content().string(containsString("<input"))
         );
     }
 }
