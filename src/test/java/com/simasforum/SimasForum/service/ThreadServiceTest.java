@@ -162,4 +162,12 @@ public class ThreadServiceTest {
         threadService.deleteMyThreadById(0L);
         verify(threadRepository, times(1)).deleteById(anyLong());
     }
+
+    @Test
+    void deleteThreadById_notFound() {
+        when(threadRepository.findById(anyLong())).thenReturn(Optional.empty());
+        threadService.deleteMyThreadById(anyLong());
+        verify(threadRepository, times(1)).deleteById(anyLong());
+        assertFalse(false,"Not Found");
+    }
 }
