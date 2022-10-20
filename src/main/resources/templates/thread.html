@@ -17,20 +17,7 @@
 <body>
 <div style="text-decoration: none;" th:replace="fragments/nav :: navbar"></div>
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-<div id="mySidebar" class="sidebar">
-    <a href="/dashboard"><i class="fa fa-home"></i>Dashboard</a>
-    <a th:if="${session.USER_LOGIN_NAME}" href="/mythread"><i class='fas fa-briefcase'></i>My threads</a>
-    <div th:if="${session.USER_LOGIN_NAME}">
-        <span class="sidebar-parent"><i class="fas fa-user-alt"></i>Account</span>
-        <a th:if="${session.USER_LOGIN_NAME}" class="sidebar-child" href="/user/logout"><i class='fas fa-door-open'></i>Logout</a>
-    </div>
-    <div th:unless="${session.USER_LOGIN_NAME}">
-        <span class="sidebar-parent"><i class="fas fa-user-alt"></i>Account</span>
-        <a class="sidebar-child" href="/user/register"><i class='fas fa-user-plus'></i>Register</a>
-        <a class="sidebar-child" href="/user/login"><i class='fas fa-door-closed'></i>Login</a>
-    </div>
-    <a href="/reports"><i class='fas fa-ban'></i>Reports</a>
-</div>
+<div th:replace="fragments/sidebar :: sidebar"></div>
 <div class="thread">
     <div class="thread-area">
         <h3 class="thread-title" th:text="${threadDetail.title}"></h3>
@@ -40,7 +27,7 @@
                   th:action="@{'/thread/{id}/{isUpVote}' (isUpVote=true, id=${threadDetail.id})}">
                 <button class="clear-decoration">
                     <a>
-                        <i th:if="${upVotes == 1}" class='fas fa-sort-up up-vote' style="color: #64A644;"></i>
+                        <em th:if="${upVotes == 1}" class='fas fa-sort-up up-vote' style="color: #64A644;"></em>
                         <i th:unless="${upVotes == 1}" class='fas fa-sort-up up-vote'></i>
                     </a>
                 </button>
@@ -91,7 +78,7 @@
     </div>
     <div class="reply-area">
         <h3 class="thread-title">REPLIES</h3>
-        <form th:if="${session.USER_LOGIN_NAME}" th:action="@{'/reply/thread/{id}' (id=${threadDetail.id})}"
+        <form style="margin-bottom: 50px;" th:if="${session.USER_LOGIN_NAME}" th:action="@{'/reply/thread/{id}' (id=${threadDetail.id})}"
               method="post">
             <div class="form-group">
                 <input name="content" style="background-color: #FFFFFF; border-radius: 5px;"
@@ -349,6 +336,9 @@
 </body>
 </html>
 <style>
+    .replies {
+        margin-top: 0;
+    }
     .button-form-thread {
         float: right;
         color: #B69797;
