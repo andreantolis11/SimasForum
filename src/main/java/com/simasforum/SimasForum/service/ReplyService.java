@@ -30,8 +30,7 @@ public class ReplyService {
         return replyRepository.findById(id);
     }
     public List<Reply> getReplyByThreadId(Long id) {
-        List<Reply> reply = replyRepository.findByThreadId(id);
-        return reply;
+        return replyRepository.findByThreadId(id);
     }
 
     public Boolean deleteReplyById(Long id) {

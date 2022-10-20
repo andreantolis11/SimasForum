@@ -48,7 +48,7 @@ public class ThreadServiceTest {
     @Test
     void getThreadItemById_existingThread_ok() {
         LocalDate date = LocalDate.of(2020, 1, 8);
-        User andre = new User("andre", "andre@gmail.com", "123",new Role("user"));
+        User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));
         andre.setId(1L);
         Thread freshThread = new Thread(andre, "Fitur Simas+", "Fitur fitur yang dimiliki oleh Simas+", 412, date);
 
@@ -58,12 +58,12 @@ public class ThreadServiceTest {
     }
 
     @Test
-    void getThreadBySearch(){
+    void getThreadBySearch() {
         //[SETUP]
         LocalDate date = LocalDate.of(2020, 1, 8);
         User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));
         andre.setId(1L);
-        List<Thread> thread = List.of(new Thread( andre, "Apa itu investasi", "Content 1", 0, null));
+        List<Thread> thread = List.of(new Thread(andre, "Apa itu investasi", "Content 1", 0, null));
         when(threadRepository.findByTitleContainsIgnoreCase(anyString())).thenReturn(Optional.of(thread).get());
 
         //[EXERCISE]
@@ -79,49 +79,21 @@ public class ThreadServiceTest {
         LocalDate date = LocalDate.of(2020, 1, 8);
         User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));
         andre.setId(1L);
-    	  List<Thread> thread = List.of(new Thread(andre, "Title 1", "Content 1", 2, null),new Thread(andre, "Title 1", "Content 1", 3, null),new Thread( andre, "Title 1", "Content 1", 6, null));
+        List<Thread> thread = List.of(new Thread(andre, "Title 1", "Content 1", 2, null), new Thread(andre, "Title 1", "Content 1", 3, null), new Thread(andre, "Title 1", "Content 1", 6, null));
         when(threadRepository.findByOrderByVoteScoreDesc()).thenReturn(Optional.of(thread).get());
         Thread threadByVote = threadService.sortByVoteScore().get(2);
-        assertEquals(threadByVote.getVoteScore(), 6);
+        assertEquals(6, threadByVote.getVoteScore());
     }
-
-//    @Test
-//    void addUpVote_thread(){
-//        LocalDate date = LocalDate.of(2020, 1, 8);
-//        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123");
-//        fadhlul.setId(1L);
-//        Thread thread = new Thread(fadhlul, "Lorem ipsum", "Lorem impus", 0, date);
-//        thread.setId(1L);
-//        when(threadRepository.findById(anyLong())).thenReturn(Optional.of(thread));
-//        when(voteRepository.findByThreadIdAndUserId(anyLong(), anyLong())).thenReturn(null);
-//        threadService.addThreadVote(thread.getId(), true, fadhlul.getId());
-//        assertEquals(thread.getVoteScore(), 1);
-//        verify(voteRepository, times(1)).save(any(Vote.class));
-//    }
-//
-//    @Test
-//    void addDownVote_thread(){
-//        LocalDate date = LocalDate.of(2020, 1, 8);
-//        User fadhlul = new User("Fadhlul", "fad@gmail.com", "123");
-//        fadhlul.setId(1L);
-//        Thread thread = new Thread(fadhlul, "Lorem ipsum", "Lorem impus", 0, date);
-//        thread.setId(1L);
-//        when(threadRepository.findById(anyLong())).thenReturn(Optional.of(thread));
-//        when(voteRepository.findByThreadIdAndUserId(anyLong(), anyLong())).thenReturn(null);
-//        threadService.addThreadVote(thread.getId(), false, fadhlul.getId());
-//        assertEquals(thread.getVoteScore(), -1);
-//        verify(voteRepository, times(1)).save(any(Vote.class));
-//    }
 
     @Test
     void sortByDate() {
         LocalDate date = LocalDate.of(2020, 1, 8);
         User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));
         andre.setId(1L);
-    	List<Thread> thread = List.of(new Thread( andre, "Title 1", "Content 1", 1, LocalDate.now()),new Thread(andre, "Title 1", "Content 1", 2, LocalDate.now()),new Thread( andre, "Title 1", "Content 1", 5, LocalDate.now()));
-    	when(threadRepository.findByOrderByDatePostDesc()).thenReturn(Optional.of(thread).get());
-    	Thread threadDate = threadService.sortByDate().get(1);
-    	assertEquals(threadDate.getDatePost(), LocalDate.now());
+        List<Thread> thread = List.of(new Thread(andre, "Title 1", "Content 1", 1, LocalDate.now()), new Thread(andre, "Title 1", "Content 1", 2, LocalDate.now()), new Thread(andre, "Title 1", "Content 1", 5, LocalDate.now()));
+        when(threadRepository.findByOrderByDatePostDesc()).thenReturn(Optional.of(thread).get());
+        Thread threadDate = threadService.sortByDate().get(1);
+        assertEquals(threadDate.getDatePost(), LocalDate.now());
     }
 
     @Test
@@ -129,10 +101,10 @@ public class ThreadServiceTest {
         LocalDate date = LocalDate.of(2020, 1, 8);
         User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));
         andre.setId(1L);
-    	Optional<Thread> thread = Optional.of(new Thread(andre, "Title 1", "Content 1", 1, LocalDate.now()));
-    	when(threadRepository.findById(anyLong())).thenReturn(Optional.of(thread).get());
-    	Optional<Thread> threadById = threadService.getThreadDetail(1L);
-    	assertFalse(threadById.isEmpty());
+        Optional<Thread> thread = Optional.of(new Thread(andre, "Title 1", "Content 1", 1, LocalDate.now()));
+        when(threadRepository.findById(anyLong())).thenReturn(Optional.of(thread).get());
+        Optional<Thread> threadById = threadService.getThreadDetail(1L);
+        assertFalse(threadById.isEmpty());
     }
 
     @Test

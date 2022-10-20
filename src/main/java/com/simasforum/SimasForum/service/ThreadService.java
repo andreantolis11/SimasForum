@@ -29,8 +29,7 @@ public class ThreadService {
     }
 
     public Optional<Thread> getThreadDetail(Long id) {
-        Optional<Thread> result = threadRepository.findById(id);
-        return result;
+        return threadRepository.findById(id);
     }
 
     public int getVoteByUserAndThreadId(Long threadId, Long userId){
@@ -46,7 +45,7 @@ public class ThreadService {
     }
 
     public List<Thread> sortByDate(){
-        return (List<Thread>) threadRepository.findByOrderByDatePostDesc();
+        return threadRepository.findByOrderByDatePostDesc();
     }
 
     public List<Thread> getThreadBySearch(String title){
@@ -67,7 +66,7 @@ public class ThreadService {
     }
 
     public List<Thread> sortByVoteScore(){
-        return  (List<Thread>) threadRepository.findByOrderByVoteScoreDesc();
+        return threadRepository.findByOrderByVoteScoreDesc();
     }
 
     public List<Thread> getAllMyThread(User user) {
