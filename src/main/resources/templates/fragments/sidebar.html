@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body >
+<div th:fragment="sidebar" id="mySidebar" class="sidebar">
+  <a href="/dashboard"><i class="fa fa-home"></i>Dashboard</a>
+  <a th:if="${session.USER_LOGIN_NAME}" href="/mythread"><i class='fas fa-briefcase'></i>My threads</a>
+  <div th:if="${session.USER_LOGIN_NAME}">
+    <span class="sidebar-parent"><i class="fas fa-user-alt"></i>Account</span>
+    <a th:if="${session.USER_LOGIN_NAME}" class="sidebar-child" href="/user/logout"><i class='fas fa-door-open'></i>Logout</a>
+  </div>
+  <div th:unless="${session.USER_LOGIN_NAME}">
+    <span class="sidebar-parent"><i class="fas fa-user-alt"></i>Account</span>
+    <a class="sidebar-child" href="/user/register"><i class='fas fa-user-plus'></i>Register</a>
+    <a class="sidebar-child" href="/user/login"><i class='fas fa-door-closed'></i>Login</a>
+  </div>
+  <a th:if="${session.USER_LOGIN_ROLE == 'admin'}" href="/reports"><i class='fas fa-ban'></i>Reports</a>
+</div>
+</body>
+</html>
