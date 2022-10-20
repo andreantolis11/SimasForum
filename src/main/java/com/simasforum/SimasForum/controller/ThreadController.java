@@ -57,7 +57,8 @@ public class ThreadController {
     public void setPinService(PinService pinService) {
         this.pinService = pinService;
     }
-
+    
+    
     @GetMapping("/thread/add")
     public String newThread() {
         return "add_thread";
@@ -77,7 +78,7 @@ public class ThreadController {
 
     @GetMapping("/thread/{id}/vote")
     public String updateVote(@PathVariable("id") Long id, String method) {
-        System.out.println("This one triggered");
+
         if (method.equals("upVote")) {
             threadService.upVoteThread(id);
         } else {
@@ -99,19 +100,21 @@ public class ThreadController {
 
     @GetMapping("/thread/{id}")
     public String getThreadDetails(@PathVariable("id") Long id, Model model, HttpSession session) {
+        
         Optional<Thread> threadDetail = threadService.getThreadDetail(id);
         List<Reply> reply = threadDetail.get().getReply();
         model.addAttribute("replies", reply);
         model.addAttribute("sizes", reply.size());
         User owner = threadDetail.get().getUser();
         List<Reply> threadReplies = threadDetail.get().getReply();
-        Map<Long, Boolean> replyVoteMap = voteService.getUserVotedList(threadReplies, (Long) session.getAttribute("USER_LOGIN_ID"));
-        Map<Long, Boolean> replyPin = pinService.getPinReply(threadReplies);
-        int upVotes = threadService.getVoteByUserAndThreadId(id, (Long) session.getAttribute("USER_LOGIN_ID"));
+        String user_login_id = "USER_LOGIN_ID";
+        Map<Long, Boolean> replyVoteMap = voteService.getUserVotedList(threadReplies, (Long) session.getAttribute(user_login_id));
+        Map<Long, Boolean> replyPin = pinService.getPinReply(threadReplies, id);
+        int upVotes = threadService.getVoteByUserAndThreadId(id, (Long) session.getAttribute(user_login_id));
         model.addAttribute(THREAD_DETAIL_MODEL, threadDetail.get());
         model.addAttribute("threadReplies", threadReplies);
         model.addAttribute("userName", owner.getName());
-        model.addAttribute("userId", session.getAttribute("USER_LOGIN_ID"));
+        model.addAttribute("userId", session.getAttribute(user_login_id));
         model.addAttribute("upVotes", upVotes);
         model.addAttribute("votesReply", replyVoteMap);
         model.addAttribute("pinsReply", replyPin);

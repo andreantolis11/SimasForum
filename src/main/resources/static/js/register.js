@@ -1,4 +1,4 @@
-var password = document.getElementById("password"), conf_password = document.getElementById("conf_password");
+const password = document.getElementById("password"), conf_password = document.getElementById("conf_password");
 
 function validatePassword() {
     if (password.value != conf_password.value) {

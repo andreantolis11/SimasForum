@@ -68,12 +68,10 @@ public class ReportService {
     }
 
     public List<Report> getReportByThreadId(Long id) {
-        List<Report> report = reportRepository.findByThreadId(id);
-        return report;
+        return reportRepository.findByThreadId(id);
     }
 
     public List<Report> getReportByReplyId(Long id) {
-        List<Report> report = reportRepository.findByReplyId(id);
-        return report;
+        return reportRepository.findByReplyId(id);
     }
 }
