@@ -23,7 +23,7 @@
         <form method="post" th:action="@{'/thread/edit/{id}' (id=${threadDetail.id})}">
             <div class="form-group" style="width: 400px">
                 <label for="title">Title</label>
-                <input name="title" th:value="${threadDetail.title}" type="text" class="form-control" id="title" placeholder="input title...">
+                <input required name="title" th:value="${threadDetail.title}" type="text" class="form-control" id="title" placeholder="input title...">
             </div>
             <div class="form-group" style="width: 400px">
                 <label for="content">Content</label>

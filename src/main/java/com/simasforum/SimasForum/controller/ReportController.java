@@ -45,6 +45,8 @@ public class ReportController {
     @Autowired
     private ReplyRepository replyRepository;
 
+    private final static String REDIRECT_REPORT = "redirect:/reports";
+
     @PostMapping("/thread/report/{threadId}/{userId}")
     public String reportThread(@PathVariable Long threadId,
                             @PathVariable Long userId,
@@ -87,27 +89,26 @@ public class ReportController {
     @PostMapping("/reports/thread/ignore/{id}")
     public String ignoreReport(@PathVariable Long id) {
         reportService.ignoreReportThreadById(id);
-        return "redirect:/reports";
+        return REDIRECT_REPORT;
     }
 
     @PostMapping("/reports/reply/ignore/{id}")
     public String ignoreReportReply(@PathVariable Long id) {
         reportService.ignoreReportReplyById(id);
-        return "redirect:/reports";
+        return REDIRECT_REPORT;
     }
 
     @PostMapping("/reports/accept/{id}/thread/{threadId}")
     public String acceptReport(@PathVariable Long id, @PathVariable Long threadId) {
         reportService.acceptReportById(id);
         threadRepository.deleteById(threadId);
-        return "redirect:/reports";
+        return REDIRECT_REPORT;
     }
 
     @PostMapping("/reports/accept/{id}/reply/{replyId}")
     public String acceptReportReply(@PathVariable Long id, @PathVariable Long replyId) {
         reportService.acceptReportById(id);
         replyRepository.deleteById(replyId);
-        return "redirect:/reports";
+        return REDIRECT_REPORT;
     }
-
 }
