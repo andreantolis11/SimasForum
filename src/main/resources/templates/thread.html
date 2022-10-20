@@ -23,22 +23,22 @@
             <div style="display: flex;">
                 <form th:if="${session.USER_LOGIN_NAME}" method="post"
                       th:action="@{'/thread/{id}/{isUpVote}' (isUpVote=true, id=${threadDetail.id})}">
-                    <button class="clear-decoration">
+                    <button class="clear-decoration vote-size" style="font-size: 24px;">
                         <a>
-                            <em th:if="${upVotes == 1}" class='fas fa-sort-up up-vote' style="color: #64A644;"></em>
-                            <em th:unless="${upVotes == 1}" class='fas fa-sort-up up-vote'></em>
+                            <em th:if="${upVotes == 1}" class='fa fa-sort-up up-vote' style="color: #64A644;"></em>
+                            <em th:unless="${upVotes == 1}" class='fa fa-sort-up up-vote'></em>
                         </a>
                     </button>
                 </form>
-                <p class="count-vote"><em class="fas fa-vote-yea" style="margin-right: 0;"></em> <span class="count-vote"
+                <p class="count-vote"><em class="fa fa-vote-yea" style="margin-right: 0;"></em> <span class="count-vote"
                                                                                                      th:text="${threadDetail.voteScore}"></span>
                 </p>
                 <form th:if="${session.USER_LOGIN_NAME}" method="post"
                       th:action="@{'/thread/{threadId}/{isUpVote}' (isUpVote=false, threadId=${threadDetail.id})}">
-                    <button class="clear-decoration" style="margin-top: -28px;">
+                    <button class="clear-decoration vote-size" style="font-size: 24px;margin-top: -28px;">
                         <a>
-                            <em th:if="${upVotes == 0}" class='fas fa-sort-down down-vote' style="color: red;"></em>
-                            <em th:unless="${upVotes == 0}" class='fas fa-sort-down down-vote'></em>
+                            <em th:if="${upVotes == 0}" class='fa fa-sort-down down-vote' style="color: red;"></em>
+                            <em th:unless="${upVotes == 0}" class='fa fa-sort-down down-vote'></em>
                         </a>
                     </button>
                 </form>
@@ -89,7 +89,7 @@
             <div class="replies-reply-thread">
                 <div th:if="${pinsReply.get(reply.id) == true} ">
                     <div style="display: flex;">
-                        <em class='icon-margin fas fa-thumbtack'
+                        <em class='icon-margin fa fa-thumbtack'
                            style="font-size: 16px; color: red;"></em>
                         <p th:text="${reply.content}"></p>
                     </div>
@@ -237,5 +237,4 @@
     a:hover {
         text-decoration: none;
     }
-
 </style>
