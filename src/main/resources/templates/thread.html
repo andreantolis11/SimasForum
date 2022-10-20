@@ -76,7 +76,7 @@
                                   th:action="@{'/thread/report/{threadId}/{userId}' (threadId=${threadDetail.id}, userId=${userId})}">
                                 <div class="form-group">
                                     <label>Alasan</label>
-                                    <input name="alasan" type="tel" class="form-control" id="alasan"
+                                    <input required name="alasan" type="tel" class="form-control" id="alasan"
                                            placeholder="Alasan">
                                 </div>
                                 <!--                                    <div class="modal-footer">-->
