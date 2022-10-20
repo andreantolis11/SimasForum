@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ReplyController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class ReplyControllerTest {
+class ReplyControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

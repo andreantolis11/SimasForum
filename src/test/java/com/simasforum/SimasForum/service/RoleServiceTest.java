@@ -1,9 +1,7 @@
 package com.simasforum.SimasForum.service;
 
 import com.simasforum.SimasForum.model.Role;
-import com.simasforum.SimasForum.model.User;
 import com.simasforum.SimasForum.repository.RoleRepository;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +15,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class RoleServiceTest {
+class RoleServiceTest {
 
     @Autowired
     private RoleService roleService;

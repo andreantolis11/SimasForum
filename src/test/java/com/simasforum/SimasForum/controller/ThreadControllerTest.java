@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ThreadController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class ThreadControllerTest {
+class ThreadControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

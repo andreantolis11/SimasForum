@@ -36,16 +36,11 @@ public class PinController {
         return "redirect:/";
     }
 
-    @PostMapping("/pin/reply/{threadId}/{replyId}")
-    public String pinReply(@PathVariable("threadId") Long threadId,@PathVariable("replyId") Long replyId, HttpServletRequest request) {
-        try {
-            Reply reply = replyService.getReplyById(replyId).get();
-            Thread thread = threadService.getThreadDetail(threadId).get();
-            pinService.pinReply(reply);
-            String referer = request.getHeader("Referer");
-            return "redirect:" + referer;
-        } catch (Exception e) {
-            return "redirect:/user/login";
-        }
+    @PostMapping("/pin/reply/{replyId}")
+    public String pinReply(@PathVariable("replyId") Long replyId, HttpServletRequest request) {
+        Reply reply = replyService.getReplyById(replyId).get();
+        pinService.pinReply(reply);
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
     }
 }

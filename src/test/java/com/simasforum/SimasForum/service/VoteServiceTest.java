@@ -18,7 +18,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class VoteServiceTest {
+class VoteServiceTest {
 
     @Autowired
     private VoteService voteService;

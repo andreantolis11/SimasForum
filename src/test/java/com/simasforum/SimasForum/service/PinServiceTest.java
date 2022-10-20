@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class PinServiceTest {
+class PinServiceTest {
 
     @Autowired
     private PinService pinService;
