@@ -17,7 +17,7 @@
     </button>
 </form>
 
-<p th:fragment="score-reply" class="count-vote"><em class="fa fa-vote-yea" style="margin-right: 0;"></em> <span
+<p th:fragment="score-reply" class="count-vote"><em class="fa fa-check" style="margin-right: 0;"></em> <span
         class="count-vote" th:text="${reply.voteScore}"></span></p>
 
 <form th:fragment="voteDown-reply" th:if="${session.USER_LOGIN_NAME}" method="post"
@@ -63,7 +63,7 @@
                 </a>
             </button>
         </form>
-        <p class="count-vote"><em class="fa fa-vote-yea" style="margin-right: 0;"></em> <span
+        <p class="count-vote"><em class="fa fa-check" style="margin-right: 0;"></em> <span
                 class="count-vote" th:text="${childreply.voteScore}"></span></p>
         <form th:if="${session.USER_LOGIN_NAME}" method="post"
               th:action="@{'/thread/{id}/{replyId}/{isUpVote}' (isUpVote=false, id=${threadDetail.id},replyId=${childreply.id})}">
