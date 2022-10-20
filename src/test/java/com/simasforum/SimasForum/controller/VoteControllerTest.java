@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(VoteController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class VoteControllerTest {
+class VoteControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

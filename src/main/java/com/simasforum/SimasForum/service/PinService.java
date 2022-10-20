@@ -49,38 +49,22 @@ public class PinService {
         return Map.of("pinnedThreads", pinnedThreads, "threadList", threads);
     }
 
-    public Map<String, List<Reply>> mapPinnedReply(List<Reply> replies){
-        List<Reply> pinnedReply = new ArrayList<>();
-        int index = 0;
-        while (index < replies.size()){
-            Pin pin  = pinRepository.findByReplyId(replies.get(index).getId());
-            if(pin != null){
-                pinnedReply.add(replies.get(index));
-                replies.remove(replies.get(index));
-            }else {
-                index += 1;
-            }
-        }
-        return Map.of("pinnedReply",pinnedReply,"replyList",replies);
-    }
-
     public void deleteExpiredThreadPin() {
         LocalDate tenDaysAgo = LocalDate.now().minusDays(10);
         pinRepository.deleteByDateBefore(tenDaysAgo);
     }
 
-    public void pinReply(Thread thread,Reply reply) {
+    public void pinReply(Reply reply) {
 
         Pin pin = pinRepository.findByReplyId(reply.getId());
         if (pin == null) {
             pinRepository.save(new Pin(reply, true));
         } else {
-//            pinRepository.deletePinByThreadIdAndReplyId(thread.getId(),reply.getId());
             pinRepository.delete(pin);
         }
     }
 
-    public Map<Long, Boolean> getPinReply(List<Reply> replies, Long threadId) {
+    public Map<Long, Boolean> getPinReply(List<Reply> replies) {
         //Map<replyId, isUpVote>
         Map<Long, Boolean> listPin = new HashMap<Long, Boolean>();
         for (Reply reply : replies) {
