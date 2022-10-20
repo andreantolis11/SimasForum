@@ -133,8 +133,9 @@ public class ThreadController {
     @GetMapping("/thread/search")
     public String getThreadByTitleThreads(@RequestParam("title") String title, Model model, HttpSession session) {
         List<Thread> threads = threadService.getThreadBySearch(title);
-        model.addAttribute("listSearchThreads", threads);
-        model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
+        Map<String, List<Thread>> mappedThreads = pinService.mapPinnedThread(threads);
+        model.addAttribute("listSearchThreads", mappedThreads.get("threadList"));
+        model.addAttribute("PinnedSearchThreads", mappedThreads.get("pinnedThreads"));
         return "search_thread_result";
     }
 
