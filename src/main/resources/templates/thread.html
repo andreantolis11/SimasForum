@@ -23,7 +23,7 @@
             <div style="display: flex;">
                 <form th:if="${session.USER_LOGIN_NAME}" method="post"
                       th:action="@{'/thread/{id}/{isUpVote}' (isUpVote=true, id=${threadDetail.id})}">
-                    <button class="clear-decoration">
+                    <button class="clear-decoration vote-size" style="font-size: 24px;">
                         <a>
                             <em th:if="${upVotes == 1}" class='fa fa-sort-up up-vote' style="color: #64A644;"></em>
                             <em th:unless="${upVotes == 1}" class='fa fa-sort-up up-vote'></em>
@@ -35,7 +35,7 @@
                 </p>
                 <form th:if="${session.USER_LOGIN_NAME}" method="post"
                       th:action="@{'/thread/{threadId}/{isUpVote}' (isUpVote=false, threadId=${threadDetail.id})}">
-                    <button class="clear-decoration" style="margin-top: -28px;">
+                    <button class="clear-decoration vote-size" style="font-size: 24px;margin-top: -28px;">
                         <a>
                             <em th:if="${upVotes == 0}" class='fa fa-sort-down down-vote' style="color: red;"></em>
                             <em th:unless="${upVotes == 0}" class='fa fa-sort-down down-vote'></em>
@@ -237,5 +237,4 @@
     a:hover {
         text-decoration: none;
     }
-
 </style>
