@@ -16,20 +16,38 @@
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <div th:replace="fragments/sidebar :: sidebar"></div>
 <div class="search-thread-result">
-    <div th:each="thread : ${listSearchThreads}" id="pembicaraan-terbaru">
-        <h3 class="pembicaraan-terbaru-title">Hasil pencarian</h3>
-        <p class="pembicaraan-terbaru-description">Menampilkan hasil list dari pencarian.</p>
+    <h3 class="pembicaraan-terbaru-title">Hasil pencarian</h3>
+    <p class="pembicaraan-terbaru-description">Menampilkan hasil list dari pencarian.</p>
+    <hr class="line-pembicaraan">
+    <div th:each="thread : ${PinnedSearchThreads}" id="pembicaraan-terbaru-pin">
         <div class="pembicaraan">
-            <button class="clear-decoration pembicaraan-title"><a th:href="@{'/thread/{id}/' (id=${thread.id})}"><span th:text="${thread.title}"></span></a><i
-                    class='icon-margin fas fa-thumbtack'></i></button>
+            <div style="display: flex; justify-content: space-between;">
+                <button class="clear-decoration pembicaraan-title">
+                    <a th:href="@{'/thread/{id}/' (id=${thread.id})}"><span th:text="${thread.title}"></span></a>
+                </button>
+                <i style="margin-right: 30px; font-size: 17px;" class='icon-margin fas fa-thumbtack'></i>
+            </div>
             <p class="pembicaraan-content" th:text="${thread.content}"></p>
             <div class="pembicaraan-flex">
                 <div class="pembicaraan-flex-inside">
-                    <span class="pembicaraan-flex-inside-span">answer 0</span>
+                    <span class="pembicaraan-flex-inside-span" th:text="'answer '+${#lists.size(thread.reply)}"></span>
                 </div>
-                <div>
-                    andre, 17 agustus 2025
+                <div th:text="${thread.user.name}+', '+${#temporals.format(thread.datePost, 'dd-MM-yyyy')}" />
+            </div>
+            <hr class="line-pembicaraan">
+        </div>
+    </div>
+    <div th:each="thread : ${listSearchThreads}" id="pembicaraan-terbaru">
+        <div class="pembicaraan">
+            <button class="clear-decoration pembicaraan-title">
+                <a th:href="@{'/thread/{id}/' (id=${thread.id})}"><span th:text="${thread.title}"></span></a>
+            </button>
+            <p class="pembicaraan-content" th:text="${thread.content}"></p>
+            <div class="pembicaraan-flex">
+                <div class="pembicaraan-flex-inside">
+                    <span class="pembicaraan-flex-inside-span" th:text="'answer '+${#lists.size(thread.reply)}"></span>
                 </div>
+                <div th:text="${thread.user.name}+', '+${#temporals.format(thread.datePost, 'dd-MM-yyyy')}" />
             </div>
             <hr class="line-pembicaraan">
         </div>
@@ -41,5 +59,9 @@
 <style>
     a:hover {
         text-decoration: none;
+    }
+    body {
+        font-family: 'Source Sans Pro',sans-serif;
+        letter-spacing: 1px;
     }
 </style>

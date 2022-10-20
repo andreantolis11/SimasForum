@@ -125,10 +125,12 @@
                         </button>
                         <form method="post"
                               th:action="@{'/pin/reply/{threadId}/{replyId}'(threadId=${threadDetail.id},replyId=${reply.id})}">
-                            <button class="clear-decoration button-area">
-                                <a style="font-size: 16px;" th:if="${pinsReply.get(reply.id) == true} " class="button-reply">unpin</a>
-                                <a style="font-size: 16px;" th:unless="${pinsReply.get(reply.id) == true} " class="button-reply">pin</a>
-                            </button>
+                            <div th:if="${session.USER_LOGIN_ID == threadDetail.user.getId()}">
+                                <button class="clear-decoration button-area">
+                                    <a style="font-size: 16px;" th:if="${pinsReply.get(reply.id) == true} " class="button-reply">unpin</a>
+                                    <a style="font-size: 16px;" th:unless="${pinsReply.get(reply.id) == true} " class="button-reply">pin</a>
+                                </button>
+                            </div>
                         </form>
                         <button style="font-size: 16px;margin-left: 12px; margin-top: -14px;color: #FF6363;" type="button" class="clear-decoration"
                                 data-toggle="modal"
@@ -237,10 +239,12 @@
                         </button>
                         <form method="post"
                               th:action="@{'/pin/reply/{threadId}/{replyId}'(threadId=${threadDetail.id},replyId=${reply.id})}">
-                            <button class="clear-decoration button-area">
-                                <a style="font-size: 16px;" th:if="${pinsReply.get(reply.id) == true} " class="button-reply">unpin</a>
-                                <a style="font-size: 16px;" th:unless="${pinsReply.get(reply.id) == true} " class="button-reply">pin</a>
-                            </button>
+                            <div th:if="${session.USER_LOGIN_ID == threadDetail.user.getId()}">
+                                <button class="clear-decoration button-area">
+                                    <a style="font-size: 16px;" th:if="${pinsReply.get(reply.id) == true} " class="button-reply">unpin</a>
+                                    <a style="font-size: 16px;" th:unless="${pinsReply.get(reply.id) == true} " class="button-reply">pin</a>
+                                </button>
+                            </div>
                         </form>
                         <button style="font-size: 16px;margin-left: 12px; margin-top: -14px;color: #FF6363;" type="button" class="clear-decoration"
                                 data-toggle="modal"
