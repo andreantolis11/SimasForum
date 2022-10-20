@@ -46,7 +46,7 @@
                     </button>
                 </form>
             </div>
-            <button th:if="${userId != null}" type="button" style="color: #FF6363" class="clear-decoration"
+            <button th:if="${session.USER_LOGIN_ID}" type="button" style="color: #FF6363" class="clear-decoration"
                     data-toggle="modal"
                     data-target="#exampleModal">
                 report
@@ -138,7 +138,7 @@
                                 </button>
                             </div>
                         </form>
-                        <button style="font-size: 16px;margin-left: 12px; margin-top: -14px;color: #FF6363;"
+                        <button th:if="${session.USER_LOGIN_ID}" style="font-size: 16px;margin-left: 12px; margin-top: -14px;color: #FF6363;"
                                 type="button" class="clear-decoration"
                                 data-toggle="modal"
                                 th:data-target="'#replyReportPin'+${reply.id}">
@@ -159,7 +159,7 @@
                                           th:action="@{'/thread/reply/report/{replyId}/{userId}' (replyId=${reply.id}, userId=${userId})}">
                                         <div class="form-group">
                                             <label>Alasan</label>
-                                            <input name="alasanReply" type="tel" class="form-control" id="alasanReply"
+                                            <input required name="alasanReply" type="tel" class="form-control" id="alasanReply"
                                                    placeholder="Alasan">
                                         </div>
                                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -255,7 +255,7 @@
                                 </button>
                             </div>
                         </form>
-                        <button style="font-size: 16px;margin-left: 12px; margin-top: -14px;color: #FF6363;"
+                        <button th:if="${session.USER_LOGIN_ID}" style="font-size: 16px;margin-left: 12px; margin-top: -14px;color: #FF6363;"
                                 type="button" class="clear-decoration"
                                 data-toggle="modal"
                                 th:data-target="'#replyReport'+${reply.id}">
@@ -277,7 +277,7 @@
                                           th:action="@{'/thread/reply/report/{replyId}/{userId}' (replyId=${reply.id}, userId=${userId})}">
                                         <div class="form-group">
                                             <label>Alasan</label>
-                                            <input name="alasanReply" type="tel" class="form-control" id="alasanReply"
+                                            <input required name="alasanReply" type="tel" class="form-control" id="alasanReply"
                                                    placeholder="Alasan">
                                         </div>
                                         <button type="submit" class="btn btn-primary">Submit</button>

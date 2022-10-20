@@ -59,9 +59,7 @@ public class ThreadController {
     }
 
     @GetMapping("/thread/add")
-    public String newThread(Model model, HttpSession session) {
-        model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
-
+    public String newThread() {
         return "add_thread";
     }
 
@@ -114,7 +112,6 @@ public class ThreadController {
         model.addAttribute("threadReplies", threadReplies);
         model.addAttribute("userName", owner.getName());
         model.addAttribute("userId", session.getAttribute("USER_LOGIN_ID"));
-        model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
         model.addAttribute("upVotes", upVotes);
         model.addAttribute("votesReply", replyVoteMap);
         model.addAttribute("pinsReply", replyPin);
@@ -125,7 +122,6 @@ public class ThreadController {
     @PostMapping("/thread/search")
     public String getThreadByTitle(@RequestParam("title") String title, Model model) {
         List<Thread> threads = threadService.getThreadBySearch(title);
-        System.out.println(threads);
         model.addAttribute("listSearchThreads", threads);
         return "search_thread_result";
     }
@@ -168,7 +164,6 @@ public class ThreadController {
         User owner = getUserFromSession(session);
         List<Thread> myThreads = threadService.getAllMyThread(owner);
         model.addAttribute("result", myThreads);
-        model.addAttribute("USER_LOGIN_NAME", session.getAttribute("USER_LOGIN_NAME"));
         return "my_thread";
     }
 
@@ -189,12 +184,4 @@ public class ThreadController {
     private User getUserFromSession(HttpSession session) {
         return userService.getUserById(Long.parseLong(session.getAttribute("USER_LOGIN_ID").toString()));
     }
-
-//    private void mockInsertReply(Thread thread, User user) {
-//        Reply reply = new Reply("reply name", "content reply", user, thread);
-//        replyService.addReply(reply);
-//        replyService.addReply(new Reply("reply name 2", "content reply2", user, reply));
-//        replyService.addReply(new Reply("reply name 3", "content reply3", user, reply));
-//        replyService.addReply(new Reply("reply name 4", "content reply4", user, reply));
-//    }
 }
