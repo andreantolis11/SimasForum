@@ -53,6 +53,20 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("RegisterTest")
+    void registerTest_emailExists_isOk() throws Exception {
+        User userMock = new User("name", "name@gmail.com", "password", new Role("user"));
+        when(userService.getUserByEmail("name@gmail.com")).thenReturn(userMock);
+        when(roleService.getRoleById(anyLong())).thenReturn(Optional.of(new Role("user")));
+        mockMvc.perform(post("/user/register")
+                .param("name", "name")
+                .param("email", "name@gmail.com")
+                .param("password", "password")
+                .param("conf_password", "password")
+        ).andExpectAll(status().isOk());
+    }
+
+    @Test
     @DisplayName("HTTP GET '/user/register' show register.html ")
     void showRegisterPage_html() throws Exception {
         mockMvc.perform(get("/user/register")).andExpectAll(
@@ -79,6 +93,26 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("LoginTest")
+    void LoginTest_userNotExists_IsOk() throws Exception {
+        User userMock = new User("name", "name@gmail.com", "password", new Role("user"));
+        when(userService.getUserByEmail(userMock.getEmail())).thenReturn(null);
+        mockMvc.perform(post("/user/login").param("email", "name@gmail.com").param("password", "password"))
+                .andExpectAll(status().is3xxRedirection()
+                );
+    }
+
+    @Test
+    @DisplayName("LoginTest")
+    void LoginTest_wrongPassword_IsOk() throws Exception {
+        User userMock = new User("name", "name@gmail.com", "password", new Role("user"));
+        when(userService.getUserByEmail(userMock.getEmail())).thenReturn(userMock);
+        mockMvc.perform(post("/user/login").param("email", "name@gmail.com").param("password", "salah"))
+                .andExpectAll(status().is3xxRedirection()
+                );
+    }
+
+    @Test
     @DisplayName("HTTP GET '/user/login' show login.html ")
     void showLoginPage_html() throws Exception {
         mockMvc.perform(get("/user/login")).andExpectAll(
@@ -90,5 +124,13 @@ class UserControllerTest {
                 content().string(containsString("<input")),
                 content().string(containsString("<input"))
         );
+    }
+
+    @Test
+    @DisplayName("Logout Test")
+    void logout_ok() throws Exception {
+        mockMvc.perform(get("/user/logout"))
+                .andExpectAll(status().is3xxRedirection()
+                );
     }
 }

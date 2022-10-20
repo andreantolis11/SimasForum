@@ -73,6 +73,25 @@ class ReportControllerTest {
     }
 
     @Test
+    void redirectAfterReport_toLogin_ok() throws Exception {
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        Role user = new Role("user");
+        user.setId(1L);
+        User john = new User("john", "john@gmail.com", "john12345", user);
+        john.setId(1L);
+        Thread thread = new Thread(john, "Title Spam", "Content Spam", 0, date);
+        HashMap<String, Object> sessionAttr = new HashMap<String, Object>();
+        sessionAttr.put("USER_LOGIN_ID", 1L);
+
+        when(threadService.getThreadDetail(anyLong())).thenReturn(Optional.of(thread));
+        when(userService.getUserById(anyLong())).thenReturn(null);
+
+        mockMvc.perform(post("/thread/report/1/1").param("alasan", "spam").sessionAttrs(sessionAttr)).andExpectAll(
+                status().is3xxRedirection()
+        );
+    }
+
+    @Test
     void redirectAfterReportReply_ok() throws Exception {
         LocalDate date = LocalDate.of(2020, 1, 8);
         Role user = new Role("user");
@@ -88,6 +107,28 @@ class ReportControllerTest {
 
         when(replyService.getReplyById(anyLong())).thenReturn(Optional.of(reply));
         when(userService.getUserById(anyLong())).thenReturn(john);
+
+        mockMvc.perform(post("/thread/reply/report/1/1").param("alasanReply", "spam").sessionAttrs(sessionAttr)).andExpectAll(
+                status().is3xxRedirection()
+        );
+    }
+
+    @Test
+    void redirectAfterReportReply_toLogin_ok() throws Exception {
+        LocalDate date = LocalDate.of(2020, 1, 8);
+        Role user = new Role("user");
+        user.setId(1L);
+        User john = new User("john", "john@gmail.com", "john12345", user);
+        john.setId(1L);
+        Thread thread = new Thread(john, "Title Spam", "Content Spam", 0, date);
+        thread.setId(1L);
+        Reply reply = new Reply("Reply thread", "Ini reply ke thread", john, thread);
+        reply.setId(1L);
+        HashMap<String, Object> sessionAttr = new HashMap<String, Object>();
+        sessionAttr.put("USER_LOGIN_ID", 1L);
+
+        when(replyService.getReplyById(anyLong())).thenReturn(Optional.of(reply));
+        when(userService.getUserById(anyLong())).thenReturn(null);
 
         mockMvc.perform(post("/thread/reply/report/1/1").param("alasanReply", "spam").sessionAttrs(sessionAttr)).andExpectAll(
                 status().is3xxRedirection()
