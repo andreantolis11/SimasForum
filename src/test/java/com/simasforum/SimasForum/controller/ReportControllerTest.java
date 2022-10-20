@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -116,5 +117,21 @@ class ReportControllerTest {
         );
         verify(reportService,times(1)).acceptReportById(anyLong());
         verify(threadRepository,times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    void acceptReportReply_ok() throws Exception {
+        mockMvc.perform(post("/reports/accept/1/reply/1")).andExpectAll(
+                status().is3xxRedirection()
+        );
+        verify(reportService,times(1)).acceptReportById(anyLong());
+        verify(replyRepository,times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    void redirectToReportPage_ok() throws Exception {
+        mockMvc.perform(get("/reports")).andExpectAll(
+                status().isOk()
+        );
     }
 }

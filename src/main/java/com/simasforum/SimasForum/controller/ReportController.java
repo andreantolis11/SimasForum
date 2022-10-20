@@ -45,7 +45,7 @@ public class ReportController {
     @Autowired
     private ReplyRepository replyRepository;
 
-    private final static String REDIRECT_REPORT = "redirect:/reports";
+    private static final String REDIRECT_REPORT = "redirect:/reports";
 
     @PostMapping("/thread/report/{threadId}/{userId}")
     public String reportThread(@PathVariable Long threadId,
