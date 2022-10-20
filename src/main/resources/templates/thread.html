@@ -30,7 +30,7 @@
                         </a>
                     </button>
                 </form>
-                <p class="count-vote"><em class="fa fa-vote-yea" style="margin-right: 0;"></em> <span class="count-vote"
+                <p class="count-vote"><em class="fa fa-check" style="margin-right: 0;"></em> <span class="count-vote"
                                                                                                      th:text="${threadDetail.voteScore}"></span>
                 </p>
                 <form th:if="${session.USER_LOGIN_NAME}" method="post"
@@ -89,7 +89,7 @@
             <div class="replies-reply-thread">
                 <div th:if="${pinsReply.get(reply.id) == true} ">
                     <div style="display: flex;">
-                        <em class='icon-margin fa fa-thumbtack'
+                        <em class='icon-margin fa fa-thumb-tack'
                            style="font-size: 16px; color: red;"></em>
                         <p th:text="${reply.content}"></p>
                     </div>
