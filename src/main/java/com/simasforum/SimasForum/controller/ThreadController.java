@@ -108,7 +108,7 @@ public class ThreadController {
         User owner = threadDetail.get().getUser();
         List<Reply> threadReplies = threadDetail.get().getReply();
         Map<Long, Boolean> replyVoteMap = voteService.getUserVotedList(threadReplies, (Long) session.getAttribute("USER_LOGIN_ID"));
-        Map<Long, Boolean> replyPin = pinService.getPinReply(threadReplies, id);
+        Map<Long, Boolean> replyPin = pinService.getPinReply(threadReplies);
         int upVotes = threadService.getVoteByUserAndThreadId(id, (Long) session.getAttribute("USER_LOGIN_ID"));
         model.addAttribute(THREAD_DETAIL_MODEL, threadDetail.get());
         model.addAttribute("threadReplies", threadReplies);
