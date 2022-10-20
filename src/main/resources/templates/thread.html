@@ -130,7 +130,7 @@
                         <form method="post"
                               th:action="@{'/pin/reply/{threadId}/{replyId}'(threadId=${threadDetail.id},replyId=${reply.id})}">
                             <div th:if="${session.USER_LOGIN_ID == threadDetail.user.getId()}">
-                                <button class="clear-decoration button-area">
+                                <button style="margin-top: -14px;"  class="clear-decoration button-area">
                                     <a style="font-size: 16px;" th:if="${pinsReply.get(reply.id) == true} "
                                        class="button-reply">unpin</a>
                                     <a style="font-size: 16px;" th:unless="${pinsReply.get(reply.id) == true} "
@@ -170,7 +170,7 @@
                     </div>
                     <form th:if="${session.USER_LOGIN_NAME}" method="post" th:id="'r_form_'+${reply.id}"
                           th:action="@{'/reply/reply/{id}' (id=${reply.id})}"
-                          style="width: 955px; float: right; display: none;">
+                          style="width: 955px; display: none;">
                         <div class="form-group">
                             <input name="content" th:id="${reply.id}"
                                    style="background-color: #FFFFFF; border-radius: 5px;"
@@ -244,10 +244,10 @@
                                 class="clear-decoration button-area">
                             <a class="button-reply">balas</a>
                         </button>
-                        <form method="post"
+                        <form method="post" style="margin-top: -2px;"
                               th:action="@{'/pin/reply/{threadId}/{replyId}'(threadId=${threadDetail.id},replyId=${reply.id})}">
                             <div th:if="${session.USER_LOGIN_ID == threadDetail.user.getId()}">
-                                <button class="clear-decoration button-area">
+                                <button style="margin-top: -14px;" class="clear-decoration button-area">
                                     <a style="font-size: 16px;" th:if="${pinsReply.get(reply.id) == true} "
                                        class="button-reply">unpin</a>
                                     <a style="font-size: 16px;" th:unless="${pinsReply.get(reply.id) == true} "
@@ -288,7 +288,7 @@
                     </div>
                     <form th:if="${session.USER_LOGIN_NAME}" method="post" th:id="'r_form_'+${reply.id}"
                           th:action="@{'/reply/reply/{id}' (id=${reply.id})}"
-                          style="width: 955px; float: right; display: none;">
+                          style="width: 955px; display: none;">
                         <div class="form-group">
                             <input name="content" th:id="${reply.id}"
                                    style="background-color: #FFFFFF; border-radius: 5px;"
@@ -347,7 +347,7 @@
 </html>
 <style>
     .replies {
-        margin-top: 0;
+        margin-bottom: 15px;
     }
     .button-form-thread {
         float: right;
