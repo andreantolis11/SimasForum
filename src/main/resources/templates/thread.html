@@ -17,49 +17,39 @@
 <body>
 <div style="text-decoration: none;" th:replace="fragments/nav :: navbar"></div>
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-<div id="mySidebar" class="sidebar">
-    <a href="/dashboard"><i class="fa fa-home"></i>Dashboard</a>
-    <a th:if="${session.USER_LOGIN_NAME}" href="/mythread"><i class='fas fa-briefcase'></i>My threads</a>
-    <div th:if="${session.USER_LOGIN_NAME}">
-        <span class="sidebar-parent"><i class="fas fa-user-alt"></i>Account</span>
-        <a th:if="${session.USER_LOGIN_NAME}" class="sidebar-child" href="/user/logout"><i class='fas fa-door-open'></i>Logout</a>
-    </div>
-    <div th:unless="${session.USER_LOGIN_NAME}">
-        <span class="sidebar-parent"><i class="fas fa-user-alt"></i>Account</span>
-        <a class="sidebar-child" href="/user/register"><i class='fas fa-user-plus'></i>Register</a>
-        <a class="sidebar-child" href="/user/login"><i class='fas fa-door-closed'></i>Login</a>
-    </div>
-    <a href="/reports"><i class='fas fa-ban'></i>Reports</a>
-</div>
+<div th:replace="fragments/sidebar :: sidebar"></div>
 <div class="thread">
     <div class="thread-area">
         <h3 class="thread-title" th:text="${threadDetail.title}"></h3>
         <p class="thread-content" th:text="${threadDetail.content}"></p>
-        <div class="thread-action">
-            <form th:if="${session.USER_LOGIN_NAME}" method="post"
-                  th:action="@{'/thread/{id}/{isUpVote}' (isUpVote=true, id=${threadDetail.id})}">
-                <button class="clear-decoration">
-                    <a>
-                        <i th:if="${upVotes == 1}" class='fas fa-sort-up up-vote' style="color: #64A644;"></i>
-                        <i th:unless="${upVotes == 1}" class='fas fa-sort-up up-vote'></i>
-                    </a>
-                </button>
-            </form>
-            <p class="count-vote"><i class="fas fa-vote-yea" style="margin-right: 0;"></i> <span class="count-vote"
-                                                                                                 th:text="${threadDetail.voteScore}"></span>
-            </p>
-            <form th:if="${session.USER_LOGIN_NAME}" method="post"
-                  th:action="@{'/thread/{threadId}/{isUpVote}' (isUpVote=false, threadId=${threadDetail.id})}">
-                <button class="clear-decoration" style="margin-top: -28px;">
-                    <a>
-                        <i th:if="${upVotes == 0}" class='fas fa-sort-down down-vote' style="color: red;"></i>
-                        <i th:unless="${upVotes == 0}" class='fas fa-sort-down down-vote'></i>
-                    </a>
-                </button>
-            </form>
-            <button th:if="${userId != null}" type="button" class="btn btn-danger" data-toggle="modal"
+        <div class="thread-action" style="justify-content: space-between">
+            <div style="display: flex;">
+                <form th:if="${session.USER_LOGIN_NAME}" method="post"
+                      th:action="@{'/thread/{id}/{isUpVote}' (isUpVote=true, id=${threadDetail.id})}">
+                    <button class="clear-decoration">
+                        <a>
+                            <em th:if="${upVotes == 1}" class='fas fa-sort-up up-vote' style="color: #64A644;"></em>
+                            <em th:unless="${upVotes == 1}" class='fas fa-sort-up up-vote'></em>
+                        </a>
+                    </button>
+                </form>
+                <p class="count-vote"><em class="fas fa-vote-yea" style="margin-right: 0;"></em> <span class="count-vote"
+                                                                                                     th:text="${threadDetail.voteScore}"></span>
+                </p>
+                <form th:if="${session.USER_LOGIN_NAME}" method="post"
+                      th:action="@{'/thread/{threadId}/{isUpVote}' (isUpVote=false, threadId=${threadDetail.id})}">
+                    <button class="clear-decoration" style="margin-top: -28px;">
+                        <a>
+                            <em th:if="${upVotes == 0}" class='fas fa-sort-down down-vote' style="color: red;"></em>
+                            <em th:unless="${upVotes == 0}" class='fas fa-sort-down down-vote'></em>
+                        </a>
+                    </button>
+                </form>
+            </div>
+            <button th:if="${session.USER_LOGIN_ID}" type="button" style="color: #FF6363" class="clear-decoration"
+                    data-toggle="modal"
                     data-target="#exampleModal">
-                Report
+                report
             </button>
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
@@ -73,7 +63,7 @@
                                   th:action="@{'/thread/report/{threadId}/{userId}' (threadId=${threadDetail.id}, userId=${userId})}">
                                 <div class="form-group">
                                     <label>Alasan</label>
-                                    <input name="alasan" type="tel" class="form-control" id="alasan"
+                                    <input required name="alasan" type="tel" class="form-control" id="alasan"
                                            placeholder="Alasan">
                                 </div>
                                 <!--                                    <div class="modal-footer">-->
@@ -91,7 +81,7 @@
     </div>
     <div class="reply-area">
         <h3 class="thread-title">REPLIES</h3>
-        <form th:if="${session.USER_LOGIN_NAME}" th:action="@{'/reply/thread/{id}' (id=${threadDetail.id})}"
+        <form style="margin-bottom: 50px;" th:if="${session.USER_LOGIN_NAME}" th:action="@{'/reply/thread/{id}' (id=${threadDetail.id})}"
               method="post">
             <div class="form-group">
                 <input name="content" style="background-color: #FFFFFF; border-radius: 5px;"
@@ -104,31 +94,32 @@
             <div class="replies-reply-thread">
                 <div th:if="${pinsReply.get(reply.id) == true} ">
                     <div style="display: flex;">
-                        <i class='icon-margin fas fa-thumbtack'
-                           style="font-size: 16px; color: red;"></i><p th:text="${reply.content}"></p>
+                        <em class='icon-margin fas fa-thumbtack'
+                           style="font-size: 16px; color: red;"></em>
+                        <p th:text="${reply.content}"></p>
                     </div>
                     <div class="reply-action">
                         <form th:if="${session.USER_LOGIN_NAME}" method="post"
                               th:action="@{'/thread/{id}/{replyId}/{isUpVote}' (isUpVote=true, id=${threadDetail.id},replyId=${reply.id})}">
                             <button class="clear-decoration">
                                 <a>
-                                    <i th:if="${votesReply.get(reply.id) == true}" style="color: #64A644;"
-                                       class='fas fa-sort-up up-vote'></i>
-                                    <i th:unless="${votesReply.get(reply.id) == true}"
-                                       class='fas fa-sort-up up-vote'></i>
+                                    <em th:if="${votesReply.get(reply.id) == true}" style="color: #64A644;"
+                                       class='fas fa-sort-up up-vote'></em>
+                                    <em th:unless="${votesReply.get(reply.id) == true}"
+                                       class='fas fa-sort-up up-vote'></em>
                                 </a>
                             </button>
                         </form>
-                        <p class="count-vote"><i class="fas fa-vote-yea" style="margin-right: 0;"></i> <span
+                        <p class="count-vote"><em class="fas fa-vote-yea" style="margin-right: 0;"></em> <span
                                 class="count-vote" th:text="${reply.voteScore}"></span></p>
                         <form th:if="${session.USER_LOGIN_NAME}" method="post"
                               th:action="@{'/thread/{id}/{replyId}/{isUpVote}' (isUpVote=false, id=${threadDetail.id},replyId=${reply.id})}">
                             <button class="clear-decoration" style="margin-top: -28px;">
                                 <a>
-                                    <i th:if="${votesReply.get(reply.id) == false}" style="color: red;"
-                                       class='fas fa-sort-down down-vote'></i>
-                                    <i th:unless="${votesReply.get(reply.id) == false}"
-                                       class='fas fa-sort-down down-vote'></i>
+                                    <em th:if="${votesReply.get(reply.id) == false}" style="color: red;"
+                                       class='fas fa-sort-down down-vote'></em>
+                                    <em th:unless="${votesReply.get(reply.id) == false}"
+                                       class='fas fa-sort-down down-vote'></em>
                                 </a>
                             </button>
                         </form>
@@ -139,13 +130,16 @@
                         <form method="post"
                               th:action="@{'/pin/reply/{threadId}/{replyId}'(threadId=${threadDetail.id},replyId=${reply.id})}">
                             <div th:if="${session.USER_LOGIN_ID == threadDetail.user.getId()}">
-                                <button class="clear-decoration button-area">
-                                    <a style="font-size: 16px;" th:if="${pinsReply.get(reply.id) == true} " class="button-reply">unpin</a>
-                                    <a style="font-size: 16px;" th:unless="${pinsReply.get(reply.id) == true} " class="button-reply">pin</a>
+                                <button style="margin-top: -14px;"  class="clear-decoration button-area">
+                                    <a style="font-size: 16px;" th:if="${pinsReply.get(reply.id) == true} "
+                                       class="button-reply">unpin</a>
+                                    <a style="font-size: 16px;" th:unless="${pinsReply.get(reply.id) == true} "
+                                       class="button-reply">pin</a>
                                 </button>
                             </div>
                         </form>
-                        <button style="font-size: 16px;margin-left: 12px; margin-top: -14px;color: #FF6363;" type="button" class="clear-decoration"
+                        <button th:if="${session.USER_LOGIN_ID}" style="font-size: 16px;margin-left: 12px; margin-top: -14px;color: #FF6363;"
+                                type="button" class="clear-decoration"
                                 data-toggle="modal"
                                 th:data-target="'#replyReportPin'+${reply.id}">
                             <a>
@@ -165,7 +159,7 @@
                                           th:action="@{'/thread/reply/report/{replyId}/{userId}' (replyId=${reply.id}, userId=${userId})}">
                                         <div class="form-group">
                                             <label>Alasan</label>
-                                            <input name="alasanReply" type="tel" class="form-control" id="alasanReply"
+                                            <input required name="alasanReply" type="tel" class="form-control" id="alasanReply"
                                                    placeholder="Alasan">
                                         </div>
                                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -176,7 +170,7 @@
                     </div>
                     <form th:if="${session.USER_LOGIN_NAME}" method="post" th:id="'r_form_'+${reply.id}"
                           th:action="@{'/reply/reply/{id}' (id=${reply.id})}"
-                          style="width: 955px; float: right; display: none;">
+                          style="width: 955px; display: none;">
                         <div class="form-group">
                             <input name="content" th:id="${reply.id}"
                                    style="background-color: #FFFFFF; border-radius: 5px;"
@@ -192,23 +186,23 @@
                                   th:action="@{'/thread/{id}/{replyId}/{isUpVote}' (isUpVote=true, id=${threadDetail.id},replyId=${childreply.id})}">
                                 <button class="clear-decoration">
                                     <a>
-                                        <i th:if="${votesReply.get(childreply.id) == true}" style="color: #64A644;"
-                                           class='fas fa-sort-up up-vote'></i>
-                                        <i th:unless="${votesReply.get(childreply.id) == true}"
-                                           class='fas fa-sort-up up-vote'></i>
+                                        <em th:if="${votesReply.get(childreply.id) == true}" style="color: #64A644;"
+                                           class='fas fa-sort-up up-vote'></em>
+                                        <em th:unless="${votesReply.get(childreply.id) == true}"
+                                           class='fas fa-sort-up up-vote'></em>
                                     </a>
                                 </button>
                             </form>
-                            <p class="count-vote"><i class="fas fa-vote-yea" style="margin-right: 0;"></i> <span
+                            <p class="count-vote"><em class="fas fa-vote-yea" style="margin-right: 0;"></em> <span
                                     class="count-vote" th:text="${childreply.voteScore}"></span></p>
                             <form th:if="${session.USER_LOGIN_NAME}" method="post"
                                   th:action="@{'/thread/{id}/{replyId}/{isUpVote}' (isUpVote=false, id=${threadDetail.id},replyId=${childreply.id})}">
                                 <button class="clear-decoration" style="margin-top: -28px;">
                                     <a>
-                                        <i th:if="${votesReply.get(childreply.id) == false}" style="color: red;"
-                                           class='fas fa-sort-down down-vote'></i>
-                                        <i th:unless="${votesReply.get(childreply.id) == false}"
-                                           class='fas fa-sort-down down-vote'></i>
+                                        <em th:if="${votesReply.get(childreply.id) == false}" style="color: red;"
+                                           class='fas fa-sort-down down-vote'></em>
+                                        <em th:unless="${votesReply.get(childreply.id) == false}"
+                                           class='fas fa-sort-down down-vote'></em>
                                     </a>
                                 </button>
                             </form>
@@ -226,23 +220,23 @@
                               th:action="@{'/thread/{id}/{replyId}/{isUpVote}' (isUpVote=true, id=${threadDetail.id},replyId=${reply.id})}">
                             <button class="clear-decoration">
                                 <a>
-                                    <i th:if="${votesReply.get(reply.id) == true}" style="color: #64A644;"
-                                       class='fas fa-sort-up up-vote'></i>
-                                    <i th:unless="${votesReply.get(reply.id) == true}"
-                                       class='fas fa-sort-up up-vote'></i>
+                                    <em th:if="${votesReply.get(reply.id) == true}" style="color: #64A644;"
+                                       class='fas fa-sort-up up-vote'></em>
+                                    <em th:unless="${votesReply.get(reply.id) == true}"
+                                       class='fas fa-sort-up up-vote'></em>
                                 </a>
                             </button>
                         </form>
-                        <p class="count-vote"><i class="fas fa-vote-yea" style="margin-right: 0;"></i> <span
+                        <p class="count-vote"><em class="fas fa-vote-yea" style="margin-right: 0;"></em> <span
                                 class="count-vote" th:text="${reply.voteScore}"></span></p>
                         <form th:if="${session.USER_LOGIN_NAME}" method="post"
                               th:action="@{'/thread/{id}/{replyId}/{isUpVote}' (isUpVote=false, id=${threadDetail.id},replyId=${reply.id})}">
                             <button class="clear-decoration" style="margin-top: -28px;">
                                 <a>
-                                    <i th:if="${votesReply.get(reply.id) == false}" style="color: red;"
-                                       class='fas fa-sort-down down-vote'></i>
-                                    <i th:unless="${votesReply.get(reply.id) == false}"
-                                       class='fas fa-sort-down down-vote'></i>
+                                    <em th:if="${votesReply.get(reply.id) == false}" style="color: red;"
+                                       class='fas fa-sort-down down-vote'></em>
+                                    <em th:unless="${votesReply.get(reply.id) == false}"
+                                       class='fas fa-sort-down down-vote'></em>
                                 </a>
                             </button>
                         </form>
@@ -250,16 +244,19 @@
                                 class="clear-decoration button-area">
                             <a class="button-reply">balas</a>
                         </button>
-                        <form method="post"
+                        <form method="post" style="margin-top: -2px;"
                               th:action="@{'/pin/reply/{threadId}/{replyId}'(threadId=${threadDetail.id},replyId=${reply.id})}">
                             <div th:if="${session.USER_LOGIN_ID == threadDetail.user.getId()}">
-                                <button class="clear-decoration button-area">
-                                    <a style="font-size: 16px;" th:if="${pinsReply.get(reply.id) == true} " class="button-reply">unpin</a>
-                                    <a style="font-size: 16px;" th:unless="${pinsReply.get(reply.id) == true} " class="button-reply">pin</a>
+                                <button style="margin-top: -14px;" class="clear-decoration button-area">
+                                    <a style="font-size: 16px;" th:if="${pinsReply.get(reply.id) == true} "
+                                       class="button-reply">unpin</a>
+                                    <a style="font-size: 16px;" th:unless="${pinsReply.get(reply.id) == true} "
+                                       class="button-reply">pin</a>
                                 </button>
                             </div>
                         </form>
-                        <button style="font-size: 16px;margin-left: 12px; margin-top: -14px;color: #FF6363;" type="button" class="clear-decoration"
+                        <button th:if="${session.USER_LOGIN_ID}" style="font-size: 16px;margin-left: 12px; margin-top: -14px;color: #FF6363;"
+                                type="button" class="clear-decoration"
                                 data-toggle="modal"
                                 th:data-target="'#replyReport'+${reply.id}">
                             <a>
@@ -280,7 +277,7 @@
                                           th:action="@{'/thread/reply/report/{replyId}/{userId}' (replyId=${reply.id}, userId=${userId})}">
                                         <div class="form-group">
                                             <label>Alasan</label>
-                                            <input name="alasanReply" type="tel" class="form-control" id="alasanReply"
+                                            <input required name="alasanReply" type="tel" class="form-control" id="alasanReply"
                                                    placeholder="Alasan">
                                         </div>
                                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -291,7 +288,7 @@
                     </div>
                     <form th:if="${session.USER_LOGIN_NAME}" method="post" th:id="'r_form_'+${reply.id}"
                           th:action="@{'/reply/reply/{id}' (id=${reply.id})}"
-                          style="width: 955px; float: right; display: none;">
+                          style="width: 955px; display: none;">
                         <div class="form-group">
                             <input name="content" th:id="${reply.id}"
                                    style="background-color: #FFFFFF; border-radius: 5px;"
@@ -307,23 +304,23 @@
                                   th:action="@{'/thread/{id}/{replyId}/{isUpVote}' (isUpVote=true, id=${threadDetail.id},replyId=${childreply.id})}">
                                 <button class="clear-decoration">
                                     <a>
-                                        <i th:if="${votesReply.get(childreply.id) == true}" style="color: #64A644;"
-                                           class='fas fa-sort-up up-vote'></i>
-                                        <i th:unless="${votesReply.get(childreply.id) == true}"
-                                           class='fas fa-sort-up up-vote'></i>
+                                        <em th:if="${votesReply.get(childreply.id) == true}" style="color: #64A644;"
+                                           class='fas fa-sort-up up-vote'></em>
+                                        <em th:unless="${votesReply.get(childreply.id) == true}"
+                                           class='fas fa-sort-up up-vote'></em>
                                     </a>
                                 </button>
                             </form>
-                            <p class="count-vote"><i class="fas fa-vote-yea" style="margin-right: 0;"></i> <span
+                            <p class="count-vote"><em class="fas fa-vote-yea" style="margin-right: 0;"></em> <span
                                     class="count-vote" th:text="${childreply.voteScore}"></span></p>
                             <form th:if="${session.USER_LOGIN_NAME}" method="post"
                                   th:action="@{'/thread/{id}/{replyId}/{isUpVote}' (isUpVote=false, id=${threadDetail.id},replyId=${childreply.id})}">
                                 <button class="clear-decoration" style="margin-top: -28px;">
                                     <a>
-                                        <i th:if="${votesReply.get(childreply.id) == false}" style="color: red;"
-                                           class='fas fa-sort-down down-vote'></i>
-                                        <i th:unless="${votesReply.get(childreply.id) == false}"
-                                           class='fas fa-sort-down down-vote'></i>
+                                        <em th:if="${votesReply.get(childreply.id) == false}" style="color: red;"
+                                           class='fas fa-sort-down down-vote'></em>
+                                        <em th:unless="${votesReply.get(childreply.id) == false}"
+                                           class='fas fa-sort-down down-vote'></em>
                                     </a>
                                 </button>
                             </form>
@@ -349,6 +346,9 @@
 </body>
 </html>
 <style>
+    .replies {
+        margin-bottom: 15px;
+    }
     .button-form-thread {
         float: right;
         color: #B69797;
@@ -358,9 +358,11 @@
         border-color: #D8C4C4;
         width: 70px;
     }
+
     body {
         margin-right: 30px;
     }
+
     a:hover {
         text-decoration: none;
     }

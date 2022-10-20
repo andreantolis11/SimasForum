@@ -18,7 +18,6 @@
 }
 
 .pembicaraan-title {
-    font-family: Inter;
     letter-spacing: 2px;
     text-decoration: none;
     color: #73ABFF;
@@ -57,7 +56,7 @@
     color: #927B7B;
 }
 
-i {
+em {
     margin-right: 10px;
 }
 
