@@ -88,7 +88,7 @@ public class ReportControllerTest {
         when(replyService.getReplyById(anyLong())).thenReturn(Optional.of(reply));
         when(userService.getUserById(anyLong())).thenReturn(john);
 
-        mockMvc.perform(post("/thread/reply/report/1/1").param("alasan", "spam").sessionAttrs(sessionAttr)).andExpectAll(
+        mockMvc.perform(post("/thread/reply/report/1/1").param("alasanReply", "spam").sessionAttrs(sessionAttr)).andExpectAll(
                 status().is3xxRedirection()
         );
     }
