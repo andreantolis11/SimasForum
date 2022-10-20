@@ -65,17 +65,6 @@ class ThreadControllerTest {
     }
 
     @Test
-    public void whenIdNotFound() throws Exception {
-        Long id = 1L;
-        when(threadService.getThreadDetail(id))
-                .thenReturn(Optional.empty());
-//        mockMvc.perform(get("/thread/1"))
-//                .andExpectAll(status().isNotFound());
-//                .andExpect(status().isNotFound()).andDo(print());
-//                .andExpectAll(status().isNotFound(),content().string(containsString("")));
-    }
-
-    @Test
     void addThread_withSampleData_ok() throws Exception {
         LocalDate date = LocalDate.of(2020, 1, 8);
         User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));
@@ -109,7 +98,7 @@ class ThreadControllerTest {
     void getEditPage_ok() throws Exception {
         LocalDate date = LocalDate.of(2020, 1, 8);
         User fadhlul = new User("fadhlul", "andre@gmail.com", "123", new Role("user"));
-        Thread thread = new Thread(fadhlul, "title", "content" ,0, date);
+        Thread thread = new Thread(fadhlul, "title", "content", 0, date);
         when(threadService.getThreadDetail(anyLong())).thenReturn(Optional.of(thread));
         mockMvc.perform(get("/thread/edit/1")).andExpectAll(
                 status().isOk(),
@@ -122,7 +111,7 @@ class ThreadControllerTest {
     void editThread_ok() throws Exception {
         LocalDate date = LocalDate.of(2020, 1, 8);
         User fadhlul = new User("fadhlul", "andre@gmail.com", "123", new Role("user"));
-        Thread thread = new Thread(fadhlul, "title", "content" ,0, date);
+        Thread thread = new Thread(fadhlul, "title", "content", 0, date);
         when(threadService.getThreadDetail(anyLong())).thenReturn(Optional.of(thread));
         mockMvc.perform(post("/thread/edit/1")
                 .param("title", "change title")
@@ -219,6 +208,6 @@ class ThreadControllerTest {
         mockMvc.perform(post("/thread/1/reply/delete/1")).andExpectAll(
                 status().is3xxRedirection()
         );
-        verify(replyService,times(1)).deleteReplyById(anyLong());
+        verify(replyService, times(1)).deleteReplyById(anyLong());
     }
 }
