@@ -3,6 +3,7 @@ package com.simasforum.SimasForum.service;
 import com.simasforum.SimasForum.model.Role;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
+import com.simasforum.SimasForum.model.Vote;
 import com.simasforum.SimasForum.repository.ThreadRepository;
 import com.simasforum.SimasForum.repository.VoteRepository;
 import org.junit.jupiter.api.Test;
@@ -140,5 +141,55 @@ class ThreadServiceTest {
         threadService.deleteMyThreadById(anyLong());
         verify(threadRepository, times(1)).deleteById(anyLong());
         assertFalse(false,"Not Found");
+    }
+
+    @Test
+    void getVoteByUserAndThreadId_isUpvote_ok(){
+        User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));
+        andre.setId(1L);
+        Optional<Thread> thread = Optional.of(new Thread(andre, "Title 2", "Content 2", 31, LocalDate.now()));
+        Vote vote = new Vote(thread.get(), andre, true);
+
+        when(voteRepository.findByThreadIdAndUserId(anyLong(), anyLong())).thenReturn(vote);
+
+        assertEquals(1,threadService.getVoteByUserAndThreadId(1L, 1L));
+
+    }
+
+    @Test
+    void getVoteByUserAndThreadId_isDownVote_ok(){
+        User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));
+        andre.setId(1L);
+        Optional<Thread> thread = Optional.of(new Thread(andre, "Title 2", "Content 2", 31, LocalDate.now()));
+        Vote vote = new Vote(thread.get(), andre, false);
+
+        when(voteRepository.findByThreadIdAndUserId(anyLong(), anyLong())).thenReturn(vote);
+
+        assertEquals(0,threadService.getVoteByUserAndThreadId(1L, 1L));
+
+    }
+
+    @Test
+    void getVoteByUserAndThreadId_exception_ok(){
+        User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));
+        andre.setId(1L);
+        Optional<Thread> thread = Optional.of(new Thread(andre, "Title 2", "Content 2", 31, LocalDate.now()));
+        Vote vote = new Vote(thread.get(), andre, false);
+
+        when(voteRepository.findByThreadIdAndUserId(anyLong(), anyLong())).thenReturn(null);
+
+        assertEquals(-1,threadService.getVoteByUserAndThreadId(1L, 1L));
+    }
+
+    @Test
+    void getAllMyThread(){
+        User andre = new User("andre", "andre@gmail.com", "123", new Role("user"));
+        andre.setId(1L);
+        Optional<Thread> thread = Optional.of(new Thread(andre, "Title 2", "Content 2", 31, LocalDate.now()));
+        thread.get().setId(1L);
+
+        threadService.getAllMyThread(andre);
+
+        assertEquals(1L, thread.get().getUser().getId());
     }
 }

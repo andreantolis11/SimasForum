@@ -84,7 +84,7 @@ public class ThreadController {
         } else {
             threadService.downVoteThread(id);
         }
-        return "thread";
+        return "redirect:/thread/" + id;
     }
 
     @GetMapping("/dashboard")
