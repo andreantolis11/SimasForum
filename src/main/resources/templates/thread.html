@@ -75,7 +75,7 @@
         <hr>
     </div>
     <div class="reply-area">
-        <h3 class="thread-title">REPLIES</h3>
+        <span style="font-size: 18px;" class="thread-title">Replies</span>
         <form style="margin-bottom: 50px;" th:if="${session.USER_LOGIN_NAME}" th:action="@{'/reply/thread/{id}' (id=${threadDetail.id})}"
               method="post">
             <div class="form-group">
