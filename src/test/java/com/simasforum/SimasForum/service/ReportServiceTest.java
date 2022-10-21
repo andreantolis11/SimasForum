@@ -4,12 +4,15 @@ package com.simasforum.SimasForum.service;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.*;
 import com.simasforum.SimasForum.repository.ReportRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -81,8 +84,17 @@ class ReportServiceTest {
 
     @Test
     void reportReason() {
-        reportService.reportReason();
-        verify(reportRepository, times(1)).findByThreadIsNotNull();
-        verify(reportRepository, times(1)).findByReplyIsNotNull();
+        User user = new User();
+        Thread thread1 = new Thread();
+        thread1.setId(1L);
+        Reply reply1 = new Reply();
+        reply1.setId(1L);
+        when(reportRepository.findByThreadIsNotNull()).thenReturn(List.of(new Report("reason", thread1, user), new Report("reason", thread1, user)));
+        when(reportRepository.findByReplyIsNotNull()).thenReturn(List.of(new Report("reason", reply1, user), new Report("reason", reply1, user)));
+        Map<String, Object> result = reportService.reportReason();
+        Assertions.assertNotNull(result.get("reportListThread"));
+        Assertions.assertNotNull(result.get("reportReasonsThread"));
+        Assertions.assertNotNull(result.get("reportListReply"));
+        Assertions.assertNotNull(result.get("reportReasonsList"));
     }
 }

@@ -49,6 +49,31 @@ class PinControllerTest {
     }
 
     @Test
+    void pinThread_notLogin() throws Exception{
+        HashMap<String, Object> sessionAttr = new HashMap<String,Object>();
+        User test = new User("test","test@gmail.com","test",new Role("user"));
+        test.setId(1L);
+        when(threadService.getThreadDetail(anyLong())).thenReturn(Optional.of(new Thread()));
+        mockMvc.perform(get("/pin/thread/1")).andExpectAll(
+                status().is3xxRedirection()
+        );
+    }
+
+    @Test
+    void pinThread_loginNotAdmin() throws Exception{
+        HashMap<String, Object> sessionAttr = new HashMap<String,Object>();
+        User test = new User("test","test@gmail.com","test",new Role("user"));
+        test.setId(1L);
+        sessionAttr.put("USER_LOGIN_ROLE", "user");
+        when(threadService.getThreadDetail(anyLong())).thenReturn(Optional.of(new Thread()));
+        mockMvc.perform(get("/pin/thread/1").sessionAttrs(sessionAttr)).andExpectAll(
+                status().is3xxRedirection()
+        );
+    }
+
+
+
+    @Test
     void pinReply_ok() throws Exception{
         HashMap<String, Object> sessionAttr = new HashMap<String,Object>();
         User test = new User("test","test@gmail.com","test",new Role("user"));
