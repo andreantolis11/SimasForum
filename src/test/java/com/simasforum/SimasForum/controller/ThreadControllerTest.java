@@ -210,4 +210,28 @@ class ThreadControllerTest {
         );
         verify(replyService, times(1)).deleteReplyById(anyLong());
     }
+
+    @Test
+    void deleteMyThread_ok() throws Exception {
+        mockMvc.perform(post("/mythread/1")).andExpectAll(
+                status().is3xxRedirection()
+        );
+        verify(threadService, times(1)).deleteMyThreadById(anyLong());
+    }
+
+    @Test
+    void updateVote_ok() throws Exception {
+        mockMvc.perform(get("/thread/1/vote").param("method", "upVote")).andExpectAll(
+                status().is3xxRedirection()
+        );
+        verify(threadService, times(1)).upVoteThread(anyLong());
+    }
+
+    @Test
+    void downvote_ok() throws Exception {
+        mockMvc.perform(get("/thread/1/vote").param("method", "downVote")).andExpectAll(
+                status().is3xxRedirection()
+        );
+        verify(threadService, times(1)).downVoteThread(anyLong());
+    }
 }
