@@ -10,11 +10,11 @@
   <a th:if="${session.USER_LOGIN_NAME}" href="/mythread"><em class='fa fa-briefcase'></em>My threads</a>
   <div th:if="${session.USER_LOGIN_NAME}">
     <span class="sidebar-parent"><em class="fa fa-user"></em>Account</span>
-    <a th:if="${session.USER_LOGIN_NAME}" class="sidebar-child" href="/user/logout"><em class='fa fa-door-open'></em>Logout</a>
+    <a th:if="${session.USER_LOGIN_NAME}" class="sidebar-child" href="/user/logout"><em class='fa fa-close'></em>Logout</a>
   </div>
   <div th:unless="${session.USER_LOGIN_NAME}">
     <span class="sidebar-parent"><em class="fa fa-user"></em>Account</span>
-    <a class="sidebar-child" href="/user/register"><em class='fa fa-close'></em>Register</a>
+    <a class="sidebar-child" href="/user/register"><em class='fa fa-user-plus'></em>Register</a>
     <a class="sidebar-child" href="/user/login"><em class='fa fa-vcard'></em>Login</a>
   </div>
   <a th:if="${session.USER_LOGIN_ROLE == 'admin'}" href="/reports"><em class='fa fa-ban'></em>Reports</a>
