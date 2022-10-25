@@ -157,7 +157,7 @@ class ReportControllerTest {
                 status().is3xxRedirection()
         );
         verify(reportService,times(1)).acceptReportById(anyLong());
-        verify(threadRepository,times(1)).deleteById(anyLong());
+        verify(threadService,times(1)).deleteMyThreadById(anyLong());
     }
 
     @Test
@@ -166,7 +166,7 @@ class ReportControllerTest {
                 status().is3xxRedirection()
         );
         verify(reportService,times(1)).acceptReportById(anyLong());
-        verify(replyRepository,times(1)).deleteById(anyLong());
+        verify(replyService,times(1)).deleteReplyById(anyLong());
     }
 
     @Test
