@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -101,14 +99,14 @@ public class ReportController {
     @PostMapping("/reports/accept/{id}/thread/{threadId}")
     public String acceptReport(@PathVariable Long id, @PathVariable Long threadId) {
         reportService.acceptReportById(id);
-        threadRepository.deleteById(threadId);
+        threadService.deleteMyThreadById(threadId);
         return REDIRECT_REPORT;
     }
 
     @PostMapping("/reports/accept/{id}/reply/{replyId}")
     public String acceptReportReply(@PathVariable Long id, @PathVariable Long replyId) {
         reportService.acceptReportById(id);
-        replyRepository.deleteById(replyId);
+        replyService.deleteReplyById(replyId);
         return REDIRECT_REPORT;
     }
 }
