@@ -69,10 +69,18 @@ public class PinService {
         Map<Long, Boolean> listPin = new HashMap<Long, Boolean>();
         for (Reply reply : replies) {
             Pin pin = pinRepository.findByReplyId(reply.getId());
-            if(pin!=null){
-                listPin.put(pin.getReplyId(),pin.isPin());
+            if (pin != null) {
+                listPin.put(pin.getReplyId(), pin.isPin());
             }
         }
         return listPin;
+    }
+
+    public void onDeleteThread(Long id) {
+        pinRepository.deleteByThreadId(id);
+    }
+
+    public void onDeleteReply(Long id) {
+        pinRepository.deleteByReplyId(id);
     }
 }
