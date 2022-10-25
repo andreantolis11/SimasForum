@@ -11,8 +11,6 @@ public interface PinRepository extends CrudRepository<Pin, Long> {
     Pin findByThreadId(Long id);
     Pin findByReplyId(Long id);
     void deleteByThreadId(Long id);
-    Pin findPinByThreadIdAndReplyId(Long threadId,Long replyId);
-    void deletePinByReplyId(Long id);
-    void deletePinByThreadIdAndReplyId(Long threadId,Long replyId);
+    void deleteByReplyId(Long id);
     void deleteByDateBefore(LocalDate date);
 }

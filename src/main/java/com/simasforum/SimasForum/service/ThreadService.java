@@ -1,27 +1,32 @@
 package com.simasforum.SimasForum.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import com.simasforum.SimasForum.model.Vote;
-import com.simasforum.SimasForum.repository.VoteRepository;
 import com.simasforum.SimasForum.model.Thread;
 import com.simasforum.SimasForum.model.User;
+import com.simasforum.SimasForum.model.Vote;
 import com.simasforum.SimasForum.repository.ThreadRepository;
+import com.simasforum.SimasForum.repository.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ThreadService {
 
     private ThreadRepository threadRepository;
+    private PinService pinService;
     @Autowired
     private VoteRepository voteRepository;
-
     @Autowired
     public void setThreadRepository(ThreadRepository threadRepository) {
-
         this.threadRepository = threadRepository;
+    }
+
+    @Autowired
+    public void setPinService(PinService pinService) {
+        this.pinService = pinService;
     }
 
     public Thread addThread(Thread thread) {
@@ -73,7 +78,9 @@ public class ThreadService {
         return user.getThread();
     }
 
+    @Transactional
     public void deleteMyThreadById(Long id) {
+        pinService.onDeleteThread(id);
         threadRepository.deleteById(id);
     }
 
